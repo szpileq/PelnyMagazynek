@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="@dimen/md_keylines">
+
+    <ImageView
+        android:id="@+id/warehouseIcon"
+        android:layout_width="@dimen/avator_size"
+        android:layout_height="@dimen/avator_size"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/warehouse_icon" />
+
+    <TextView
+        android:id="@+id/warehouseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/md_keylines"
+        android:layout_toRightOf="@+id/warehouseIcon"
+        tools:text="costam"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="@dimen/article_subheading" />
+
+    <TextView
+        android:id="@+id/warehouseRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/warehouseName"
+        android:layout_marginLeft="@dimen/md_keylines"
+        android:layout_toRightOf="@+id/warehouseIcon"
+        android:textColor="@color/colorDarkText"
+        android:ellipsize="end"
+        android:singleLine="true"
+        tools:text="costam"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="@dimen/list_body" />
+</RelativeLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PelnyMagazynek</string>
+    <string name="title_activity_warehouses">Pełny Magazynek</string>
+
+    <string name="loginTab">Zaloguj się</string>
+    <string name="registerTab">Rejestracja</string>
+
+
+    <string name="warehousesAll">Wszystkie</string>
+    <string name="warehousesAdmin">Autor</string>
+    <string name="warehousesEditor">Edytor</string>
+    <string name="warehousesWatcher">Obserwator</string>
+</resources>

@@ -1,1 +1,9 @@
-<resources></resources>
+<resources>
+    <style name="Button" parent="Base.Widget.AppCompat.Button">
+    </style>
+
+    <style name="Button.LoginButton" parent="Button">
+        <item name="colorButtonNormal">#555</item>
+        <item name="android:textColorPrimary">#fff</item>
+    </style>
+</resources>

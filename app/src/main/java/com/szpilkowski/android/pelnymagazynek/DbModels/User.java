@@ -1,16 +1,31 @@
 package com.szpilkowski.android.pelnymagazynek.DbModels;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class User {
 
+    @SerializedName("id")
     private Integer id;
+
+    @SerializedName("first_name")
     private String firstName;
+
+    @SerializedName("last_name")
     private String lastName;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("created_at")
     private String createdAt;
+
+    @SerializedName("updated_at")
     private String updatedAt;
+
+    @SerializedName("uid")
     private String uid;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

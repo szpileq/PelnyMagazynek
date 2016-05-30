@@ -3,15 +3,26 @@ package com.szpilkowski.android.pelnymagazynek.Info;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.annotations.SerializedName;
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 
 public class LoginInfo {
 
+    @SerializedName("access_token")
     private String accessToken;
+
+    @SerializedName("token_type")
     private String tokenType;
+
+    @SerializedName("expires_in")
     private Integer expiresIn;
+
+    @SerializedName("created_at")
     private Integer createdAt;
+
+    @SerializedName("user")
     private User user;
+
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -111,5 +122,7 @@ public class LoginInfo {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+
 
 }

@@ -4,7 +4,7 @@
 
     <string name="loginTab">Zaloguj się</string>
     <string name="registerTab">Rejestracja</string>
-
+    <string name="loginButton">Zaloguj się</string>
 
     <string name="warehousesAll">Wszystkie</string>
     <string name="warehousesAdmin">Autor</string>

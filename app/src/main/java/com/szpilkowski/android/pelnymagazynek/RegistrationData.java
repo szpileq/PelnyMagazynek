@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Info;
+package com.szpilkowski.android.pelnymagazynek;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 
-public class SignUpInfo {
+public class RegistrationData {
 
     @SerializedName("user[first_name]")
     private String userFirstName;
@@ -22,8 +22,6 @@ public class SignUpInfo {
 
     @SerializedName("user[password_confirmation]")
     private String userPasswordConfirmation;
-
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * @return The userFirstName
@@ -95,12 +93,5 @@ public class SignUpInfo {
         this.userPasswordConfirmation = userPasswordConfirmation;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

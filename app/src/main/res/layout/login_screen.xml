@@ -40,7 +40,7 @@
         android:text="@string/loginButton"
         android:id="@+id/loginButton"
         android:enabled="true"
-        android:layout_below="@+id/passwordEditText"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/passwordEditText"/>
 
 </RelativeLayout>

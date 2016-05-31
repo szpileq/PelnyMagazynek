@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registrationButton"
-        android:id="@+id/loginButton"
+        android:id="@+id/registrationButton"
         android:enabled="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/registrationPasswordConfirm" />

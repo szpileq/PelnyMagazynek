@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="10pt"
-        android:layout_height="10pt"
+        android:layout_width="80pt"
+        android:layout_height="80pt"
         android:scaleType="centerCrop"
         tools:src="@drawable/logo"
         android:layout_alignParentTop="true"
@@ -21,7 +21,8 @@
         android:ems="15"
         android:id="@+id/emailEditText"
         android:layout_below="@+id/logo"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:hint="E-mail" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
         android:ems="15"
         android:id="@+id/passwordEditText"
         android:layout_below="@+id/emailEditText"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:hint="@string/passwordText" />
 
     <Button style="@style/Base.Widget.AppCompat.Button"
         android:layout_width="wrap_content"
@@ -40,6 +42,5 @@
         android:enabled="true"
         android:layout_below="@+id/passwordEditText"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

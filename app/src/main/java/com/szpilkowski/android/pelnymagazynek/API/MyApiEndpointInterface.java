@@ -1,7 +1,9 @@
-package com.szpilkowski.android.pelnymagazynek;
+package com.szpilkowski.android.pelnymagazynek.API;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
+import com.szpilkowski.android.pelnymagazynek.Info.SignUpInfo;
+import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 
 import java.util.List;
 
@@ -24,5 +26,7 @@ public interface MyApiEndpointInterface {
     @POST("oauth/token")
     Call<LoginInfo> getToken(@Body LoginCredentials loginCredentials);
 
+    @POST("users")
+    Call<SignUpInfo> createUser(@Body SignUpInfo signUpInfo);
 
 }

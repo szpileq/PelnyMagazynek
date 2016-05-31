@@ -1,36 +1,20 @@
 package com.szpilkowski.android.pelnymagazynek.Activities;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.widget.Button;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.Fragments.LoginFragment;
 import com.szpilkowski.android.pelnymagazynek.Fragments.RegistrationFragment;
-import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
-import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
-import com.szpilkowski.android.pelnymagazynek.MyApiEndpointInterface;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 
 public class LoginActivity extends AppCompatActivity {
 

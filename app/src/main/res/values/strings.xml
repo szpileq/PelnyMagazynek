@@ -5,6 +5,15 @@
     <string name="loginTab">Zaloguj się</string>
     <string name="registerTab">Rejestracja</string>
     <string name="loginButton">Zaloguj się</string>
+    <string name="passwordText">Hasło</string>
+
+    <string name="registrationFirstName">Imię</string>
+    <string name="registrationLastName">Nazwisko</string>
+    <string name="registrationEmail">E-mail</string>
+    <string name="registrationPassword">Hasło</string>
+    <string name="registrationPasswordConfirm">Potwierdź Hasło</string>
+    <string name="registrationButton">Zarejestruj</string>
+
 
     <string name="warehousesAll">Wszystkie</string>
     <string name="warehousesAdmin">Autor</string>

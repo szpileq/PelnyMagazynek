@@ -17,6 +17,10 @@ import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.R;
 import com.szpilkowski.android.pelnymagazynek.RegistrationData;
+import com.szpilkowski.android.pelnymagazynek.UserRegistrationData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,32 +59,37 @@ public class RegistrationFragment extends Fragment {
                 imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
 
                 //prepare object for API call
-                RegistrationData signUpData = new RegistrationData();
+                UserRegistrationData signUpData = new UserRegistrationData();
                 signUpData.setUserFirstName(registrationFirstname.getText().toString());
                 signUpData.setUserLastName(registrationLastName.getText().toString());
                 signUpData.setUserEmail(registrationEmail.getText().toString());
                 signUpData.setUserPassword(registrationPassword.getText().toString());
                 signUpData.setUserPasswordConfirmation(registrationPasswordConfirm.getText().toString());
 
+                RegistrationData signUpRequest = new RegistrationData();
+                signUpRequest.setUser(signUpData);
+
                 //Use API to obtain a token
-                Call<LoginInfo> call = connector.apiService.createUser(signUpData);
+                Call<LoginInfo> call = connector.apiService.createUser(signUpRequest);
                 call.enqueue(new Callback<LoginInfo>() {
                     @Override
                     public void onResponse(Call<LoginInfo> call, Response<LoginInfo> response) {
                         int statusCode = response.code();
-                        if (statusCode == 200){
-                            //Success, move to next activity, load warehouses
-                            LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
+
+                        switch (statusCode){
+
+                            case 201:
+                                //Success, move to next activity, load warehouses
+                                LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
+
+                                break;
+                            case 422:
+                                Snackbar snackbar = Snackbar
+                                        .make(view, "E-mail already taken", Snackbar.LENGTH_LONG);
+
+                                snackbar.show();
 
                         }
-                        else if (statusCode == 401)
-                        {
-                            Snackbar snackbar = Snackbar
-                                    .make(view, "Wrong email or password. Try again.", Snackbar.LENGTH_LONG);
-
-                            snackbar.show();
-                        }
-                        LoginInfo loginInfo = response.body();
                         Log.i(TAG, "onResponse: API response handled.");
                     }
 

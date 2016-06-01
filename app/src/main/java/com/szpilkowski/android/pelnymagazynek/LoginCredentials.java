@@ -18,6 +18,7 @@ public class LoginCredentials {
 
     @SerializedName("grant_type")
     private String grantType;
+
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 

@@ -20,6 +20,6 @@ public interface MyApiEndpointInterface {
     Call<LoginInfo> getToken(@Body LoginCredentials loginCredentials);
 
     @POST("users")
-    Call<LoginInfo> createUser(@Body RegistrationData signUpInfo);
+    Call<LoginInfo> createUser(@Body RegistrationData signUpRequest);
 
 }

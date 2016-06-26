@@ -1,6 +1,8 @@
 package com.szpilkowski.android.pelnymagazynek.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
+import com.szpilkowski.android.pelnymagazynek.Activities.LoginActivity;
+import com.szpilkowski.android.pelnymagazynek.Activities.WarehousesActivity;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.R;
@@ -32,6 +36,7 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     ApiConnector connector;
+    SharedPreferences pref;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +49,8 @@ public class LoginFragment extends Fragment {
 
         connector = ApiConnector.getInstance();
         connector.setupLoginConnector();
+
+        pref = this.getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +75,12 @@ public class LoginFragment extends Fragment {
                         if (statusCode == 200){
                             //Success, move to next activity, load warehouses
                             LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
+                            SharedPreferences.Editor edit = pref.edit();
+                            edit.putString("AccessToken", loginInfo.getAccessToken());
+                            edit.commit();
+                            Intent WarehousesMain = new Intent(getActivity(), WarehousesActivity.class);
 
+                            startActivity(WarehousesMain);
                         }
                         else if (statusCode == 401)
                         {

@@ -46,26 +46,27 @@ public class ApiConnector {
     }
 
     public void setupApiConnector(final String authToken){
-        if (authToken != null) {
-            client.interceptors().add(new Interceptor() {
-                @Override
 
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-
-                    // Request customization: add request headers
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", authToken); // <-- this is the important line
-
-                    Request request = requestBuilder.build();
-                    return chain.proceed(request);
-                }
-            });
-        }
         this.gson  = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
-        this.client = new OkHttpClient();
+        this.client = new OkHttpClient.Builder()
+                .addInterceptor(
+                        new Interceptor() {
+                            @Override
+                            public Response intercept(Interceptor.Chain chain) throws IOException {
+                                Request original = chain.request();
+
+                                // Request customization: add request headers
+                                Request.Builder requestBuilder = original.newBuilder()
+                                        .header("Authorization", authToken)
+                                        .method(original.method(), original.body());
+
+                                Request request = requestBuilder.build();
+                                return chain.proceed(request);
+                            }
+                        })
+                .build();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))

@@ -4,8 +4,12 @@ import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.RegistrationData;
 import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -21,5 +25,8 @@ public interface MyApiEndpointInterface {
 
     @POST("users")
     Call<LoginInfo> createUser(@Body RegistrationData signUpRequest);
+
+    @GET("warehouses")
+    Call<ArrayList> getWarehouses();
 
 }

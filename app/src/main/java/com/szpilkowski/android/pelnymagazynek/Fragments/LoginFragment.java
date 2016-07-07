@@ -76,7 +76,7 @@ public class LoginFragment extends Fragment {
                             //Success, move to next activity, load warehouses
                             LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
                             SharedPreferences.Editor edit = pref.edit();
-                            edit.putString("AccessToken", loginInfo.getAccessToken());
+                            edit.putString("AccessToken", "Bearer " + loginInfo.getAccessToken());
                             edit.commit();
                             Intent WarehousesMain = new Intent(getActivity(), WarehousesActivity.class);
 

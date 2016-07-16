@@ -1,11 +1,11 @@
 package com.szpilkowski.android.pelnymagazynek.API;
 
+import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.RegistrationData;
 import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,6 +27,6 @@ public interface MyApiEndpointInterface {
     Call<LoginInfo> createUser(@Body RegistrationData signUpRequest);
 
     @GET("warehouses")
-    Call<ArrayList> getWarehouses();
+    Call<List<Warehouse>> getWarehouses();
 
 }

@@ -33,14 +33,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WarehousesActivity extends AppCompatActivity {
+public class WarehousesActivity extends AppCompatActivity implements WarehousesFragment.WarehousesProvider {
 
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
-    ArrayList<Warehouse> warehousesList;
-    ArrayList<Warehouse> adminWarehousesList;
-    ArrayList<Warehouse> editorWarehousesList;
-    ArrayList<Warehouse> watcherWarehousesList;
+    List<Warehouse> warehousesList;
+    List<Warehouse> adminWarehousesList;
+    List<Warehouse> editorWarehousesList;
+    List<Warehouse> watcherWarehousesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,29 +57,30 @@ public class WarehousesActivity extends AppCompatActivity {
 
         //Use API to get warehouses and put them on a list
         getWarehousesList();
-        splitListByRoles();
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.warehouse_toolbar);
         setSupportActionBar(toolbar);
-        // Setting ViewPager for each Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
-        setupViewPager(viewPager);
-        // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.warehouse_tabs);
-        tabs.setupWithViewPager(viewPager);
     }
 
     private void getWarehousesList() {
         final View view = findViewById(R.id.coordinatorLayout);
         Call call = connector.apiService.getWarehouses();
-        call.enqueue(new Callback<ArrayList>() {
+        call.enqueue(new Callback<List<Warehouse>>() {
             @Override
-            public void onResponse(Call<ArrayList> call, Response<ArrayList> response) {
+            public void onResponse(Call<List<Warehouse>> call, Response<List<Warehouse>> response) {
                 int statusCode = response.code();
                 if (statusCode == 200) {
                     //Success, fill up list of warehouses
-                    warehousesList = response.body();
+                    warehousesList = new ArrayList<Warehouse>();
+                    warehousesList.addAll(response.body());
+                    splitListByRoles();
+                    // Setting ViewPager for each Tabs
+                    ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
+                    setupViewPager(viewPager);
+                    // Set Tabs inside Toolbar
+                    TabLayout tabs = (TabLayout) findViewById(R.id.warehouse_tabs);
+                    tabs.setupWithViewPager(viewPager);
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar
                             .make(view, "Error with token, log in again.", Snackbar.LENGTH_LONG);
@@ -90,13 +91,17 @@ public class WarehousesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ArrayList> call, Throwable t) {
+            public void onFailure(Call<List<Warehouse>> call, Throwable t) {
                 Log.i(TAG, "onFailure: API call for logging failed");
                 // Log error here since request failed
             }
         });
     }
+    // Divide warehousesList into role-based list that would be used by a sorting tab
     private void splitListByRoles(){
+        adminWarehousesList = new ArrayList<Warehouse>();
+        editorWarehousesList = new ArrayList<Warehouse>();
+        watcherWarehousesList = new ArrayList<Warehouse>();
         for(Warehouse w:warehousesList){
             switch (w.getRole()){
                 case "admin":
@@ -109,8 +114,25 @@ public class WarehousesActivity extends AppCompatActivity {
                     watcherWarehousesList.add(w);
                     break;
                 default:
-                    throw new RuntimeException();
+                    throw new RuntimeException(); // Found an element with unsupported role set
             }
+        }
+    }
+
+    @Override
+    public List<Warehouse> getWarehouses(String role) {
+        /** Do something with the string and return your Integer instead of 0 **/
+        switch (role) {
+            case "admin":
+                return adminWarehousesList;
+            case "editor":
+                return editorWarehousesList;
+            case "watcher":
+                return watcherWarehousesList;
+            case "all":
+                return warehousesList;
+            default:
+                throw new RuntimeException(); // Found an element with unsupported role set
         }
     }
 

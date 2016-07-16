@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,9 @@ public class WarehousesActivity extends AppCompatActivity {
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
     ArrayList<Warehouse> warehousesList;
+    ArrayList<Warehouse> adminWarehousesList;
+    ArrayList<Warehouse> editorWarehousesList;
+    ArrayList<Warehouse> watcherWarehousesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,22 @@ public class WarehousesActivity extends AppCompatActivity {
         connector.setupApiConnector(authorizationToken);
 
         //Use API to get warehouses and put them on a list
+        getWarehousesList();
+        splitListByRoles();
+
+        // Adding Toolbar to Main screen
+        Toolbar toolbar = (Toolbar) findViewById(R.id.warehouse_toolbar);
+        setSupportActionBar(toolbar);
+        // Setting ViewPager for each Tabs
+        ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
+        setupViewPager(viewPager);
+        // Set Tabs inside Toolbar
+        TabLayout tabs = (TabLayout) findViewById(R.id.warehouse_tabs);
+        tabs.setupWithViewPager(viewPager);
+    }
+
+    private void getWarehousesList() {
+        final View view = findViewById(R.id.coordinatorLayout);
         Call call = connector.apiService.getWarehouses();
         call.enqueue(new Callback<ArrayList>() {
             @Override
@@ -75,24 +95,31 @@ public class WarehousesActivity extends AppCompatActivity {
                 // Log error here since request failed
             }
         });
-
-        // Adding Toolbar to Main screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.warehouse_toolbar);
-        setSupportActionBar(toolbar);
-        // Setting ViewPager for each Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
-        setupViewPager(viewPager);
-        // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.warehouse_tabs);
-        tabs.setupWithViewPager(viewPager);
+    }
+    private void splitListByRoles(){
+        for(Warehouse w:warehousesList){
+            switch (w.getRole()){
+                case "admin":
+                    adminWarehousesList.add(w);
+                    break;
+                case "editor":
+                    editorWarehousesList.add(w);
+                    break;
+                case "watcher":
+                    watcherWarehousesList.add(w);
+                    break;
+                default:
+                    throw new RuntimeException();
+            }
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new WarehousesFragment(), getString(R.string.warehousesAll));
-        adapter.addFragment(new WarehousesFragment(), getString(R.string.warehousesAdmin));
-        adapter.addFragment(new WarehousesFragment(), getString(R.string.warehousesEditor));
-        adapter.addFragment(new WarehousesFragment(), getString(R.string.warehousesWatcher));
+        adapter.addFragment(WarehousesFragment.createInstance("all"), getString(R.string.warehousesAll));
+        adapter.addFragment(WarehousesFragment.createInstance("admin"), getString(R.string.warehousesAdmin));
+        adapter.addFragment(WarehousesFragment.createInstance("editor"), getString(R.string.warehousesEditor));
+        adapter.addFragment(WarehousesFragment.createInstance("watcher"), getString(R.string.warehousesWatcher));
         viewPager.setAdapter(adapter);
     }
 

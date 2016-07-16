@@ -23,6 +23,9 @@ import com.szpilkowski.android.pelnymagazynek.R;
  * Provides UI for the view with List.
  */
 public class WarehousesFragment extends Fragment {
+
+    String fragmentRole;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +35,20 @@ public class WarehousesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        fragmentRole = getArguments().getString("role");
+
+
+
         return recyclerView;
+    }
+
+    public static WarehousesFragment createInstance(String role){ // w bundlu dajesz rodzajRoli zeby fragment wiedzial o co pytac
+        WarehousesFragment fragment = new WarehousesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("role", role);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -47,11 +47,11 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warehouses);
 
-        final View view = findViewById(R.id.coordinatorLayout);
+        final View view = findViewById(R.id.coordinatorLayout); // for snackbar purposes
 
+        //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
-
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
 
@@ -71,16 +71,20 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
             public void onResponse(Call<List<Warehouse>> call, Response<List<Warehouse>> response) {
                 int statusCode = response.code();
                 if (statusCode == 200) {
+
                     //Success, fill up list of warehouses
                     warehousesList = new ArrayList<Warehouse>();
                     warehousesList.addAll(response.body());
                     splitListByRoles();
+
                     // Setting ViewPager for each Tabs
                     ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
                     setupViewPager(viewPager);
+
                     // Set Tabs inside Toolbar
                     TabLayout tabs = (TabLayout) findViewById(R.id.warehouse_tabs);
                     tabs.setupWithViewPager(viewPager);
+
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar
                             .make(view, "Error with token, log in again.", Snackbar.LENGTH_LONG);
@@ -97,13 +101,14 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
             }
         });
     }
+
     // Divide warehousesList into role-based list that would be used by a sorting tab
-    private void splitListByRoles(){
+    private void splitListByRoles() {
         adminWarehousesList = new ArrayList<Warehouse>();
         editorWarehousesList = new ArrayList<Warehouse>();
         watcherWarehousesList = new ArrayList<Warehouse>();
-        for(Warehouse w:warehousesList){
-            switch (w.getRole()){
+        for (Warehouse w : warehousesList) {
+            switch (w.getRole()) {
                 case "admin":
                     adminWarehousesList.add(w);
                     break;
@@ -121,7 +126,6 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
 
     @Override
     public List<Warehouse> getWarehouses(String role) {
-        /** Do something with the string and return your Integer instead of 0 **/
         switch (role) {
             case "admin":
                 return adminWarehousesList;
@@ -132,7 +136,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
             case "all":
                 return warehousesList;
             default:
-                throw new RuntimeException(); // Found an element with unsupported role set
+                throw new RuntimeException(); // Something created fragment with unsupported role
         }
     }
 

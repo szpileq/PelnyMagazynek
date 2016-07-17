@@ -19,4 +19,5 @@
     <string name="warehousesAdmin">Autor</string>
     <string name="warehousesEditor">Edytor</string>
     <string name="warehousesWatcher">Obserwator</string>
+    <string name="nothing_to_show">Brak elementów</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.Fragments;
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,11 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.szpilkowski.android.pelnymagazynek.Activities.WarehousesActivity;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,40 +36,52 @@ public class WarehousesFragment extends Fragment {
     private WarehousesProvider provider;
 
     @Override
-    public void onAttach(Context context){
-        if(context instanceof WarehousesProvider){
-            provider = (WarehousesProvider) context; // Activity dziedziczy z kontekstu
+    public void onAttach(Context context) {
+        if (context instanceof WarehousesProvider) {
+            provider = (WarehousesProvider) context;
             super.onAttach(context);
-        } else throw new RuntimeException("Activity must implement WarehousesProvider"); //wyjeb apke jak nie bedzie implementowal interfejsu
+        } else throw new RuntimeException("Activity must implement WarehousesProvider");
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
-        provider = null; //usun odniesienia do activity zeby nie bylo wyciekow pamieci
+        provider = null;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Get from the Activity the right set of warehouses depending on fragment's role
         fragmentRole = getArguments().getString("role");
-        warehousesList = new ArrayList<>();
-        warehousesList = provider.getWarehouses(fragmentRole);
+        List<Warehouse> warehousesList = provider.getWarehouses(fragmentRole);
 
+        LinearLayout noElements = (LinearLayout) // No-elements screen
+                inflater.inflate(R.layout.no_elements, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), warehousesList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView recyclerView = (RecyclerView) // Actual container for warehouses
+                inflater.inflate (R.layout.recycler_view, container, false);
 
-        return recyclerView;
+        // If there is any warehouse with fragment's role - populate the list,
+        // otherwise - show no-elements screen
+        if (warehousesList.size() > 0) {
+            noElements.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), warehousesList);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            return recyclerView;
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            noElements.setVisibility(View.VISIBLE);
+            return noElements;
+        }
     }
 
     //Thanks to role string Fragment knows which part of warehouseList it needs
-    public static WarehousesFragment createInstance(String role){
+    public static WarehousesFragment createInstance(String role) {
         WarehousesFragment fragment = new WarehousesFragment();
         Bundle bundle = new Bundle();
         bundle.putString("role", role);
@@ -76,7 +90,7 @@ public class WarehousesFragment extends Fragment {
     }
 
     // Implemented in WarehousesActivity to provide warehouseList needed by this fragment
-    public interface WarehousesProvider{
+    public interface WarehousesProvider {
         List<Warehouse> getWarehouses(String role);
     }
 
@@ -84,6 +98,7 @@ public class WarehousesFragment extends Fragment {
         public ImageView warehouseIcon;
         public TextView name;
         public TextView role;
+
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.warehouses_list, parent, false));
             warehouseIcon = (ImageView) itemView.findViewById(R.id.warehouseIcon);
@@ -93,20 +108,20 @@ public class WarehousesFragment extends Fragment {
     }
 
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        // Set numbers of List in RecyclerView.
         private static int LENGTH = 0;
         private final List<String> mWarehousesName;
         private final List<String> mWarehousesRole;
+
+        // Populate the arrays with warehouses details
         public ContentAdapter(Context context, List<Warehouse> warehousesList) {
             mWarehousesName = new ArrayList<>();
             mWarehousesRole = new ArrayList<>();
-            if(warehousesList != null) {
-                for (Warehouse w : warehousesList) {
-                    mWarehousesName.add(w.getName());
-                    mWarehousesRole.add(w.getRole());
-                }
-                LENGTH = mWarehousesName.size();
+            for (Warehouse w : warehousesList) {
+                mWarehousesName.add(w.getName());
+                mWarehousesRole.add(w.getRole());
             }
+            LENGTH = mWarehousesName.size();
+
         }
 
         @Override
@@ -116,10 +131,8 @@ public class WarehousesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if(mWarehousesName.size() > 0)
-                holder.name.setText(mWarehousesName.get(position % mWarehousesName.size()));
-            if(mWarehousesRole.size() > 0)
-                holder.role.setText(mWarehousesRole.get(position % mWarehousesRole.size()));
+            holder.name.setText(mWarehousesName.get(position % mWarehousesName.size()));
+            holder.role.setText(mWarehousesRole.get(position % mWarehousesRole.size()));
         }
 
         @Override

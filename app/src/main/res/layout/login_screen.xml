@@ -22,7 +22,8 @@
         android:id="@+id/emailEditText"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:hint="E-mail" />
+        android:hint="E-mail"
+        android:text="test2@gmail.com" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -32,7 +33,8 @@
         android:id="@+id/passwordEditText"
         android:layout_below="@+id/emailEditText"
         android:layout_centerHorizontal="true"
-        android:hint="@string/passwordText" />
+        android:hint="@string/passwordText"
+        android:text="1234qwer" />
 
     <Button style="@style/Base.Widget.AppCompat.Button"
         android:layout_width="wrap_content"

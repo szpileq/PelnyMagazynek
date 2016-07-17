@@ -1,10 +1,7 @@
 package com.szpilkowski.android.pelnymagazynek.Activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,17 +13,12 @@ import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Fragments.WarehousesFragment;
-import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;
@@ -65,6 +57,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
 
     private void getWarehousesList() {
         final View view = findViewById(R.id.coordinatorLayout);
+
         Call call = connector.apiService.getWarehouses();
         call.enqueue(new Callback<List<Warehouse>>() {
             @Override

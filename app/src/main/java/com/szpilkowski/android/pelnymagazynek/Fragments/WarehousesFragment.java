@@ -108,12 +108,11 @@ public class WarehousesFragment extends Fragment {
                 name = (TextView) itemView.findViewById(R.id.warehouseName);
                 role = (TextView) itemView.findViewById(R.id.warehouseRole);
 
-
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        Log.i(TAG, "Clicked on warehouse ");
+                        Warehouse currentElement = contentWarehousesList.get(getAdapterPosition());
+                        Log.i(TAG, "Clicked on warehouse " + currentElement.getName());
                     }
                 });
 
@@ -121,7 +120,7 @@ public class WarehousesFragment extends Fragment {
                     @Override
                     public boolean onLongClick(View v) {
                         Log.i(TAG, "Long click!");
-                        return false;
+                        return true;
                     }
                 });
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,10 @@ import java.util.List;
  */
 public class WarehousesFragment extends Fragment {
 
-    String fragmentRole;
+    private static String fragmentRole;
     protected List<Warehouse> warehousesList;
     private WarehousesProvider provider;
+    private static String TAG = "WarehousesFragment";
 
     @Override
     public void onAttach(Context context) {
@@ -48,7 +50,7 @@ public class WarehousesFragment extends Fragment {
 
         // Get from the Activity the right set of warehouses depending on fragment's role
         fragmentRole = getArguments().getString("role");
-        List<Warehouse> warehousesList = provider.getWarehouses(fragmentRole);
+        warehousesList = provider.getWarehouses(fragmentRole);
 
         LinearLayout noElements = (LinearLayout) // No-elements screen
                 inflater.inflate(R.layout.no_elements, container, false);
@@ -87,50 +89,65 @@ public class WarehousesFragment extends Fragment {
         List<Warehouse> getWarehouses(String role);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView warehouseIcon;
-        public TextView name;
-        public TextView role;
-
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.warehouses_list, parent, false));
-            warehouseIcon = (ImageView) itemView.findViewById(R.id.warehouseIcon);
-            name = (TextView) itemView.findViewById(R.id.warehouseName);
-            role = (TextView) itemView.findViewById(R.id.warehouseRole);
-        }
-    }
-
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private static int LENGTH = 0;
-        private final List<String> mWarehousesName;
-        private final List<String> mWarehousesRole;
+    public static class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
+        protected final List<Warehouse> contentWarehousesList;
 
         // Populate the arrays with warehouses details
         public ContentAdapter(Context context, List<Warehouse> warehousesList) {
-            mWarehousesName = new ArrayList<>();
-            mWarehousesRole = new ArrayList<>();
-            for (Warehouse w : warehousesList) {
-                mWarehousesName.add(w.getName());
-                mWarehousesRole.add(w.getRole());
-            }
-            LENGTH = mWarehousesName.size();
+            contentWarehousesList = warehousesList;
+        }
 
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public ImageView warehouseIcon;
+            public TextView name;
+            public TextView role;
+
+            public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+                super(inflater.inflate(R.layout.warehouses_list, parent, false));
+                warehouseIcon = (ImageView) itemView.findViewById(R.id.warehouseIcon);
+                name = (TextView) itemView.findViewById(R.id.warehouseName);
+                role = (TextView) itemView.findViewById(R.id.warehouseRole);
+
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Log.i(TAG, "Clicked on warehouse ");
+                    }
+                });
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.i(TAG, "Long click!");
+                        return false;
+                    }
+                });
+
+
+            }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.name.setText(mWarehousesName.get(position % mWarehousesName.size()));
-            holder.role.setText(mWarehousesRole.get(position % mWarehousesRole.size()));
+            holder.name.setText(contentWarehousesList.get(position).getName());
+            holder.role.setText(contentWarehousesList.get(position).getRole());
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            if(null != contentWarehousesList) {
+                return contentWarehousesList.size();
+            }
+            else
+                return 0;
         }
     }
 }

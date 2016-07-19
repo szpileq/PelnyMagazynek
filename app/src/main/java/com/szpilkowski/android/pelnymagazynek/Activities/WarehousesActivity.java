@@ -2,6 +2,7 @@ package com.szpilkowski.android.pelnymagazynek.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,6 +30,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
 
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
+    private BottomSheetBehavior newWarehouseBottomSheetBehavior;
     List<Warehouse> warehousesList;
     List<Warehouse> adminWarehousesList;
     List<Warehouse> editorWarehousesList;
@@ -53,6 +55,19 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.warehouse_toolbar);
         setSupportActionBar(toolbar);
+
+        View bottomSheet = findViewById( R.id.bottom_sheet );
+        newWarehouseBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+
+        View floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLightRed));
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newWarehouseBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
     }
 
     private void getWarehousesList() {

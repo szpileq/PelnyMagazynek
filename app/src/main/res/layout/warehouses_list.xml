@@ -11,7 +11,7 @@
         android:layout_width="@dimen/avator_size"
         android:layout_height="@dimen/avator_size"
         android:scaleType="centerCrop"
-        tools:src="@drawable/warehouse_icon" />
+        android:src="@drawable/warehouse_icon" />
 
     <TextView
         android:id="@+id/warehouseName"
@@ -36,4 +36,9 @@
         tools:text="costam"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="@dimen/list_body" />
+
+    <View style="@style/Divider"
+        android:layout_below="@+id/warehouseRole"
+        android:layout_toRightOf="@+id/warehouseIcon"
+        android:layout_marginTop="5dp"/>
 </RelativeLayout>

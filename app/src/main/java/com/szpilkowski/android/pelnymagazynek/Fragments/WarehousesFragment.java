@@ -98,13 +98,11 @@ public class WarehousesFragment extends Fragment {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public ImageView warehouseIcon;
             public TextView name;
             public TextView role;
 
             public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
                 super(inflater.inflate(R.layout.warehouses_list, parent, false));
-                warehouseIcon = (ImageView) itemView.findViewById(R.id.warehouseIcon);
                 name = (TextView) itemView.findViewById(R.id.warehouseName);
                 role = (TextView) itemView.findViewById(R.id.warehouseRole);
 

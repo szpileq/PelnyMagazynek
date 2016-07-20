@@ -29,4 +29,7 @@ public interface MyApiEndpointInterface {
     @GET("warehouses")
     Call<List<Warehouse>> getWarehouses();
 
+    @POST("warehouses")
+    Call<Warehouse> addWarehouse(@Body Warehouse warehouse);
+
 }

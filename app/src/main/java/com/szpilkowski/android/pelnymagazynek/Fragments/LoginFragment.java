@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
-    ApiConnector connector;
+    public ApiConnector connector;
     SharedPreferences pref;
     
     @Override

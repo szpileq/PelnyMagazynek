@@ -20,4 +20,7 @@
     <string name="warehousesEditor">Edytor</string>
     <string name="warehousesWatcher">Obserwator</string>
     <string name="nothing_to_show">Brak elementów</string>
+    <string name="newWarehouse">Nowy magazyn</string>
+    <string name="nameWarehouse">Nazwa</string>
+    <string name="nameTaken">Nazwa niepoprawna bądź zajęta</string>
 </resources>

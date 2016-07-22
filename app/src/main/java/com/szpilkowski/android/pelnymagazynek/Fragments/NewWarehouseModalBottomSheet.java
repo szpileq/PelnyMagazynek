@@ -21,6 +21,7 @@ import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,22 @@ import retrofit2.Response;
  */
 public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
+    private WarehousesAdder warehousesAdder;
+
+    @Override
+    public void onAttach(Context context) {
+        if (context instanceof WarehousesAdder) {
+            warehousesAdder = (WarehousesAdder) context;
+            super.onAttach(context);
+        } else throw new RuntimeException("Activity must implement WarehousesAdder");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        warehousesAdder = null;
+    }
+
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
         @Override
@@ -40,9 +57,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                 dismiss();
             }
-
         }
-
         @Override
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
         }
@@ -68,8 +83,9 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
                 EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
 
+                //Create a API call to create a new warehouse.
                 newWarehouseRequest(editName.getText().toString());
-
+                dismiss();
                 Snackbar snackbar = Snackbar
                         .make(contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -105,8 +121,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
                 } else if (statusCode == 422) {
                     Log.i("COSTAM", "bad request");
-                }
-                else if (statusCode == 401) {
+                } else if (statusCode == 401) {
                     Log.i("COSTAM", "auth fail");
                 }
                 Log.i("COSTAM", "onResponse: API response handled.");
@@ -119,5 +134,10 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
             }
         });
         return 1;
+    }
+
+    // Implemented in WarehousesActivity to provide warehouseList needed by this fragment
+    public interface WarehousesAdder {
+        int addWarehouse(Warehouse w);
     }
 }

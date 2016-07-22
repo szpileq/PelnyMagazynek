@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
+import com.szpilkowski.android.pelnymagazynek.WarehousesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class WarehousesFragment extends Fragment {
     protected List<Warehouse> warehousesList;
     private WarehousesProvider provider;
     private static String TAG = "WarehousesFragment";
+    protected static WarehousesAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -63,7 +65,7 @@ public class WarehousesFragment extends Fragment {
         if (warehousesList.size() > 0) {
             noElements.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            ContentAdapter adapter = new ContentAdapter(recyclerView.getContext(), warehousesList);
+            adapter = new WarehousesAdapter(recyclerView.getContext(), warehousesList);
             recyclerView.setAdapter(adapter);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -87,64 +89,5 @@ public class WarehousesFragment extends Fragment {
     // Implemented in WarehousesActivity to provide warehouseList needed by this fragment
     public interface WarehousesProvider {
         List<Warehouse> getWarehouses(String role);
-    }
-
-    public static class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
-        protected final List<Warehouse> contentWarehousesList;
-
-        // Populate the arrays with warehouses details
-        public ContentAdapter(Context context, List<Warehouse> warehousesList) {
-            contentWarehousesList = warehousesList;
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView name;
-            public TextView role;
-
-            public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-                super(inflater.inflate(R.layout.warehouses_list, parent, false));
-                name = (TextView) itemView.findViewById(R.id.warehouseName);
-                role = (TextView) itemView.findViewById(R.id.warehouseRole);
-
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Warehouse currentElement = contentWarehousesList.get(getAdapterPosition());
-                        Log.i(TAG, "Clicked on warehouse " + currentElement.getName());
-                    }
-                });
-
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Log.i(TAG, "Long click!");
-                        return true;
-                    }
-                });
-
-
-            }
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.name.setText(contentWarehousesList.get(position).getName());
-            holder.role.setText(contentWarehousesList.get(position).getRole());
-        }
-
-        @Override
-        public int getItemCount() {
-            if(null != contentWarehousesList) {
-                return contentWarehousesList.size();
-            }
-            else
-                return 0;
-        }
     }
 }

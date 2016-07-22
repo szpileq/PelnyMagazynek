@@ -13,12 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.Fragments.NewWarehouseModalBottomSheet;
 import com.szpilkowski.android.pelnymagazynek.Fragments.WarehousesFragment;
 import com.szpilkowski.android.pelnymagazynek.R;
 
@@ -26,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WarehousesActivity extends AppCompatActivity implements WarehousesFragment.WarehousesProvider {
+public class WarehousesActivity extends AppCompatActivity implements WarehousesFragment.WarehousesProvider, NewWarehouseModalBottomSheet.WarehousesAdder {
 
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
@@ -35,6 +37,8 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
     List<Warehouse> adminWarehousesList;
     List<Warehouse> editorWarehousesList;
     List<Warehouse> watcherWarehousesList;
+
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         Toolbar toolbar = (Toolbar) findViewById(R.id.warehouse_toolbar);
         setSupportActionBar(toolbar);
 
-        View bottomSheet = findViewById( R.id.bottom_sheet );
-        newWarehouseBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        final NewWarehouseModalBottomSheet modalBottomSheet = new NewWarehouseModalBottomSheet();
 
         View floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLightRed));
@@ -65,9 +68,11 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newWarehouseBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                modalBottomSheet.show(getSupportFragmentManager(), "NewWarehouseModalBottomSheet");
+                Log.i("costam", "hejo");
             }
         });
+
     }
 
     private void getWarehousesList() {
@@ -86,7 +91,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
                     splitListByRoles();
 
                     // Setting ViewPager for each Tabs
-                    ViewPager viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
+                    viewPager = (ViewPager) findViewById(R.id.warehouse_viewpager);
                     setupViewPager(viewPager);
 
                     // Set Tabs inside Toolbar
@@ -143,6 +148,21 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
                 return watcherWarehousesList;
             case "all":
                 return warehousesList;
+            default:
+                throw new RuntimeException(); // Something created fragment with unsupported role
+        }
+    }
+
+    @Override
+    public int addWarehouse(Warehouse w) {
+        warehousesList.add(w);
+        switch (w.getRole()) {
+            case "admin":
+                adminWarehousesList.add(w);
+            case "editor":
+                editorWarehousesList.add(w);
+            case "watcher":
+                watcherWarehousesList.add(w);
             default:
                 throw new RuntimeException(); // Something created fragment with unsupported role
         }

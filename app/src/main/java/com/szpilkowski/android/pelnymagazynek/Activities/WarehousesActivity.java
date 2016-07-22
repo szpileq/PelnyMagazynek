@@ -39,6 +39,7 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
     List<Warehouse> watcherWarehousesList;
 
     ViewPager viewPager;
+    Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,17 +160,22 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         switch (w.getRole()) {
             case "admin":
                 adminWarehousesList.add(w);
+                break;
             case "editor":
                 editorWarehousesList.add(w);
+                break;
             case "watcher":
                 watcherWarehousesList.add(w);
+                break;
             default:
                 throw new RuntimeException(); // Something created fragment with unsupported role
         }
+        adapter.notifyDataSetChanged();
+        return 0;
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(WarehousesFragment.createInstance("all"), getString(R.string.warehousesAll));
         adapter.addFragment(WarehousesFragment.createInstance("admin"), getString(R.string.warehousesAdmin));
         adapter.addFragment(WarehousesFragment.createInstance("editor"), getString(R.string.warehousesEditor));
@@ -203,6 +209,11 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 

@@ -85,7 +85,6 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
                 //Create a API call to create a new warehouse.
                 newWarehouseRequest(editName.getText().toString());
-                dismiss();
                 Snackbar snackbar = Snackbar
                         .make(contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -117,7 +116,8 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                     //Success, fill up list of warehouses
                     Warehouse temp = response.body();
                     temp.setRole("admin");
-                    //TU JAKAS METODA KTORA spowoduje aktualizacje listy w WarehousesActivity
+                    warehousesAdder.addWarehouse(temp);
+                    dismiss();
 
                 } else if (statusCode == 422) {
                     Log.i("COSTAM", "bad request");

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,6 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
             @Override
             public void onClick(View v) {
                 modalBottomSheet.show(getSupportFragmentManager(), "NewWarehouseModalBottomSheet");
-                Log.i("costam", "hejo");
             }
         });
 

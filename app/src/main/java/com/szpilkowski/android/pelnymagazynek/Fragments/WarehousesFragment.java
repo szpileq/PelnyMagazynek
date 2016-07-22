@@ -65,14 +65,18 @@ public class WarehousesFragment extends Fragment {
         if (warehousesList.size() > 0) {
             noElements.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+
             adapter = new WarehousesAdapter(recyclerView.getContext(), warehousesList);
+
             recyclerView.setAdapter(adapter);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
             return recyclerView;
         } else {
             recyclerView.setVisibility(View.GONE);
             noElements.setVisibility(View.VISIBLE);
+
             return noElements;
         }
     }

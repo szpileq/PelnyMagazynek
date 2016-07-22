@@ -35,6 +35,8 @@ import retrofit2.Response;
 public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
     private WarehousesAdder warehousesAdder;
+    private static String TAG = "NewWarehouseMBS";
+    View contentView;
 
     @Override
     public void onAttach(Context context) {
@@ -66,7 +68,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        final View contentView = View.inflate(getContext(), R.layout.bottom_sheet_new_warehouse, null);
+        contentView = View.inflate(getContext(), R.layout.bottom_sheet_new_warehouse, null);
         dialog.setContentView(contentView);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
@@ -85,9 +87,6 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
                 //Create a API call to create a new warehouse.
                 newWarehouseRequest(editName.getText().toString());
-                Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
-                snackbar.show();
             }
         });
 
@@ -112,7 +111,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
             public void onResponse(Call<Warehouse> call, Response<Warehouse> response) {
                 int statusCode = response.code();
                 if (statusCode == 201) {
-
+                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
                     //Success, fill up list of warehouses
                     Warehouse temp = response.body();
                     temp.setRole("admin");
@@ -120,16 +119,26 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                     dismiss();
 
                 } else if (statusCode == 422) {
-                    Log.i("COSTAM", "bad request");
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                    Snackbar snackbar = Snackbar
+                            .make(contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 } else if (statusCode == 401) {
-                    Log.i("COSTAM", "auth fail");
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to LoginActivity
                 }
-                Log.i("COSTAM", "onResponse: API response handled.");
+
             }
 
             @Override
             public void onFailure(Call<Warehouse> call, Throwable t) {
-                Log.i("COSTAM", "onFailure: API call for logging failed");
+         /*       Snackbar snackbar = Snackbar
+                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                snackbar.show();*/
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
                 // Log error here since request failed
             }
         });

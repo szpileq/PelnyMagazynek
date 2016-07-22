@@ -46,6 +46,7 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehousesAdapter.Vi
                 @Override
                 public boolean onLongClick(View v) {
                     Log.i(TAG, "Long click!");
+                    
                     return true;
                 }
             });

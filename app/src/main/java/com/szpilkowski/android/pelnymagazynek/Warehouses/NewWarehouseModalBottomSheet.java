@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Fragments;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -128,7 +128,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                     Snackbar snackbar = Snackbar
                             .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //TODO: Consider switching automatically to LoginActivity
+                    //TODO: Consider switching automatically to MainActivity
                 }
 
             }

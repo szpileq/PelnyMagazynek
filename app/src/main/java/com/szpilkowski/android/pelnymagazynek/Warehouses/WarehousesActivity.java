@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Activities;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,8 +19,6 @@ import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
-import com.szpilkowski.android.pelnymagazynek.Fragments.NewWarehouseModalBottomSheet;
-import com.szpilkowski.android.pelnymagazynek.Fragments.WarehousesFragment;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;

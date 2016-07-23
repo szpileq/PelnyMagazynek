@@ -1,10 +1,6 @@
-package com.szpilkowski.android.pelnymagazynek;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.szpilkowski.android.pelnymagazynek.MainScreen;
 
 import com.google.gson.annotations.SerializedName;
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 
 public class RegistrationData{
 

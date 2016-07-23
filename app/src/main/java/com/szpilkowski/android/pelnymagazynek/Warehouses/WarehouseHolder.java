@@ -1,15 +1,11 @@
-package com.szpilkowski.android.pelnymagazynek;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
-import com.szpilkowski.android.pelnymagazynek.Fragments.NewWarehouseModalBottomSheet;
+import com.szpilkowski.android.pelnymagazynek.R;
 
 /**
  * Created by szpileq on 2016-07-23.
@@ -35,7 +31,7 @@ public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnL
 
     @Override
     public boolean onLongClick(View v) {
-        this.longClickListener.onItemLongClick(getLayoutPosition()); // OR ADAPTER POSITION, TO CHECK
+        this.longClickListener.onItemLongClick(getAdapterPosition()); // OR ADAPTER POSITION, TO CHECK
         return false;
     }
 

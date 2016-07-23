@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 /**
  * Created by szpileq on 2016-07-23.

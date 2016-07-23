@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Fragments;
+package com.szpilkowski.android.pelnymagazynek.MainScreen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,13 +14,7 @@ import android.widget.EditText;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
-import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.R;
-import com.szpilkowski.android.pelnymagazynek.RegistrationData;
-import com.szpilkowski.android.pelnymagazynek.UserRegistrationData;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

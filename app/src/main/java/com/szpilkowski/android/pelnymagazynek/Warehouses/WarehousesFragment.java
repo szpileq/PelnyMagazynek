@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Fragments;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 
 import android.content.Context;
@@ -6,20 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
-import com.szpilkowski.android.pelnymagazynek.WarehousesAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

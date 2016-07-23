@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Activities;
+package com.szpilkowski.android.pelnymagazynek.MainScreen;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,14 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.szpilkowski.android.pelnymagazynek.Fragments.LoginFragment;
-import com.szpilkowski.android.pelnymagazynek.Fragments.RegistrationFragment;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

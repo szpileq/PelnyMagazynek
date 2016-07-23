@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Fragments;
+package com.szpilkowski.android.pelnymagazynek.MainScreen;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,16 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
-import com.szpilkowski.android.pelnymagazynek.Activities.LoginActivity;
-import com.szpilkowski.android.pelnymagazynek.Activities.WarehousesActivity;
+import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehousesActivity;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
-import com.szpilkowski.android.pelnymagazynek.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.R;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

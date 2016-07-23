@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek;
+package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import com.google.gson.annotations.SerializedName;
 

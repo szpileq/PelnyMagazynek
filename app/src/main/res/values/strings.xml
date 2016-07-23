@@ -25,4 +25,7 @@
     <string name="newWarehouse">Nowy magazyn</string>
     <string name="nameWarehouse">Nazwa</string>
     <string name="nameTaken">Nazwa niepoprawna bądź zajęta</string>
+    <string name="warehousesContextMenuTitle">Wybierz opcję</string>
+    <string name="warehousesEditName">Edytuj nazwę</string>
+    <string name="warehouseDelete">Usuń</string>
 </resources>

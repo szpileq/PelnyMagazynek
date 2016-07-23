@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,7 +31,9 @@ public class WarehousesFragment extends Fragment {
     protected List<Warehouse> warehousesList;
     private WarehousesProvider provider;
     private static String TAG = "WarehousesFragment";
+
     protected static WarehousesAdapter adapter;
+    RecyclerView recyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -57,7 +60,7 @@ public class WarehousesFragment extends Fragment {
         LinearLayout noElements = (LinearLayout) // No-elements screen
                 inflater.inflate(R.layout.no_elements, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) // Actual container for warehouses
+        recyclerView = (RecyclerView) // Actual container for warehouses
                 inflater.inflate (R.layout.recycler_view, container, false);
 
         // If there is any warehouse with fragment's role - populate the list,
@@ -66,11 +69,11 @@ public class WarehousesFragment extends Fragment {
             noElements.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
-            adapter = new WarehousesAdapter(recyclerView.getContext(), warehousesList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            adapter = new WarehousesAdapter(getActivity(), warehousesList);
 
             recyclerView.setAdapter(adapter);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             return recyclerView;
         } else {
@@ -79,6 +82,12 @@ public class WarehousesFragment extends Fragment {
 
             return noElements;
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        adapter.getItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     //Thanks to role string Fragment knows which part of warehouseList it needs

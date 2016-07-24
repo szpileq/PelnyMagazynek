@@ -34,4 +34,9 @@
     <string name="itemsShortageTabTitle">Brak</string>
     <string name="itemsLowQuantityTitle">Kończące się</string>
     <string name="itemaAll">Wszystkie</string>
+    <string name="itemsEditName">Edytuj</string>
+    <string name="itemsContextMenuTitle">Wybierz opcję</string>
+    <string name="itemEdit">Edytuj</string>
+    <string name="itemDelete">Usuń</string>
+    <string name="title_activity_items">Lista przedmiotów</string>
 </resources>

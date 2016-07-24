@@ -1,5 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.Items.ItemsActivity;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import okhttp3.ResponseBody;
@@ -30,6 +32,7 @@ import retrofit2.Response;
 public class WarehousesActivity extends AppCompatActivity implements
         WarehouseManipulator{
 
+    SharedPreferences pref;
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
     private BottomSheetBehavior newWarehouseBottomSheetBehavior;
@@ -47,11 +50,11 @@ public class WarehousesActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_warehouses);
 
 
-        coordinatorLayout = findViewById(R.id.coordinatorLayout); // for snackbar purposes
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutWarehouses); // for snackbar purposes
 
         //Setup API connector
-        SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
-        String authorizationToken = prefs.getString("AccessToken", null);
+        pref = getSharedPreferences("AppPref", MODE_PRIVATE);
+        String authorizationToken = pref.getString("AccessToken", null);
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
 
@@ -64,7 +67,7 @@ public class WarehousesActivity extends AppCompatActivity implements
 
         final NewWarehouseModalBottomSheet modalBottomSheet = new NewWarehouseModalBottomSheet();
 
-        View floatingActionButton = findViewById(R.id.fab);
+        View floatingActionButton = findViewById(R.id.fab_warehouses);
         floatingActionButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLightRed));
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -350,7 +353,12 @@ public class WarehousesActivity extends AppCompatActivity implements
 
     @Override
     public int openWarehouse(Warehouse w) {
-        return 0;
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("warehouseId", w.getId());
+        edit.commit();
+        Intent ItemsActivity = new Intent(this, ItemsActivity.class);
+        startActivity(ItemsActivity);
+        return 1;
     }
 
     private void setupViewPager(ViewPager viewPager) {

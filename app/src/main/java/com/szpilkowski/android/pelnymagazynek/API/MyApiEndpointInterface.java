@@ -1,5 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.API;
 
+import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.RegistrationData;
@@ -42,5 +43,8 @@ public interface MyApiEndpointInterface {
 
     @PUT("warehouses/{id}")
     Call<Warehouse> editWarehouse(@Path("id") int id, @Body Warehouse warehouse);
+
+    @GET("warehouses/{id}/items")
+    Call<List<Item>> getItems(@Path("id") int warehouse_id);
 
 }

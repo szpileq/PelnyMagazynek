@@ -34,14 +34,14 @@ import retrofit2.Response;
  */
 public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
-    private WarehousesAdder warehousesAdder;
+    private WarehouseManipulator warehouseManipulator;
     private static String TAG = "NewWarehouseMBS";
     View contentView;
 
     @Override
     public void onAttach(Context context) {
-        if (context instanceof WarehousesAdder) {
-            warehousesAdder = (WarehousesAdder) context;
+        if (context instanceof WarehouseManipulator) {
+            warehouseManipulator = (WarehouseManipulator) context;
             super.onAttach(context);
         } else throw new RuntimeException("Activity must implement WarehousesAdder");
     }
@@ -49,7 +49,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        warehousesAdder = null;
+        warehouseManipulator = null;
     }
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
@@ -86,7 +86,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                 EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
 
                 //Create a API call to create a new warehouse.
-                warehousesAdder.newWarehouseRequest(editName.getText().toString(), NewWarehouseModalBottomSheet.this);
+                warehouseManipulator.newWarehouseRequest(editName.getText().toString(), NewWarehouseModalBottomSheet.this);
             }
         });
 
@@ -97,10 +97,5 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
-    }
-
-    // Implemented in WarehousesActivity for adding new warehouses
-    public interface WarehousesAdder {
-        int newWarehouseRequest(String s, NewWarehouseModalBottomSheet mbs);
     }
 }

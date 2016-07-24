@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
@@ -27,10 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WarehousesActivity extends AppCompatActivity implements
-        WarehousesFragment.WarehousesProvider,
-        NewWarehouseModalBottomSheet.WarehousesAdder,
-        EditWarehouseModalBottomSheet.WarehouseEditor,
-        WarehousesAdapter.WarehousesRemover{
+        WarehouseManipulator{
 
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
@@ -90,6 +88,7 @@ public class WarehousesActivity extends AppCompatActivity implements
                     //Success, fill up list of warehouses
                     warehousesList = new ArrayList<Warehouse>();
                     warehousesList.addAll(response.body());
+                    Collections.sort(warehousesList, new WarehouseComparator());
                     splitListByRoles();
 
                     // Setting ViewPager for each Tabs
@@ -137,6 +136,9 @@ public class WarehousesActivity extends AppCompatActivity implements
                     throw new RuntimeException(); // Found an element with unsupported role set
             }
         }
+        Collections.sort(adminWarehousesList, new WarehouseComparator());
+        Collections.sort(editorWarehousesList, new WarehouseComparator());
+        Collections.sort(watcherWarehousesList, new WarehouseComparator());
     }
 
     @Override
@@ -204,15 +206,19 @@ public class WarehousesActivity extends AppCompatActivity implements
 
     private int addWarehouse(Warehouse w) {
         warehousesList.add(w);
+        Collections.sort(warehousesList, new WarehouseComparator());
         switch (w.getRole()) {
             case "admin":
                 adminWarehousesList.add(w);
+                Collections.sort(adminWarehousesList, new WarehouseComparator());
                 break;
             case "editor":
                 editorWarehousesList.add(w);
+                Collections.sort(editorWarehousesList, new WarehouseComparator());
                 break;
             case "watcher":
                 watcherWarehousesList.add(w);
+                Collections.sort(watcherWarehousesList, new WarehouseComparator());
                 break;
             default:
                 throw new RuntimeException(); // Something created fragment with unsupported role
@@ -281,19 +287,31 @@ public class WarehousesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public int editWarehouseRequest(Warehouse w, final EditWarehouseModalBottomSheet mbs) {
+    public int showEditModalBottomSheet(EditWarehouseModalBottomSheet mbs) {
+        mbs.show(getSupportFragmentManager(), "EditWarehouseModalBottomSheet");
+        return 0;
+    }
+
+    @Override
+    public int editWarehouseRequest(final Warehouse w, final String newName, final EditWarehouseModalBottomSheet mbs) {
+
+        if(!w.getRole().equals("admin")){
+            mbs.dismiss();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
 
         Call call = connector.apiService.editWarehouse(w.getId(), w);
         call.enqueue(new Callback<Warehouse>() {
             @Override
             public void onResponse(Call<Warehouse> call, Response<Warehouse> response) {
                 int statusCode = response.code();
-                if (statusCode == 201) {
+                if (statusCode == 200) {
                     Log.i(TAG, "onResponse: API response handled. Adding warehouse");
-                    //Success, fill up list of warehouses
-                    Warehouse temp = response.body();
-                    temp.setRole("admin");
-                    editWarehouse(temp);
+
+                    editWarehouse(w, newName);
                     mbs.dismiss();
 
                 } else if (statusCode == 422) {
@@ -323,9 +341,15 @@ public class WarehousesActivity extends AppCompatActivity implements
         return 1;
     }
 
-    private int editWarehouse(Warehouse w) {
+    private int editWarehouse(Warehouse w, String newName) {
         int index = warehousesList.indexOf(w);
-        warehousesList.get(index).setName(w.getName());
+        warehousesList.get(index).setName(newName);
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+
+    @Override
+    public int openWarehouse(Warehouse w) {
         return 0;
     }
 

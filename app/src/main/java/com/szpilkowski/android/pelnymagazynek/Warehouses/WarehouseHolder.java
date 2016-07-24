@@ -10,10 +10,10 @@ import com.szpilkowski.android.pelnymagazynek.R;
 /**
  * Created by szpileq on 2016-07-23.
  */
-public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener{
+public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener, View.OnClickListener{
     public TextView name;
     public TextView role;
-    WarehouseLongClickListener longClickListener;
+    WarehouseClickListeners clickListeners;
 
     public WarehouseHolder(View itemView) {
         super(itemView);
@@ -21,19 +21,26 @@ public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnL
         role = (TextView) itemView.findViewById(R.id.warehouseRole);
 
         itemView.setOnLongClickListener(this);
+        itemView.setOnClickListener(this);
         itemView.setOnCreateContextMenuListener(this);
 
     }
 
-    public void setLongClickListener(WarehouseLongClickListener lc){
-        this.longClickListener = lc;
+    public void setClickListeners(WarehouseClickListeners lc){
+        this.clickListeners = lc;
     }
 
     @Override
     public boolean onLongClick(View v) {
-        this.longClickListener.onItemLongClick(getAdapterPosition()); // OR ADAPTER POSITION, TO CHECK
+        this.clickListeners.onItemLongClick(getAdapterPosition());
         return false;
     }
+
+    @Override
+    public void onClick(View v){
+        this.clickListeners.onItemClick(getAdapterPosition());
+    }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

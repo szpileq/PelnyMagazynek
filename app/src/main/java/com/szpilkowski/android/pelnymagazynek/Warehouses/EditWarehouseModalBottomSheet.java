@@ -34,15 +34,18 @@ import retrofit2.Response;
  */
 public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
 
-    private WarehouseEditor warehouseEditor;
+    private WarehouseManipulator warehouseManipulator;
     private static String TAG = "EditWarehouseMBS";
     View contentView;
-    Warehouse currentWarehouse;
+    private Warehouse currentWarehouse;
 
+    public void setCurrentWarehouse(Warehouse w){
+        this.currentWarehouse = w;
+    }
     @Override
     public void onAttach(Context context) {
-        if (context instanceof WarehouseEditor) {
-            warehouseEditor = (WarehouseEditor) context;
+        if (context instanceof WarehouseManipulator) {
+            warehouseManipulator = (WarehouseManipulator) context;
             super.onAttach(context);
         } else throw new RuntimeException("Activity must implement WarehousesAdder");
     }
@@ -50,7 +53,7 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        warehouseEditor = null;
+        warehouseManipulator = null;
     }
 
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
@@ -69,7 +72,7 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        contentView = View.inflate(getContext(), R.layout.bottom_sheet_new_warehouse, null);
+        contentView = View.inflate(getContext(), R.layout.bottom_sheet_edit_warehouse, null);
         dialog.setContentView(contentView);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
@@ -79,29 +82,23 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
             ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
         }
 
-        ImageView okButton = (ImageView)contentView.findViewById(R.id.addNewWarehouseBottomSheet);
+        final EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
+        editName.setText(currentWarehouse.getName());
+        ImageView okButton = (ImageView)contentView.findViewById(R.id.acceptEditWarehouseBottomSheet);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
-
                 //Create a API call to create a new warehouse.
-                warehouseEditor.editWarehouseRequest(currentWarehouse, EditWarehouseModalBottomSheet.this);
+                warehouseManipulator.editWarehouseRequest(currentWarehouse,editName.getText().toString(), EditWarehouseModalBottomSheet.this);
             }
         });
 
-        ImageView closeButton = (ImageView)contentView.findViewById(R.id.closeNewWarehouseBottomSheet);
+        ImageView closeButton = (ImageView)contentView.findViewById(R.id.closeEditWarehouseBottomSheet);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-    }
-
-    // Implemented in WarehousesActivity for editing new warehouses
-    public interface WarehouseEditor {
-        int editWarehouseRequest(Warehouse w, EditWarehouseModalBottomSheet mbs);
     }
 }

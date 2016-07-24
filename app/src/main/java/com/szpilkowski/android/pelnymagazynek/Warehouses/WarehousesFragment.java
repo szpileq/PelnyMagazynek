@@ -24,7 +24,7 @@ public class WarehousesFragment extends Fragment {
 
     private String fragmentRole;
     protected List<Warehouse> warehousesList;
-    private WarehousesProvider provider;
+    private WarehouseManipulator warehouseManipulator;
     private static String TAG = "WarehousesFragment";
 
     protected WarehousesAdapter adapter;
@@ -32,16 +32,17 @@ public class WarehousesFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        if (context instanceof WarehousesProvider) {
-            provider = (WarehousesProvider) context;
+        if (context instanceof WarehouseManipulator) {
+            warehouseManipulator = (WarehouseManipulator) context;
             super.onAttach(context);
         } else throw new RuntimeException("Activity must implement WarehousesProvider");
     }
 
     @Override
     public void onDetach() {
+        warehouseManipulator = null;
         super.onDetach();
-        provider = null;
+        adapter.onDetach();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class WarehousesFragment extends Fragment {
 
         // Get from the Activity the right set of warehouses depending on fragment's role
         fragmentRole = getArguments().getString("role");
-        warehousesList = provider.getWarehouses(fragmentRole);
+        warehousesList = warehouseManipulator.getWarehouses(fragmentRole);
 
         LinearLayout noElements = (LinearLayout) // No-elements screen
                 inflater.inflate(R.layout.no_elements, container, false);
@@ -95,10 +96,5 @@ public class WarehousesFragment extends Fragment {
         bundle.putString("role", role);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    // Implemented in WarehousesActivity to provide warehouseList needed by this fragment
-    public interface WarehousesProvider {
-        List<Warehouse> getWarehouses(String role);
     }
 }

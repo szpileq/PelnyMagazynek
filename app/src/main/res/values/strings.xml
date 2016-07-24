@@ -30,4 +30,8 @@
     <string name="warehousesEditName">Edytuj nazwę</string>
     <string name="warehouseDelete">Usuń</string>
     <string name="wrongPrivileges">Brak uprawnień</string>
+    <string name="warehousesOpen">Otwórz</string>
+    <string name="itemsShortageTabTitle">Brak</string>
+    <string name="itemsLowQuantityTitle">Kończące się</string>
+    <string name="itemaAll">Wszystkie</string>
 </resources>

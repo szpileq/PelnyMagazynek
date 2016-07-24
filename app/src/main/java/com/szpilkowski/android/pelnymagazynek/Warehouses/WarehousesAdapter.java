@@ -1,25 +1,17 @@
 package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by szpileq on 2016-07-22.
@@ -29,15 +21,19 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
     Context mContext;
     private static String TAG = "WarehouseAdapter";
     protected final List<Warehouse> contentWarehousesList;
-    private WarehousesRemover warehousesRemover;
+    private WarehouseManipulator warehouseManipulator;
 
     Warehouse selectedWarehouse;
 
     // Populate the arrays with warehouses details
     public WarehousesAdapter(Context context, List<Warehouse> warehousesList) {
-        warehousesRemover = (WarehousesRemover) context;
+        warehouseManipulator = (WarehouseManipulator) context;
         this.mContext = context;
         contentWarehousesList = warehousesList;
+    }
+
+    public void onDetach(){
+        warehouseManipulator = null;
     }
 
     @Override
@@ -49,13 +45,23 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
 
     @Override
     public void onBindViewHolder(WarehouseHolder holder, int position) {
-        holder.name.setText(contentWarehousesList.get(position).getName());
-        holder.role.setText(contentWarehousesList.get(position).getRole());
-        holder.setLongClickListener(new WarehouseLongClickListener() {
+        String itemName = contentWarehousesList.get(position).getName();
+        String itemRole = contentWarehousesList.get(position).getRole();
+        holder.name.setText(itemName);
+        holder.role.setText(itemRole);
+
+        holder.setClickListeners(new WarehouseClickListeners() {
             @Override
             public void onItemLongClick(int pos) {
                 selectedWarehouse = contentWarehousesList.get(pos);
                 Log.i("WarehouseAdapter", "LongClick on " + selectedWarehouse.getName().toString());
+            }
+
+            @Override
+            public void onItemClick(int pos) {
+                selectedWarehouse = contentWarehousesList.get(pos);
+                Log.i("WarehouseAdapter", "Click on " + selectedWarehouse.getName().toString());
+                warehouseManipulator.openWarehouse(selectedWarehouse);
             }
         });
     }
@@ -71,15 +77,12 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
 
     public void getItemSelected(MenuItem item){
         if(mContext.getResources().getString(R.string.warehousesEditName) == item.getTitle()){
-            //Stworz nowy Edit ModalBottomSheet i przekaz mu warehouse klikniety
+            final EditWarehouseModalBottomSheet modalBottomSheet = new EditWarehouseModalBottomSheet();
+            modalBottomSheet.setCurrentWarehouse(selectedWarehouse);
+            warehouseManipulator.showEditModalBottomSheet(modalBottomSheet);
+
         } else {
-            warehousesRemover.removeWarehouseRequest(selectedWarehouse);
+            warehouseManipulator.removeWarehouseRequest(selectedWarehouse);
         }
     }
-
-    // Implemented in WarehousesActivity for removing warehouses
-    public interface WarehousesRemover {
-        int removeWarehouseRequest(Warehouse w);
-    }
-
 }

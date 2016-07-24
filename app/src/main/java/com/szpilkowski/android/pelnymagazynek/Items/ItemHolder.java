@@ -5,6 +5,7 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 
@@ -14,12 +15,15 @@ import com.szpilkowski.android.pelnymagazynek.R;
 public class ItemHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener, View.OnClickListener{
     public TextView name;
     public TextView comments;
+    public CircleProgress circleProgress;
     ItemClickListeners clickListeners;
 
     public ItemHolder(View itemView) {
         super(itemView);
+
         name = (TextView) itemView.findViewById(R.id.itemName);
         comments = (TextView) itemView.findViewById(R.id.itemComments);
+        circleProgress = (CircleProgress) itemView.findViewById(R.id.circleItemStoragePercentage);
 
         itemView.setOnLongClickListener(this);
         itemView.setOnClickListener(this);

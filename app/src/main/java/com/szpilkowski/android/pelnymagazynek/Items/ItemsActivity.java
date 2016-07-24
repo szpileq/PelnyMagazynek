@@ -37,6 +37,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     ApiConnector connector;
     private static final String TAG = "ItemsActivity";
     protected Integer warehouseId;
+    protected String warehouseName;
+    protected String warehouseRole;
 
     List<Item> itemsList;
     List<Item> lowQuantityItemsList;
@@ -55,6 +57,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
         warehouseId = prefs.getInt("warehouseId", 0);
+        warehouseName = prefs.getString("warehouseName", null);
+        warehouseRole = prefs.getString("warehouseRole", null);
+
+        this.setTitle(warehouseName);
+
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
 
@@ -116,7 +123,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
             Integer currentMinQuantity = i.getMinQuantity();
             if(0 == currentQuantity){
                 shortageItemsList.add(i);
-                return;
             } else if(currentMinQuantity != null && currentQuantity < i.getMinQuantity()){
                 lowQuantityItemsList.add(i);
             }

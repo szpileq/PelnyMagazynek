@@ -13,6 +13,8 @@ import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
 
+import retrofit2.http.PUT;
+
 /**
  * Created by szpileq on 2016-07-24.
  */
@@ -47,8 +49,36 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemHolder>{
     public void onBindViewHolder(ItemHolder holder, int position) {
         String itemName = contentItemsList.get(position).getName();
         String itemComments = contentItemsList.get(position).getComment();
+        Integer itemQuantity = contentItemsList.get(position).getQuantity();
+        Integer itemTargetQuantity = contentItemsList.get(position).getTargetQuantity();
+        Integer itemMinQuantity = contentItemsList.get(position).getMinQuantity();
+
         holder.name.setText(itemName);
         holder.comments.setText(itemComments);
+
+        holder.circleProgress.setSuffixText("");
+        holder.circleProgress.setProgress(itemQuantity);
+        holder.circleProgress.setMax(itemQuantity);
+
+        holder.circleProgress.setFinishedColor(mContext.getResources().getColor(R.color.colorPrimary));
+        holder.circleProgress.setUnfinishedColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+
+        if(null != itemTargetQuantity) {
+            if(itemTargetQuantity < itemQuantity)
+                holder.circleProgress.setMax(itemQuantity);
+            else
+                holder.circleProgress.setMax(itemTargetQuantity);
+        }
+
+        if(null != itemMinQuantity && itemQuantity < itemMinQuantity){
+            holder.circleProgress.setFinishedColor(mContext.getResources().getColor(R.color.colorLightYellow));
+            holder.circleProgress.setUnfinishedColor(mContext.getResources().getColor(R.color.colorDarkYellow));
+        }
+
+        if(0 == itemQuantity){
+            holder.circleProgress.setUnfinishedColor(mContext.getResources().getColor(R.color.colorDarkRed));
+        }
+
 
         holder.setClickListeners(new ItemClickListeners() {
             @Override

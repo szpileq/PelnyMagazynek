@@ -355,6 +355,8 @@ public class WarehousesActivity extends AppCompatActivity implements
     public int openWarehouse(Warehouse w) {
         SharedPreferences.Editor edit = pref.edit();
         edit.putInt("warehouseId", w.getId());
+        edit.putString("warehouseName", w.getName());
+        edit.putString("warehouseRole", w.getRole());
         edit.commit();
         Intent ItemsActivity = new Intent(this, ItemsActivity.class);
         startActivity(ItemsActivity);

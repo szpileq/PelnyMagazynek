@@ -7,10 +7,14 @@ import com.szpilkowski.android.pelnymagazynek.MainScreen.LoginCredentials;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by szpileq on 2016-05-30.
@@ -31,5 +35,8 @@ public interface MyApiEndpointInterface {
 
     @POST("warehouses")
     Call<Warehouse> addWarehouse(@Body Warehouse warehouse);
+
+    @DELETE("warehouses/{id}")
+    Call<ResponseBody> removeWarehouse(@Path("id") int id);
 
 }

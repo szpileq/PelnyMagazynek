@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class WarehousesFragment extends Fragment {
 
-    private static String fragmentRole;
+    private String fragmentRole;
     protected List<Warehouse> warehousesList;
     private WarehousesProvider provider;
     private static String TAG = "WarehousesFragment";
@@ -64,11 +64,10 @@ public class WarehousesFragment extends Fragment {
             noElements.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
             adapter = new WarehousesAdapter(getActivity(), warehousesList);
 
             recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             return recyclerView;
         } else {
@@ -81,8 +80,12 @@ public class WarehousesFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item){
-        adapter.getItemSelected(item);
-        return super.onContextItemSelected(item);
+
+        if (getUserVisibleHint()) {
+            adapter.getItemSelected(item);
+            return true;
+        }
+        return false;
     }
 
     //Thanks to role string Fragment knows which part of warehouseList it needs

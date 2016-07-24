@@ -145,7 +145,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
         return 1;
     }
 
-    // Implemented in WarehousesActivity to provide warehouseList needed by this fragment
+    // Implemented in WarehousesActivity for adding new warehouses
     public interface WarehousesAdder {
         int addWarehouse(Warehouse w);
     }

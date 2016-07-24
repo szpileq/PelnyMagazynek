@@ -25,7 +25,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WarehousesActivity extends AppCompatActivity implements WarehousesFragment.WarehousesProvider, NewWarehouseModalBottomSheet.WarehousesAdder {
+public class WarehousesActivity extends AppCompatActivity implements
+        WarehousesFragment.WarehousesProvider,
+        NewWarehouseModalBottomSheet.WarehousesAdder,
+        WarehousesAdapter.WarehousesRemover{
 
     ApiConnector connector;
     private static final String TAG = "WarehousesActivity";
@@ -162,6 +165,25 @@ public class WarehousesActivity extends AppCompatActivity implements WarehousesF
                 break;
             case "watcher":
                 watcherWarehousesList.add(w);
+                break;
+            default:
+                throw new RuntimeException(); // Something created fragment with unsupported role
+        }
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+    @Override
+    public int removeWarehouse(Warehouse w) {
+        warehousesList.remove(w);
+        switch (w.getRole()) {
+            case "admin":
+                adminWarehousesList.remove(w);
+                break;
+            case "editor":
+                editorWarehousesList.remove(w);
+                break;
+            case "watcher":
+                watcherWarehousesList.remove(w);
                 break;
             default:
                 throw new RuntimeException(); // Something created fragment with unsupported role

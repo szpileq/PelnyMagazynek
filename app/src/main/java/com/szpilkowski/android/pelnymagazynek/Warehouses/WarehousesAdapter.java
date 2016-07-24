@@ -75,50 +75,20 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
             //edit name
             return;
         } else {
-            removeWarehouseRequest(selectedWarehouse);
+            warehousesRemover.removeWarehouseRequest(selectedWarehouse);
         }
 
 
     }
 
-    private int removeWarehouseRequest(final Warehouse w) {
-        ApiConnector connector = ApiConnector.getInstance();
-
-        Call call = connector.apiService.removeWarehouse(w.getId());
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                int statusCode = response.code();
-                if (statusCode == 204) {
-                    Log.i(TAG, "onResponse: API response handled. Removing warehouse");
-                    warehousesRemover.removeWarehouse(w);
-
-                } else if (statusCode == 422) {
-                    Log.i(TAG, "onResponse: API response handled. This name is taken");
-                } else if (statusCode == 401) {
-                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
-                    /*Snackbar snackbar = Snackbar
-                            .make(mContext, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                    snackbar.show();*/
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-         /*       Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                snackbar.show();*/
-                Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                // Log error here since request failed
-            }
-        });
-        return 1;
-    }
-
     // Implemented in WarehousesActivity for removing warehouses
     public interface WarehousesRemover {
-        int removeWarehouse(Warehouse w);
+        int removeWarehouseRequest(Warehouse w);
+    }
+
+    // Implemented in WarehousesActivity for adding new warehouses
+    public interface WarehouseEditor {
+        int editWarehouse(Warehouse w);
     }
 
 }

@@ -21,6 +21,7 @@ import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class WarehousesActivity extends AppCompatActivity implements
         WarehousesFragment.WarehousesProvider,
         NewWarehouseModalBottomSheet.WarehousesAdder,
+        EditWarehouseModalBottomSheet.WarehouseEditor,
         WarehousesAdapter.WarehousesRemover{
 
     ApiConnector connector;
@@ -40,13 +42,14 @@ public class WarehousesActivity extends AppCompatActivity implements
 
     ViewPager viewPager;
     Adapter adapter;
-
+    View coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warehouses);
 
-        final View view = findViewById(R.id.coordinatorLayout); // for snackbar purposes
+
+        coordinatorLayout = findViewById(R.id.coordinatorLayout); // for snackbar purposes
 
         //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
@@ -76,7 +79,6 @@ public class WarehousesActivity extends AppCompatActivity implements
     }
 
     private void getWarehousesList() {
-        final View view = findViewById(R.id.coordinatorLayout);
 
         Call call = connector.apiService.getWarehouses();
         call.enqueue(new Callback<List<Warehouse>>() {
@@ -100,7 +102,7 @@ public class WarehousesActivity extends AppCompatActivity implements
 
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar
-                            .make(view, "Error with token, log in again.", Snackbar.LENGTH_LONG);
+                            .make(coordinatorLayout, "Error with token, log in again.", Snackbar.LENGTH_LONG);
 
                     snackbar.show();
                 }
@@ -172,8 +174,48 @@ public class WarehousesActivity extends AppCompatActivity implements
         adapter.notifyDataSetChanged();
         return 0;
     }
+
     @Override
-    public int removeWarehouse(Warehouse w) {
+    public int removeWarehouseRequest(final Warehouse w) {
+        if(!w.getRole().equals("admin")){
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+        Call call = connector.apiService.removeWarehouse(w.getId());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int statusCode = response.code();
+                if (statusCode == 204) {
+                    Log.i(TAG, "onResponse: API response handled. Removing warehouse");
+                    removeWarehouse(w);
+
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+         /*       Snackbar snackbar = Snackbar
+                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                snackbar.show();*/
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                // Log error here since request failed
+            }
+        });
+        return 0;
+    }
+
+    private int removeWarehouse(Warehouse w) {
         warehousesList.remove(w);
         switch (w.getRole()) {
             case "admin":
@@ -189,6 +231,13 @@ public class WarehousesActivity extends AppCompatActivity implements
                 throw new RuntimeException(); // Something created fragment with unsupported role
         }
         adapter.notifyDataSetChanged();
+        return 0;
+    }
+
+    @Override
+    public int editWarehouse(Warehouse w) {
+        int index = warehousesList.indexOf(w);
+        warehousesList.get(index).setName(w.getName());
         return 0;
     }
 

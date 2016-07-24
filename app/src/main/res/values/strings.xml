@@ -23,9 +23,11 @@
     <string name="warehousesWatcher">Obserwator</string>
     <string name="nothing_to_show">Brak elementów</string>
     <string name="newWarehouse">Nowy magazyn</string>
+    <string name="editWarehouse">Nowa nazwa</string>
     <string name="nameWarehouse">Nazwa</string>
     <string name="nameTaken">Nazwa niepoprawna bądź zajęta</string>
     <string name="warehousesContextMenuTitle">Wybierz opcję</string>
     <string name="warehousesEditName">Edytuj nazwę</string>
     <string name="warehouseDelete">Usuń</string>
+    <string name="wrongPrivileges">Brak uprawnień</string>
 </resources>

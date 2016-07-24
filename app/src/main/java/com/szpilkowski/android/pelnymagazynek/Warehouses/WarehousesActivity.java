@@ -156,7 +156,53 @@ public class WarehousesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public int addWarehouse(Warehouse w) {
+    public int newWarehouseRequest(String name, final NewWarehouseModalBottomSheet mbs) {
+        ApiConnector connector = ApiConnector.getInstance();
+
+        Warehouse w = new Warehouse();
+        w.setName(name);
+
+        Call call = connector.apiService.addWarehouse(w);
+        call.enqueue(new Callback<Warehouse>() {
+            @Override
+            public void onResponse(Call<Warehouse> call, Response<Warehouse> response) {
+                int statusCode = response.code();
+                if (statusCode == 201) {
+                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
+                    //Success, fill up list of warehouses
+                    Warehouse temp = response.body();
+                    temp.setRole("admin");
+                    addWarehouse(temp);
+                    mbs.dismiss();
+
+                } else if (statusCode == 422) {
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Warehouse> call, Throwable t) {
+         /*       Snackbar snackbar = Snackbar
+                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                snackbar.show();*/
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                // Log error here since request failed
+            }
+        });
+        return 1;
+    }
+
+    private int addWarehouse(Warehouse w) {
         warehousesList.add(w);
         switch (w.getRole()) {
             case "admin":
@@ -235,7 +281,49 @@ public class WarehousesActivity extends AppCompatActivity implements
     }
 
     @Override
-    public int editWarehouse(Warehouse w) {
+    public int editWarehouseRequest(Warehouse w, final EditWarehouseModalBottomSheet mbs) {
+
+        Call call = connector.apiService.editWarehouse(w.getId(), w);
+        call.enqueue(new Callback<Warehouse>() {
+            @Override
+            public void onResponse(Call<Warehouse> call, Response<Warehouse> response) {
+                int statusCode = response.code();
+                if (statusCode == 201) {
+                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
+                    //Success, fill up list of warehouses
+                    Warehouse temp = response.body();
+                    temp.setRole("admin");
+                    editWarehouse(temp);
+                    mbs.dismiss();
+
+                } else if (statusCode == 422) {
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Warehouse> call, Throwable t) {
+         /*       Snackbar snackbar = Snackbar
+                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                snackbar.show();*/
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                // Log error here since request failed
+            }
+        });
+        return 1;
+    }
+
+    private int editWarehouse(Warehouse w) {
         int index = warehousesList.indexOf(w);
         warehousesList.get(index).setName(w.getName());
         return 0;

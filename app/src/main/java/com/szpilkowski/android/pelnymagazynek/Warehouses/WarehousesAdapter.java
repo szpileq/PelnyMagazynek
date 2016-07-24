@@ -70,25 +70,16 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
     }
 
     public void getItemSelected(MenuItem item){
-
         if(mContext.getResources().getString(R.string.warehousesEditName) == item.getTitle()){
-            //edit name
-            return;
+            //Stworz nowy Edit ModalBottomSheet i przekaz mu warehouse klikniety
         } else {
             warehousesRemover.removeWarehouseRequest(selectedWarehouse);
         }
-
-
     }
 
     // Implemented in WarehousesActivity for removing warehouses
     public interface WarehousesRemover {
         int removeWarehouseRequest(Warehouse w);
-    }
-
-    // Implemented in WarehousesActivity for adding new warehouses
-    public interface WarehouseEditor {
-        int editWarehouse(Warehouse w);
     }
 
 }

@@ -27,7 +27,7 @@ public class WarehousesFragment extends Fragment {
     private WarehousesProvider provider;
     private static String TAG = "WarehousesFragment";
 
-    protected static WarehousesAdapter adapter;
+    protected WarehousesAdapter adapter;
     RecyclerView recyclerView;
 
     @Override

@@ -37,6 +37,7 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
     private WarehouseEditor warehouseEditor;
     private static String TAG = "EditWarehouseMBS";
     View contentView;
+    Warehouse currentWarehouse;
 
     @Override
     public void onAttach(Context context) {
@@ -86,7 +87,7 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
                 EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
 
                 //Create a API call to create a new warehouse.
-               // editWarehouseRequest(editName.getText().toString());
+                warehouseEditor.editWarehouseRequest(currentWarehouse, EditWarehouseModalBottomSheet.this);
             }
         });
 
@@ -99,51 +100,8 @@ public class EditWarehouseModalBottomSheet extends BottomSheetDialogFragment {
         });
     }
 
-    private int editWarehouseRequest(Warehouse w) {
-        ApiConnector connector = ApiConnector.getInstance();
-
-        Call call = connector.apiService.editWarehouse(w.getId(), w);
-        call.enqueue(new Callback<Warehouse>() {
-            @Override
-            public void onResponse(Call<Warehouse> call, Response<Warehouse> response) {
-                int statusCode = response.code();
-                if (statusCode == 201) {
-                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
-                    //Success, fill up list of warehouses
-                    Warehouse temp = response.body();
-                    temp.setRole("admin");
-                    warehouseEditor.editWarehouse(temp);
-                    dismiss();
-
-                } else if (statusCode == 422) {
-                    Log.i(TAG, "onResponse: API response handled. This name is taken");
-                    Snackbar snackbar = Snackbar
-                            .make(contentView.getRootView(), getString(R.string.nameTaken), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if (statusCode == 401) {
-                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
-                    Snackbar snackbar = Snackbar
-                            .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    //TODO: Consider switching automatically to MainActivity
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Warehouse> call, Throwable t) {
-         /*       Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                snackbar.show();*/
-                Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                // Log error here since request failed
-            }
-        });
-        return 1;
-    }
-
-    // Implemented in WarehousesActivity for adding new warehouses
+    // Implemented in WarehousesActivity for editing new warehouses
     public interface WarehouseEditor {
-        int editWarehouse(Warehouse w);
+        int editWarehouseRequest(Warehouse w, EditWarehouseModalBottomSheet mbs);
     }
 }

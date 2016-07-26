@@ -39,4 +39,9 @@
     <string name="itemEdit">Edytuj</string>
     <string name="itemDelete">Usuń</string>
     <string name="title_activity_items">Lista przedmiotów</string>
+    <string name="addItemMenuItem">Dodaj przedmiot</string>
+    <string name="addItemFabButton">Dodaj przedmiot</string>
+    <string name="barcodeFabButton">Skanuj kod kreskowy</string>
+    <string name="qrFabButton">Skanuj kod QR</string>
+    <string name="shareFabButton">Udostępnij</string>
 </resources>

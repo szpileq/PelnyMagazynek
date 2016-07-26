@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayoutItems"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,12 +35,51 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_48dp" />
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        fab:menu_backgroundColor="#99aaaaaa">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/shareFabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_48dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/shareFabButton" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/qrFabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_48dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/qrFabButton" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/barcodeFabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_48dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/barcodeFabButton" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/addItemFabButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_48dp"
+            fab:fab_size="mini"
+            fab:fab_label="@string/addItemFabButton" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

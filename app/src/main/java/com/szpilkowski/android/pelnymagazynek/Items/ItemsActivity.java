@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
@@ -47,12 +48,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     ViewPager viewPager;
     Adapter adapter;
     View coordinatorLayout;
+
+    FloatingActionMenu fabMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
         coordinatorLayout = findViewById(R.id.coordinatorLayoutItems); // for snackbar purposes
 
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabMenu.setClosedOnTouchOutside(true);
         //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);

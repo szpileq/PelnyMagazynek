@@ -26,18 +26,17 @@
     <string name="editWarehouse">Nowa nazwa</string>
     <string name="nameWarehouse">Nazwa</string>
     <string name="nameTaken">Nazwa niepoprawna bądź zajęta</string>
-    <string name="warehousesContextMenuTitle">Wybierz opcję</string>
+    <string name="ContextMenuTitle">Wybierz opcję</string>
     <string name="warehousesEditName">Edytuj nazwę</string>
-    <string name="warehouseDelete">Usuń</string>
+    <string name="optionDelete">Usuń</string>
+    <string name="optionOpen">Otwórz</string>
+    <string name="itemEdit">Edytuj</string>
+    <string name="userEdit">Zmień uprawnienia</string>
     <string name="wrongPrivileges">Brak uprawnień</string>
-    <string name="warehousesOpen">Otwórz</string>
     <string name="itemsShortageTabTitle">Brak</string>
     <string name="itemsLowQuantityTitle">Kończące się</string>
     <string name="itemaAll">Wszystkie</string>
     <string name="itemsEditName">Edytuj</string>
-    <string name="itemsContextMenuTitle">Wybierz opcję</string>
-    <string name="itemEdit">Edytuj</string>
-    <string name="itemDelete">Usuń</string>
     <string name="title_activity_items">Lista przedmiotów</string>
     <string name="addItemMenuItem">Dodaj przedmiot</string>
     <string name="addItemFabButton">Dodaj przedmiot</string>
@@ -48,4 +47,9 @@
     <string name="deleteAlertMessage">Czy na pewno chcesz usunąć ten wpis?</string>
     <string name="yes">Tak</string>
     <string name="cancel">Anuluj</string>
+    <string name="itemOpen">Otwórz</string>
+    <string name="apiCallFailed">Wystąpił błąd, spróbuj ponownie</string>
+    <string name="succesRemove">Usunięto</string>
+    <string name="title_activity_users">Użytkownicy</string>
+    <string name="warehouse">Magazyn</string>
 </resources>

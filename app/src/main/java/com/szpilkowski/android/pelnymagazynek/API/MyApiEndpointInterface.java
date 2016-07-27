@@ -1,6 +1,7 @@
 package com.szpilkowski.android.pelnymagazynek.API;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.RegistrationData;
@@ -46,5 +47,11 @@ public interface MyApiEndpointInterface {
 
     @GET("warehouses/{id}/items")
     Call<List<Item>> getItems(@Path("id") int warehouse_id);
+
+    @DELETE("items/{id}")
+    Call<ResponseBody> removeItem(@Path("id") int id);
+
+    @GET("warehouses/{id}/users")
+    Call<List<User>> getUsers(@Path("id") int warehouse_id);
 
 }

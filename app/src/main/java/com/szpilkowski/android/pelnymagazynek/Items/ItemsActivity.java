@@ -1,5 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.Items;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -18,11 +19,13 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
+import com.szpilkowski.android.pelnymagazynek.Users.UsersActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -161,7 +164,60 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     }
 
     @Override
-    public int removeItemRequest(Item i) {
+    public int removeItemRequest(final Item i) {
+/*
+        if(!warehouseRole.equals("admin")){
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }*/
+        Call call = connector.apiService.removeItem(i.getId());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int statusCode = response.code();
+                if (statusCode == 204) {
+                    Log.i(TAG, "onResponse: API response handled. Removing item");
+                    String itemName = i.getName();
+                    removeItem(i);
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.succesRemove) + " " + itemName, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. There is no such item");
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for removing item failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        return 0;
+    }
+
+    private int removeItem(Item i) {
+        itemsList.remove(i);
+
+        Integer currentQuantity = i.getQuantity();
+        Integer currentMinQuantity = i.getMinQuantity();
+        if (0 == currentQuantity) {
+            shortageItemsList.remove(i);
+        } else if (currentMinQuantity != null && currentQuantity < i.getMinQuantity()) {
+            lowQuantityItemsList.remove(i);
+        }
+
+        adapter.notifyDataSetChanged();
         return 0;
     }
 
@@ -186,12 +242,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                     //Use barcode scanner to find/add product
                     break;
                 case R.id.manageUsersFabButton:
-                    // Create UsersActivity
+                    showUsersActivity();
                     break;
             }
         }
     };
 
+    private void showUsersActivity(){
+        Intent ItemsActivity = new Intent(this, UsersActivity.class);
+        startActivity(ItemsActivity);
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());

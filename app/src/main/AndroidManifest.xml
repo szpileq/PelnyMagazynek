@@ -30,6 +30,13 @@
 
         </activity>
 
+        <activity
+            android:name=".Users.UsersActivity"
+            android:label="@string/title_activity_users"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
     </application>
 
 </manifest>

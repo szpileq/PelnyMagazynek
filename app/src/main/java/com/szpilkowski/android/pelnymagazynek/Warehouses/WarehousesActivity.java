@@ -113,7 +113,9 @@ public class WarehousesActivity extends AppCompatActivity implements
             @Override
             public void onFailure(Call<List<Warehouse>> call, Throwable t) {
                 Log.i(TAG, "onFailure: API call for logging failed");
-                // Log error here since request failed
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
     }
@@ -196,11 +198,10 @@ public class WarehousesActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<Warehouse> call, Throwable t) {
-         /*       Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                snackbar.show();*/
                 Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                // Log error here since request failed
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
         return 1;
@@ -244,7 +245,12 @@ public class WarehousesActivity extends AppCompatActivity implements
                 int statusCode = response.code();
                 if (statusCode == 204) {
                     Log.i(TAG, "onResponse: API response handled. Removing warehouse");
+                    String warehouseName = w.getName();
                     removeWarehouse(w);
+
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.succesRemove) + " " + warehouseName, Snackbar.LENGTH_LONG);
+                    snackbar.show();
 
                 } else if (statusCode == 404) {
                     Log.i(TAG, "onResponse: API response handled. This name is taken");
@@ -259,11 +265,10 @@ public class WarehousesActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-         /*       Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                snackbar.show();*/
-                Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                // Log error here since request failed
+                Log.i(TAG, "onFailure: API call for removing warehouse failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
         return 0;
@@ -333,11 +338,11 @@ public class WarehousesActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<Warehouse> call, Throwable t) {
-         /*       Snackbar snackbar = Snackbar
-                        .make(contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                snackbar.show();*/
+
                 Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                // Log error here since request failed
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
         return 1;

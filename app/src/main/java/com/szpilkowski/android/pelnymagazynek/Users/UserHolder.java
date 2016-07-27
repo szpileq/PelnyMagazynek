@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Warehouses;
+package com.szpilkowski.android.pelnymagazynek.Users;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -8,17 +8,20 @@ import android.widget.TextView;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 /**
- * Created by szpileq on 2016-07-23.
+ * Created by szpileq on 2016-07-27.
  */
-public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener, View.OnClickListener{
+public class UserHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnCreateContextMenuListener, View.OnClickListener{
+    public TextView icon;
     public TextView name;
     public TextView role;
-    WarehouseClickListeners clickListeners;
+    UserClickListeners clickListeners;
 
-    public WarehouseHolder(View itemView) {
+    public UserHolder(View itemView) {
         super(itemView);
-        name = (TextView) itemView.findViewById(R.id.warehouseName);
-        role = (TextView) itemView.findViewById(R.id.warehouseRole);
+
+        icon = (TextView) itemView.findViewById(R.id.userIcon);
+        name = (TextView) itemView.findViewById(R.id.userName);
+        role = (TextView) itemView.findViewById(R.id.userRole);
 
         itemView.setOnLongClickListener(this);
         itemView.setOnClickListener(this);
@@ -26,7 +29,7 @@ public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnL
 
     }
 
-    public void setClickListeners(WarehouseClickListeners lc){
+    public void setClickListeners(UserClickListeners lc){
         this.clickListeners = lc;
     }
 
@@ -45,7 +48,7 @@ public class WarehouseHolder extends RecyclerView.ViewHolder implements View.OnL
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(v.getResources().getString(R.string.ContextMenuTitle));
-        menu.add(0,0,0,v.getResources().getString(R.string.warehousesEditName));
+        menu.add(0,0,0,v.getResources().getString(R.string.userEdit));
         menu.add(0,1,0,v.getResources().getString(R.string.optionDelete));
     }
 }

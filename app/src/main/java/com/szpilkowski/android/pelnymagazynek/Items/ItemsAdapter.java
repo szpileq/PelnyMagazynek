@@ -109,7 +109,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemHolder>{
 
     public void getItemSelected(MenuItem item){
         if(mContext.getResources().getString(R.string.itemsEditName) == item.getTitle()){
-            //TODO: open ItemEditActivity
+            itemsManipulator.openItem(selectedItem);
 
         } else {
             new AlertDialog.Builder(mContext)

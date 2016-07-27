@@ -49,7 +49,6 @@ public class WarehousesActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warehouses);
 
-
         coordinatorLayout = findViewById(R.id.coordinatorLayoutWarehouses); // for snackbar purposes
 
         //Setup API connector

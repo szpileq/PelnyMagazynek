@@ -43,5 +43,9 @@
     <string name="addItemFabButton">Dodaj przedmiot</string>
     <string name="barcodeFabButton">Skanuj kod kreskowy</string>
     <string name="qrFabButton">Skanuj kod QR</string>
-    <string name="shareFabButton">Udostępnij</string>
+    <string name="manageUsersFabButton">Użytkownicy</string>
+    <string name="deleteAlertTitle">Usuwanie</string>
+    <string name="deleteAlertMessage">Czy na pewno chcesz usunąć ten wpis?</string>
+    <string name="yes">Tak</string>
+    <string name="cancel">Anuluj</string>
 </resources>

@@ -13,14 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.R;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.NewWarehouseModalBottomSheet;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehouseComparator;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehousesFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,8 +53,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         setContentView(R.layout.activity_items);
         coordinatorLayout = findViewById(R.id.coordinatorLayoutItems); // for snackbar purposes
 
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.setClosedOnTouchOutside(true);
         //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
@@ -77,7 +72,22 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         Toolbar toolbar = (Toolbar) findViewById(R.id.items_toolbar);
         setSupportActionBar(toolbar);
 
+        //Setting up the FAB menu
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabMenu.setClosedOnTouchOutside(true);
+
+        FloatingActionButton addItemFabButton = (FloatingActionButton) findViewById(R.id.addItemFabButton);
+        FloatingActionButton qrFabButton = (FloatingActionButton) findViewById(R.id.qrFabButton);
+        FloatingActionButton barcodeFabButton = (FloatingActionButton) findViewById(R.id.barcodeFabButton);
+        FloatingActionButton manageUsersFabButton = (FloatingActionButton) findViewById(R.id.manageUsersFabButton);
+
+        addItemFabButton.setOnClickListener(fabMenuClickListeners);
+        qrFabButton.setOnClickListener(fabMenuClickListeners);
+        barcodeFabButton.setOnClickListener(fabMenuClickListeners);
+        manageUsersFabButton.setOnClickListener(fabMenuClickListeners);
+
     }
+
 
     private void getItemsList() {
 
@@ -160,6 +170,28 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         Log.i(TAG, "openItem: will open " + i.getName());
         return 0;
     }
+
+    //OnClickListener for Floating Action Menu buttons
+    private View.OnClickListener fabMenuClickListeners = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.addItemFabButton:
+                    //Create newItem activity in which we would utilize addItem
+                    break;
+                case R.id.qrFabButton:
+                    //Use QR scanner to find/add product
+                    break;
+                case R.id.barcodeFabButton:
+                    //Use barcode scanner to find/add product
+                    break;
+                case R.id.manageUsersFabButton:
+                    // Create UsersActivity
+                    break;
+            }
+        }
+    };
+
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new Adapter(getSupportFragmentManager());

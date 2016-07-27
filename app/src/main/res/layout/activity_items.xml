@@ -44,23 +44,32 @@
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
+        fab:menu_colorNormal="@color/colorLightRed"
+        fab:menu_colorPressed="@color/colorDarkRed"
+        fab:menu_colorRipple="#99FFFFFF"
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
         fab:menu_backgroundColor="#99aaaaaa">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/shareFabButton"
+            android:id="@+id/manageUsersFabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_48dp"
+            app:fab_colorNormal="@color/colorLightRed"
+            app:fab_colorPressed="@color/colorDarkRed"
+            app:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini"
-            fab:fab_label="@string/shareFabButton" />
+            fab:fab_label="@string/manageUsersFabButton" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/qrFabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_48dp"
+            app:fab_colorNormal="@color/colorLightRed"
+            app:fab_colorPressed="@color/colorDarkRed"
+            app:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini"
             fab:fab_label="@string/qrFabButton" />
 
@@ -69,6 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_48dp"
+            app:fab_colorNormal="@color/colorLightRed"
+            app:fab_colorPressed="@color/colorDarkRed"
+            app:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini"
             fab:fab_label="@string/barcodeFabButton" />
 
@@ -77,6 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_48dp"
+            app:fab_colorNormal="@color/colorLightRed"
+            app:fab_colorPressed="@color/colorDarkRed"
+            app:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini"
             fab:fab_label="@string/addItemFabButton" />
 

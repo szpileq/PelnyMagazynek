@@ -1,6 +1,8 @@
 package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,7 +84,22 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
             warehouseManipulator.showEditModalBottomSheet(modalBottomSheet);
 
         } else {
-            warehouseManipulator.removeWarehouseRequest(selectedWarehouse);
+
+            new AlertDialog.Builder(mContext)
+                    .setTitle(mContext.getResources().getString(R.string.deleteAlertTitle))
+                    .setMessage(mContext.getResources().getString(R.string.deleteAlertMessage))
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            warehouseManipulator.removeWarehouseRequest(selectedWarehouse);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
         }
     }
 }

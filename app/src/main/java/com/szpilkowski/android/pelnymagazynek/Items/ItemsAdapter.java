@@ -1,6 +1,8 @@
 package com.szpilkowski.android.pelnymagazynek.Items;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,13 +109,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemHolder>{
 
     public void getItemSelected(MenuItem item){
         if(mContext.getResources().getString(R.string.itemsEditName) == item.getTitle()){
-            /*
-            final EditWarehouseModalBottomSheet modalBottomSheet = new EditWarehouseModalBottomSheet();
-            modalBottomSheet.setCurrentWarehouse(selectedWarehouse);
-            itemsManipulator.showEditModalBottomSheet(modalBottomSheet); */
+            //TODO: open ItemEditActivity
 
         } else {
-            itemsManipulator.removeItemRequest(selectedItem);
+            new AlertDialog.Builder(mContext)
+                    .setTitle(mContext.getResources().getString(R.string.deleteAlertTitle))
+                    .setMessage(mContext.getResources().getString(R.string.deleteAlertMessage))
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            itemsManipulator.removeItemRequest(selectedItem);
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
     }
 }

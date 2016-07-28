@@ -13,10 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +70,9 @@ public class UsersActivity extends AppCompatActivity implements
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
 
+        TextView warehouseNameTitle = (TextView) findViewById(R.id.usersWarehouseName);
+        warehouseNameTitle.setText(warehouseName);
+
         //Use API to get warehouses and put them on a list
         getUsersList();
 
@@ -74,7 +80,7 @@ public class UsersActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.users_toolbar);
         setSupportActionBar(toolbar);
 
-        //final NewUserModalBottomSheet modalBottomSheet = new NewUserModalBottomSheet();
+        final NewUserModalBottomSheet modalBottomSheet = new NewUserModalBottomSheet();
 
         View floatingActionButton = findViewById(R.id.users_fab);
         floatingActionButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLightRed));
@@ -82,7 +88,7 @@ public class UsersActivity extends AppCompatActivity implements
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //modalBottomSheet.show(getSupportFragmentManager(), "NewUserModalBottomSheet");
+                modalBottomSheet.show(getSupportFragmentManager(), "NewUserModalBottomSheet");
             }
         });
 
@@ -156,6 +162,93 @@ public class UsersActivity extends AppCompatActivity implements
         Collections.sort(adminUsersList, new UserComparator());
         Collections.sort(editorUsersList, new UserComparator());
         Collections.sort(watcherUsersList, new UserComparator());
+    }
+
+    @Override
+    public int newUserRequest(final String role,final String email, final NewUserModalBottomSheet mbs) {
+        User u = new User();
+        u.setRole(role);
+        u.setEmail(email);
+
+        Call call = connector.apiService.addUser(warehouseId, u);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
+                    //Success, fill up list of warehouses
+                    User temp = response.body();
+                    temp.setRole(role);
+                    addUser(temp);
+                    mbs.dismiss();
+
+                } else if (statusCode == 409) {
+                    Log.i(TAG, "onResponse: API response handled. This user is already in a warehouse");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.userExistsInWarehouse), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. There is no such usere");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.userNotFound), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        return 1;
+    }
+
+    private int addUser(User u) {
+        usersList.add(u);
+        Collections.sort(usersList, new UserComparator());
+        switch (u.getRole()) {
+            case "admin":
+                adminUsersList.add(u);
+                Collections.sort(adminUsersList, new UserComparator());
+                break;
+            case "editor":
+                editorUsersList.add(u);
+                Collections.sort(editorUsersList, new UserComparator());
+                break;
+            case "watcher":
+                watcherUsersList.add(u);
+                Collections.sort(watcherUsersList, new UserComparator());
+                break;
+            default:
+                throw new RuntimeException(); // Something created fragment with unsupported role
+        }
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+
+    @Override
+    public void showEmailWarning(NewUserModalBottomSheet mbs) {
+        Snackbar snackbar = Snackbar
+                .make(mbs.contentView.getRootView(), getString(R.string.userEmailWarning), Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    @Override
+    public void showRadioButtonWarning(NewUserModalBottomSheet mbs) {
+        Snackbar snackbar = Snackbar
+                .make(mbs.contentView.getRootView(), getString(R.string.radioButtonWarning), Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     @Override

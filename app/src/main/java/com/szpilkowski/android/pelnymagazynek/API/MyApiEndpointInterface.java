@@ -48,10 +48,16 @@ public interface MyApiEndpointInterface {
     @GET("warehouses/{id}/items")
     Call<List<Item>> getItems(@Path("id") int warehouse_id);
 
+    @GET("items/{id}")
+    Call<Item> getItem(@Path("id") int item_id);
+
     @DELETE("items/{id}")
     Call<ResponseBody> removeItem(@Path("id") int id);
 
     @GET("warehouses/{id}/users")
     Call<List<User>> getUsers(@Path("id") int warehouse_id);
+
+    @POST("warehouses/{id}/users")
+    Call<List<User>> addUser(@Path("id") int warehouse_id, User u);
 
 }

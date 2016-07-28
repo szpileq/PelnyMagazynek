@@ -224,7 +224,10 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     @Override
     public int openItem(Item i) {
         Log.i(TAG, "openItem: will open " + i.getName());
-        return 0;
+        Intent newActivity = new Intent(this, ItemActivity.class);
+        newActivity.putExtra("itemId",i.getId());
+        startActivity(newActivity);
+        return 1;
     }
 
     //OnClickListener for Floating Action Menu buttons

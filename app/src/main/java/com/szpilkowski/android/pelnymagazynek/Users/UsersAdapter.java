@@ -50,13 +50,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UserHolder>{
 
     @Override
     public void onBindViewHolder(UserHolder holder, int position) {
-        String userName = contentUsersList.get(position).getFirstName() + " " + contentUsersList.get(position).getLastName();
+        String userFirstName = contentUsersList.get(position).getFirstName();
+        String userLastName = contentUsersList.get(position).getLastName();
         String userRole = contentUsersList.get(position).getRole();
+
         if(userRole.equals("editor"))
             holder.icon.setBackground(mContext.getDrawable(R.drawable.blue_circle));
         if(userRole.equals("watcher"))
             holder.icon.setBackground(mContext.getDrawable(R.drawable.yellow_circle));
-        holder.name.setText(userName);
+
+        holder.icon.setText(userFirstName.substring(0,1).toUpperCase() + userLastName.substring(0,1).toUpperCase());
+
+        holder.name.setText(userFirstName + " " + userLastName);
         holder.role.setText(userRole);
 
         holder.setClickListeners(new UserClickListeners() {

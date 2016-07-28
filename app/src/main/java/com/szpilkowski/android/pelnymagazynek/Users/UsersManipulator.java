@@ -8,7 +8,9 @@ import java.util.List;
  * Created by szpileq on 2016-07-27.
  */
 public interface UsersManipulator {
-    //int editUserRequest(User u, String newRole, EditUserModalBottomSheet mbs);
+    int newUserRequest(String role, String email, NewUserModalBottomSheet mbs);
+    void showEmailWarning(NewUserModalBottomSheet mbs);
+    void showRadioButtonWarning(NewUserModalBottomSheet mbs);
     int removeUserRequest(User u);
     List<User> getUsers(String fragmentRoleMarker);
 }

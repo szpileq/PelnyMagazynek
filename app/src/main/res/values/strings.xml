@@ -52,4 +52,14 @@
     <string name="succesRemove">Usunięto</string>
     <string name="title_activity_users">Użytkownicy</string>
     <string name="warehouse">Magazyn</string>
+    <string name="role">Rola</string>
+    <string name="userEmail">E-mail użytkownika</string>
+    <string name="userEmailWarning">Brak adresu e-mail!</string>
+    <string name="radioButtonWarning">Wybierz rolę!</string>
+    <string name="userExistsInWarehouse">Użytkownik już istnieje!</string>
+    <string name="userNotFound">Nie znaleziono użytkownika</string>
+    <string name="itemName">Nazwa przedmiotu</string>
+    <string name="itemQuantity">Ilość</string>
+    <string name="itemTitle">Przedmiot</string>
+    <string name="itemActivityTitle">Przedmiot</string>
 </resources>

@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayoutUsers"
+    android:id="@+id/coordinatorLayoutItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Users.UsersActivity">
+    tools:context=".Items.ItemActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/users_toolbar"
+            android:id="@+id/item_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -25,21 +25,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:id="@+id/usersWarehouseTitle"
+            android:id="@+id/itemNameTitleHeader"
             android:layout_below="@+id/users_toolbar"
-            android:text="@string/warehouse"
+            android:text="@string/itemName"
             android:backgroundTint="@android:color/white"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:layout_marginLeft="78dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:id="@+id/usersWarehouseName"
-            android:layout_below="@+id/usersWarehouseTitle"
+            android:id="@+id/itemNameHeader"
+            android:layout_below="@+id/itemTitleHeader"
             android:backgroundTint="@android:color/white"
             android:textColor="@android:color/white"
             android:textSize="36sp"
@@ -47,36 +47,40 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/users_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:id="@+id/itemQuantityTitleHeader"
+            android:layout_below="@+id/itemNameHeader"
+            android:text="@string/itemQuantity"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="78dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:id="@+id/itemQuantityHeader"
+            android:layout_below="@+id/itemQuantityTitleHeader"
+            android:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/users_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/users_fab"
+        android:id="@+id/fab_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_48dp" />
-
-    <RelativeLayout
-        android:id="@+id/bottom_sheet_new_user"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:clipToPadding="true"
-        android:background="@color/colorLightRed"
-        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-        >
-
-    </RelativeLayout>
+        android:src="@drawable/ic_mode_edit_white_48dp" />
 
 </android.support.design.widget.CoordinatorLayout>

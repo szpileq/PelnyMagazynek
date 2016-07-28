@@ -6,6 +6,7 @@ import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.RegistrationData;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.LoginCredentials;
+import com.szpilkowski.android.pelnymagazynek.Users.NewUserRequest;
 
 import java.util.List;
 
@@ -58,6 +59,6 @@ public interface MyApiEndpointInterface {
     Call<List<User>> getUsers(@Path("id") int warehouse_id);
 
     @POST("warehouses/{id}/users")
-    Call<List<User>> addUser(@Path("id") int warehouse_id, User u);
+    Call<User> addUser(@Path("id") int warehouse_id, @Body NewUserRequest request);
 
 }

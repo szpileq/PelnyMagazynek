@@ -81,13 +81,18 @@ public class NewUserModalBottomSheet extends BottomSheetDialogFragment {
                 if(0 == email.length() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     usersManipulator.showEmailWarning(NewUserModalBottomSheet.this);
                     return;
-                }
+                } else
 
                 if(null == roleRadioButton){
                     usersManipulator.showRadioButtonWarning(NewUserModalBottomSheet.this);
                     return;
                 } else {
                     String role = roleRadioButton.getText().toString();
+                    if (role.equals(getResources().getString(R.string.warehousesEditor)))
+                        role = "editor";
+                    else if (role.equals(getResources().getString(R.string.warehousesWatcher)))
+                        role = "watcher";
+
                     usersManipulator.newUserRequest(role, email, NewUserModalBottomSheet.this);
                     return;
                 }

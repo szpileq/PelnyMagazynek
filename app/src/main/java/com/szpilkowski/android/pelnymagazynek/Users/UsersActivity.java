@@ -43,7 +43,6 @@ public class UsersActivity extends AppCompatActivity implements
     protected String warehouseName;
     protected String warehouseRole;
 
-
     private BottomSheetBehavior newUsersBottomSheetBehavior;
     List<User> usersList;
     List<User> adminUsersList;
@@ -166,20 +165,19 @@ public class UsersActivity extends AppCompatActivity implements
 
     @Override
     public int newUserRequest(final String role,final String email, final NewUserModalBottomSheet mbs) {
-        User u = new User();
-        u.setRole(role);
-        u.setEmail(email);
 
-        Call call = connector.apiService.addUser(warehouseId, u);
+        NewUserRequest newUserRequest = new NewUserRequest();
+        newUserRequest.setRoleType(role);
+        newUserRequest.setUserEmail(email);
+        Call call = connector.apiService.addUser(warehouseId, newUserRequest);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
-                if (statusCode == 200) {
-                    Log.i(TAG, "onResponse: API response handled. Adding warehouse");
+                if (statusCode == 201) {
+                    Log.i(TAG, "onResponse: API response handled. Adding user");
                     //Success, fill up list of warehouses
                     User temp = response.body();
-                    temp.setRole(role);
                     addUser(temp);
                     mbs.dismiss();
 

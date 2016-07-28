@@ -91,12 +91,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UserHolder>{
     }
 
     public void getItemSelected(MenuItem item){
-        if(mContext.getResources().getString(R.string.warehousesEditName) == item.getTitle()){
-            /*
-            final EditUsersModalBottomSheet modalBottomSheet = new EditUsersModalBottomSheet();
+        if(mContext.getResources().getString(R.string.userEdit) == item.getTitle()){
+
+            final EditUserModalBottomSheet modalBottomSheet = new EditUserModalBottomSheet();
             modalBottomSheet.setCurrentUser(selectedUser);
             usersManipulator.showEditModalBottomSheet(modalBottomSheet);
-            */
+
 
         } else {
 
@@ -105,7 +105,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UserHolder>{
                     .setMessage(mContext.getResources().getString(R.string.deleteAlertMessage))
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            //usersManipulator.removeUserRequest(selectedUser);
+                            usersManipulator.removeUserRequest(selectedUser);
                         }
                     })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

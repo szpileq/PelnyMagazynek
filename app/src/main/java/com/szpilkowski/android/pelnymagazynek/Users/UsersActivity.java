@@ -19,12 +19,11 @@ import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -166,10 +165,10 @@ public class UsersActivity extends AppCompatActivity implements
     @Override
     public int newUserRequest(final String role,final String email, final NewUserModalBottomSheet mbs) {
 
-        NewUserRequest newUserRequest = new NewUserRequest();
-        newUserRequest.setRoleType(role);
-        newUserRequest.setUserEmail(email);
-        Call call = connector.apiService.addUser(warehouseId, newUserRequest);
+        UserRequest userRequest = new UserRequest();
+        userRequest.setRoleType(role);
+        userRequest.setUserEmail(email);
+        Call call = connector.apiService.addUser(warehouseId, userRequest);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -212,6 +211,76 @@ public class UsersActivity extends AppCompatActivity implements
         return 1;
     }
 
+    @Override
+    public int editUserRequest(final User user, final String newRole, final EditUserModalBottomSheet mbs) {
+        if(!warehouseRole.equals("admin")){
+            mbs.dismiss();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+
+        UserRequest userRequest = new UserRequest();
+        userRequest.setRoleType(newRole);
+
+        Call call = connector.apiService.editUser(warehouseId, user.getId(), userRequest);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    Log.i(TAG, "onResponse: API response handled. updating user");
+
+                    editUser(user, newRole);
+                    mbs.dismiss();
+
+                } else if (statusCode == 422) {
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.badRequest), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. This name is taken");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.userNotFound), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(mbs.contentView.getRootView(), getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        return 1;
+    }
+
+    private int editUser(User u, String newRole) {
+        int index = usersList.indexOf(u);
+        usersList.get(index).setRole(newRole);
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+
+
+    @Override
+    public void showEditModalBottomSheet(EditUserModalBottomSheet mbs) {
+        mbs.show(getSupportFragmentManager(), "EditUserModalBottomSheet");
+    }
+
     private int addUser(User u) {
         usersList.add(u);
         Collections.sort(usersList, new UserComparator());
@@ -250,9 +319,61 @@ public class UsersActivity extends AppCompatActivity implements
     }
 
     @Override
-    public int removeUserRequest(User u) {
+    public int removeUserRequest(final User u) {
+        Call call = connector.apiService.removeUser(warehouseId, u.getId());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    Log.i(TAG, "onResponse: API response handled. Removing user");
+                    String itemName = u.getFirstName() + u.getLastName();
+                    removeUser(u);
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.succesRemove) + " " + itemName, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. There is no such item");
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for removing item failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
         return 0;
     }
+
+    private int removeUser(User u) {
+        usersList.remove(u);
+
+        switch (u.getRole()) {
+            case "admin":
+                adminUsersList.remove(u);
+                break;
+            case "editor":
+                editorUsersList.remove(u);
+                break;
+            case "watcher":
+                watcherUsersList.remove(u);
+                break;
+            default:
+                throw new RuntimeException(); // Something created fragment with unsupported role
+        }
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+
 
     @Override
     public List<User> getUsers(String role) {

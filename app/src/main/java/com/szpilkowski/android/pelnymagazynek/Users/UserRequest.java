@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by szpileq on 2016-07-28.
  */
-public class NewUserRequest {
+public class UserRequest {
 
     @SerializedName("user_email")
     private String userEmail;

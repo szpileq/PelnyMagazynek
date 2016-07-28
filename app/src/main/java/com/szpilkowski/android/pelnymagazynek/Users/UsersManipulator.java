@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface UsersManipulator {
     int newUserRequest(String role, String email, NewUserModalBottomSheet mbs);
+    int editUserRequest(User user, String newRole, EditUserModalBottomSheet mbs);
+    void showEditModalBottomSheet(EditUserModalBottomSheet mbs);
     void showEmailWarning(NewUserModalBottomSheet mbs);
     void showRadioButtonWarning(NewUserModalBottomSheet mbs);
     int removeUserRequest(User u);

@@ -6,13 +6,12 @@ import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.RegistrationData;
 import com.szpilkowski.android.pelnymagazynek.MainScreen.LoginCredentials;
-import com.szpilkowski.android.pelnymagazynek.Users.NewUserRequest;
+import com.szpilkowski.android.pelnymagazynek.Users.UserRequest;
 
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -59,6 +58,12 @@ public interface MyApiEndpointInterface {
     Call<List<User>> getUsers(@Path("id") int warehouse_id);
 
     @POST("warehouses/{id}/users")
-    Call<User> addUser(@Path("id") int warehouse_id, @Body NewUserRequest request);
+    Call<User> addUser(@Path("id") int warehouse_id, @Body UserRequest request);
+
+    @DELETE("warehouses/{id}/users/{id2}")
+    Call<ResponseBody> removeUser(@Path("id") int warehouse_id, @Path("id2") int userId);
+
+    @PUT("warehouses/{id}/users/{id2}")
+    Call<User> editUser(@Path("id") int warehouse_id, @Path("id2") int userId2, @Body UserRequest request);
 
 }

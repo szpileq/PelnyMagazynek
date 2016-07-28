@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +18,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.Item.ItemActivity;
 import com.szpilkowski.android.pelnymagazynek.R;
 import com.szpilkowski.android.pelnymagazynek.Users.UsersActivity;
 

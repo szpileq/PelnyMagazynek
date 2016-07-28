@@ -1,26 +1,20 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.Item;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +29,7 @@ public class ItemActivity extends AppCompatActivity {
     Item currentItem;
 
     View coordinatorLayout;
+    FloatingActionButton fabEditItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +56,14 @@ public class ItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //Setting up the FAB menu
-        View floatingActionButton = findViewById(R.id.fab_item);
-        floatingActionButton.setBackgroundTintList(getResources().getColorStateList(R.color.colorLightRed));
+        fabEditItem = (FloatingActionButton) findViewById(R.id.fabEditItem);
+
+        fabEditItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: open EditItemActivity
+            }
+        });
 
     }
 

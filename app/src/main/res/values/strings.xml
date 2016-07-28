@@ -63,4 +63,5 @@
     <string name="itemTitle">Przedmiot</string>
     <string name="itemActivityTitle">Przedmiot</string>
     <string name="badRequest">Błąd zapytania, powiadom autora.</string>
+    <string name="noComments">Brak komentarza</string>
 </resources>

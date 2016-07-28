@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
-import com.szpilkowski.android.pelnymagazynek.Items.ItemsActivity;
+import com.szpilkowski.android.pelnymagazynek.ItemsList.ItemsActivity;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import okhttp3.ResponseBody;

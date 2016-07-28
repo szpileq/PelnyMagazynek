@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayoutItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Items.ItemActivity">
+    tools:context=".Item.ItemActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="216dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -75,12 +76,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_item"
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabEditItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_mode_edit_white_48dp" />
+        android:layout_marginTop="192dp"
+        android:layout_marginRight="12dp"
+        android:layout_gravity="top|right"
+        android:src="@drawable/ic_mode_edit_black_24dp"
+        fab:fab_size="mini"
+        fab:fab_colorNormal="#FFFFFF"
+        fab:fab_colorPressed="#EEEEEE"
+        fab:fab_colorRipple="#DDDDDD"
+        fab:fab_shadowColor="#000"
+        fab:fab_elevationCompat="6dp"
+        android:visibility="visible"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

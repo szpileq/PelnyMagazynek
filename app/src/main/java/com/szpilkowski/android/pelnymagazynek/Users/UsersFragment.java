@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
+import com.szpilkowski.android.pelnymagazynek.DividerItemDecoration;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
@@ -66,6 +67,8 @@ public class UsersFragment extends Fragment {
 
             adapter = new UsersAdapter(getActivity(), usersList);
 
+            recyclerView.addItemDecoration(
+                    new DividerItemDecoration(getActivity(), null));
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

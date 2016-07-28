@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
 /**
  * Created by szpileq on 2016-07-24.
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DividerItemDecoration;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
@@ -70,6 +71,8 @@ public class ItemsFragment extends Fragment {
 
             adapter = new ItemsAdapter(getActivity(), itemsList);
 
+            recyclerView.addItemDecoration(
+                    new DividerItemDecoration(getActivity(), null));
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

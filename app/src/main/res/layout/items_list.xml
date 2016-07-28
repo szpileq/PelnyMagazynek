@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="72dp"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
@@ -33,12 +33,8 @@
         android:textColor="@color/colorDarkText"
         android:ellipsize="end"
         android:singleLine="true"
-        tools:text="costam"
+        android:text="@string/noComments"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="@dimen/list_body" />
 
-    <View style="@style/Divider"
-        android:layout_below="@+id/itemComments"
-        android:layout_toRightOf="@+id/circleItemStoragePercentage"
-        android:layout_marginTop="5dp"/>
 </RelativeLayout>

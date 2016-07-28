@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;

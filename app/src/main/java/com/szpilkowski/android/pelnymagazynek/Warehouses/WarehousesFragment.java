@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DividerItemDecoration;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
@@ -67,6 +68,8 @@ public class WarehousesFragment extends Fragment {
 
             adapter = new WarehousesAdapter(getActivity(), warehousesList);
 
+            recyclerView.addItemDecoration(
+                    new DividerItemDecoration(getActivity(), null));
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

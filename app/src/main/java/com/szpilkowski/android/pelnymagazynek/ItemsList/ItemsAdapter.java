@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +14,6 @@ import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
-
-import retrofit2.http.PUT;
 
 /**
  * Created by szpileq on 2016-07-24.

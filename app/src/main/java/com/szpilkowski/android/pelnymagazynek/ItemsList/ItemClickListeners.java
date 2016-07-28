@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Items;
+package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
 /**
  * Created by szpileq on 2016-07-24.

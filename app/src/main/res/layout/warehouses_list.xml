@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="72dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:padding="@dimen/md_keylines">
@@ -37,8 +37,4 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="@dimen/list_body" />
 
-    <View style="@style/Divider"
-        android:layout_below="@+id/warehouseRole"
-        android:layout_toRightOf="@+id/warehouseIcon"
-        android:layout_marginTop="5dp"/>
 </RelativeLayout>

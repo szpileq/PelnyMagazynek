@@ -64,4 +64,11 @@
     <string name="itemActivityTitle">Przedmiot</string>
     <string name="badRequest">Błąd zapytania, powiadom autora.</string>
     <string name="noComments">Brak komentarza</string>
+    <string name="targetQuantityTitle">Docelowa ilość:</string>
+    <string name="minQuantityTitle">Minimalna ilość:</string>
+    <string name="qrCodeTitle">Kod QR:</string>
+    <string name="barcodeTitle">Kod kreskowy:</string>
+    <string name="gpsTitle">Lokalizacja:</string>
+    <string name="commentsTitle">Komentarz:</string>
+    <string name="notSet">brak</string>
 </resources>

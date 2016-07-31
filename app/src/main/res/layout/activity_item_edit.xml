@@ -10,23 +10,23 @@
     tools:context=".Item.ItemActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/AppBarLayoutItem"
+        android:id="@+id/AppBarLayoutItemEdit"
         android:layout_width="match_parent"
         android:layout_height="216dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/item_toolbar"
+            android:id="@+id/itemEdit_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <TextView
-            android:id="@+id/itemNameTitleHeader"
+            android:id="@+id/itemEditNameTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_toolbar"
+            android:layout_below="@+id/itemEdit_toolbar"
             android:layout_marginLeft="72dp"
             android:backgroundTint="@android:color/white"
             android:ems="15"
@@ -35,10 +35,10 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/itemNameHeader"
+            android:id="@+id/itemEditNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemTitleHeader"
+            android:layout_below="@+id/itemEditTitleHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
@@ -48,10 +48,10 @@
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/itemQuantityTitleHeader"
+            android:id="@+id/itemEditQuantityTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemNameHeader"
+            android:layout_below="@+id/itemEditNameHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@android:color/white"
@@ -61,10 +61,10 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/itemQuantityHeader"
+            android:id="@+id/itemEditQuantityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemQuantityTitleHeader"
+            android:layout_below="@+id/itemEditQuantityTitleHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="10dp"
             android:backgroundTint="@android:color/white"
@@ -84,7 +84,7 @@
             android:padding="@dimen/md_keylines">
 
             <TextView
-                android:id="@+id/targetQuantityIconItem"
+                android:id="@+id/targetQuantityIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="232dp"
@@ -93,23 +93,23 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/targetQuantityTitleItem"
+                android:id="@+id/targetQuantityTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="242dp"
-                android:layout_toRightOf="@+id/targetQuantityIconItem"
+                android:layout_toRightOf="@+id/targetQuantityIconItemEdit"
                 android:text="@string/targetQuantityTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/targetQuantityValueItem"
+                android:id="@+id/targetQuantityValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="242dp"
-                android:layout_toRightOf="@+id/targetQuantityTitleItem"
+                android:layout_toRightOf="@+id/targetQuantityTitleItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
@@ -117,35 +117,35 @@
             <!--         DIVIDER            -->
 
             <TextView
-                android:id="@+id/minQuantityIconItem"
+                android:id="@+id/minQuantityIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/targetQuantityIconItem"
+                android:layout_below="@id/targetQuantityIconItemEdit"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/min_quantity_icon"
                 android:elevation="6dp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/minQuantityTitleItem"
+                android:id="@+id/minQuantityTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/targetQuantityTitleItem"
+                android:layout_below="@id/targetQuantityTitleItemEdit"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/minQuantityIconItem"
+                android:layout_toRightOf="@+id/minQuantityIconItemEdit"
                 android:text="@string/minQuantityTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/minQuantityValueItem"
+                android:id="@+id/minQuantityValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/minQuantityTitleItem"
-                android:layout_below="@id/targetQuantityValueItem"
+                android:layout_toRightOf="@+id/minQuantityTitleItemEdit"
+                android:layout_below="@id/targetQuantityValueItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
@@ -153,35 +153,35 @@
             <!--         DIVIDER            -->
 
             <TextView
-                android:id="@+id/qrCodeIconItem"
+                android:id="@+id/qrCodeIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/minQuantityIconItem"
+                android:layout_below="@id/minQuantityIconItemEdit"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/qr_code_icon"
                 android:elevation="6dp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/qrCodeTitleItem"
+                android:id="@+id/qrCodeTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/minQuantityTitleItem"
+                android:layout_below="@id/minQuantityTitleItemEdit"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/qrCodeIconItem"
+                android:layout_toRightOf="@+id/qrCodeIconItemEdit"
                 android:text="@string/qrCodeTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/qrCodeValueItem"
+                android:id="@+id/qrCodeValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/qrCodeTitleItem"
-                android:layout_below="@id/minQuantityValueItem"
+                android:layout_toRightOf="@+id/qrCodeTitleItemEdit"
+                android:layout_below="@id/minQuantityValueItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
@@ -189,70 +189,70 @@
             <!--         DIVIDER            -->
 
             <TextView
-                android:id="@+id/barcodeIconItem"
+                android:id="@+id/barcodeIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/qrCodeIconItem"
+                android:layout_below="@id/qrCodeIconItemEdit"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/barcode_icon"
                 android:elevation="6dp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/barcodeTitleItem"
+                android:id="@+id/barcodeTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/qrCodeTitleItem"
+                android:layout_below="@id/qrCodeTitleItemEdit"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/barcodeIconItem"
+                android:layout_toRightOf="@+id/barcodeIconItemEdit"
                 android:text="@string/barcodeTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/barcodeValueItem"
+                android:id="@+id/barcodeValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/barcodeTitleItem"
-                android:layout_below="@id/qrCodeValueItem"
+                android:layout_toRightOf="@+id/barcodeTitleItemEdit"
+                android:layout_below="@id/qrCodeValueItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
             <!--         DIVIDER            -->
 
             <TextView
-                android:id="@+id/gpsIconItem"
+                android:id="@+id/gpsIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/barcodeIconItem"
+                android:layout_below="@id/barcodeIconItemEdit"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/gps_icon"
                 android:elevation="6dp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/gpsTitleItem"
+                android:id="@+id/gpsTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/barcodeTitleItem"
+                android:layout_below="@id/barcodeTitleItemEdit"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/gpsIconItem"
+                android:layout_toRightOf="@+id/gpsIconItemEdit"
                 android:text="@string/gpsTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/gpsValueItem"
+                android:id="@+id/gpsValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/gpsTitleItem"
-                android:layout_below="@id/barcodeValueItem"
+                android:layout_toRightOf="@+id/gpsTitleItemEdit"
+                android:layout_below="@id/barcodeValueItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
@@ -260,10 +260,10 @@
             <!--         DIVIDER            -->
 
             <TextView
-                android:id="@+id/commentsIconItem"
+                android:id="@+id/commentsIconItemEdit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/gpsIconItem"
+                android:layout_below="@id/gpsIconItemEdit"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/comments_icon"
@@ -271,25 +271,25 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/commentsTitleItem"
+                android:id="@+id/commentsTitleItemEdit"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gpsTitleItem"
+                android:layout_below="@id/gpsTitleItemEdit"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/commentsIconItem"
+                android:layout_toRightOf="@+id/commentsIconItemEdit"
                 android:text="@string/commentsTitle"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
             <TextView
-                android:id="@+id/commentsValueItem"
+                android:id="@+id/commentsValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/commentsTitleItem"
-                android:layout_below="@id/gpsValueItem"
+                android:layout_toRightOf="@+id/commentsTitleItemEdit"
+                android:layout_below="@id/gpsValueItemEdit"
                 android:text="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
@@ -302,13 +302,13 @@
     </android.support.v4.widget.NestedScrollView>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fabEditItem"
+        android:id="@+id/fabAccept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
         android:layout_marginRight="12dp"
         android:layout_marginTop="192dp"
-        android:src="@drawable/ic_mode_edit_black_24dp"
+        android:src="@drawable/ic_done_black_24dp"
         android:visibility="visible"
         fab:fab_colorNormal="#FFFFFF"
         fab:fab_colorPressed="#EEEEEE"

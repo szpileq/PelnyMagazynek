@@ -25,6 +25,9 @@ public class Item {
     @SerializedName("bar_code")
     private String barcode;
 
+    @SerializedName("qr_code")
+    private String qrcode;
+
     @SerializedName("latitude")
     private Float latitude;
 
@@ -75,6 +78,14 @@ public class Item {
 
     public void setMinQuantity(Integer minQuantity) {
         this.minQuantity = minQuantity;
+    }
+
+    public String getQrcode() {
+        return qrcode;
+    }
+
+    public void setQrcode(String qrcode) {
+        this.qrcode = qrcode;
     }
 
     public String getBarcode() {

@@ -3,6 +3,7 @@ package com.szpilkowski.android.pelnymagazynek.Item;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 
 import android.support.v7.app.AppCompatActivity;
@@ -78,11 +79,7 @@ public class ItemActivity extends AppCompatActivity {
 
                     //Success, fill up list of warehouses
                     currentItem = response.body();
-
-                    TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNameHeader);
-                    TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemQuantityHeader);
-                    itemName.setText(currentItem.getName());
-                    itemQuantity.setText(currentItem.getQuantity().toString());
+                    setupView();
 
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar
@@ -99,5 +96,65 @@ public class ItemActivity extends AppCompatActivity {
                 // Log error here since request failed
             }
         });
+    }
+
+    private void setupView(){
+        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.item_toolbar);
+        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItem);
+
+        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNameHeader);
+        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemQuantityHeader);
+        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItem);
+        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItem);
+        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItem);
+        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItem);
+        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItem);
+        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItem);
+
+        itemName.setText(currentItem.getName());
+
+        Integer quantity = currentItem.getQuantity();
+        itemQuantity.setText(quantity.toString());
+
+        if(0 == quantity){
+            itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
+            itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
+        }
+
+        Integer targetQuantity = currentItem.getTargetQuantity();
+        if(null != targetQuantity){
+            itemTargetQuantity.setText(targetQuantity.toString());
+            itemTargetQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+        Integer minQuantity = currentItem.getMinQuantity();
+        if(null != minQuantity){
+            itemMinQuantity.setText(minQuantity.toString());
+            itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            if(quantity < minQuantity) {
+                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
+                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
+            }
+        }
+
+        if(null != currentItem.getQrcode()){
+            itemQrCode.setText(currentItem.getQrcode().toString());
+            itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+        if(null != currentItem.getBarcode()){
+            itemBarcode.setText(currentItem.getBarcode().toString());
+            itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+        if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
+            itemGPS.setText(currentItem.getLatitude().toString());
+            itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
+
+        if(null != currentItem.getComment()){
+            itemComments.setText(currentItem.getComment().toString());
+            itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        }
     }
 }

@@ -24,20 +24,20 @@ import retrofit2.Response;
 /**
  * Created by szpileq on 2016-07-28.
  */
-public class ItemActivity extends AppCompatActivity {
+public class ItemEdit extends AppCompatActivity {
     ApiConnector connector;
-    private static final String TAG = "ItemsActivity";
+    private static final String TAG = "ItemEditActivity";
     Item currentItem;
 
     View coordinatorLayout;
-    FloatingActionButton fabEditItem;
+    FloatingActionButton fabAccept;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
-        coordinatorLayout = findViewById(R.id.coordinatorLayoutItem); // for snackbar purposes
+        setContentView(R.layout.activity_item_edit);
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutItemEdit); // for snackbar purposes
 
-        String title = getResources().getString(R.string.itemActivityTitle);
+        String title = getResources().getString(R.string.itemEditTitle);
         this.setTitle(title);
 
         //Setup API connector
@@ -48,70 +48,36 @@ public class ItemActivity extends AppCompatActivity {
         connector.setupApiConnector(authorizationToken);
 
         Intent intent = getIntent();
-        Integer currentItemId = intent.getIntExtra("itemId",0);
-
-        getItem(currentItemId);
 
         // Adding Toolbar to Main screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.item_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.itemEdit_toolbar);
         setSupportActionBar(toolbar);
 
         //Setting up the FAB menu
-        fabEditItem = (FloatingActionButton) findViewById(R.id.fabEditItem);
+        fabAccept = (FloatingActionButton) findViewById(R.id.fabAccept);
 
-        fabEditItem.setOnClickListener(new View.OnClickListener() {
+        fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: open EditItemActivity
-                Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
-                startActivity(newActivity);
+                //TODO: editItem(currentItem)
             }
         });
 
     }
 
-    private void getItem(int itemId) {
-
-        Call call = connector.apiService.getItem(itemId);
-        call.enqueue(new Callback<Item>() {
-            @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                int statusCode = response.code();
-                if (statusCode == 200) {
-
-                    //Success, fill up list of warehouses
-                    currentItem = response.body();
-                    setupView();
-
-                } else if (statusCode == 401) {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Error with token, log in again.", Snackbar.LENGTH_LONG);
-
-                    snackbar.show();
-                }
-                Log.i(TAG, "onResponse: API response handled.");
-            }
-
-            @Override
-            public void onFailure(Call<Item> call, Throwable t) {
-                Log.i(TAG, "onFailure: API call for logging failed");
-                // Log error here since request failed
-            }
-        });
-    }
 
     private void setupView(){
-        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.item_toolbar);
-        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItem);
+        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemEdit_toolbar);
+        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemEdit);
 
-        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNameHeader);
-        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemQuantityHeader);
-        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItem);
-        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItem);
-        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItem);
-        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItem);
-        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItem);
-        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItem);
+        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemEditNameHeader);
+        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemEditQuantityHeader);
+        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemEdit);
+        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemEdit);
+        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemEdit);
+        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemEdit);
+        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemEdit);
+        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemEdit);
 
         itemName.setText(currentItem.getName());
 

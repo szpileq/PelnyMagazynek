@@ -8,6 +8,20 @@
         <item name="colorAccent">@color/colorLightText</item>
     </style>
 
+    <style name="AppThemeYellow" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorLightYellow</item>
+        <item name="colorPrimaryDark">@color/colorDarkYellow</item>
+        <item name="colorAccent">@color/colorLightText</item>
+    </style>
+
+    <style name="AppThemeRed" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorLightRed</item>
+        <item name="colorPrimaryDark">@color/colorDarkRed</item>
+        <item name="colorAccent">@color/colorLightText</item>
+    </style>
+
     <style name="FAB" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

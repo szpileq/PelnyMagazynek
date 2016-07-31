@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayoutItem"
+    android:id="@+id/coordinatorLayoutItemEdit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Item.ItemActivity">
+    tools:context=".Item.ItemEdit">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/AppBarLayoutItemEdit"
@@ -34,7 +34,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/itemEditNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/itemEditQuantityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,14 +103,14 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/targetQuantityValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/md_keylines"
                 android:layout_marginTop="242dp"
                 android:layout_toRightOf="@+id/targetQuantityTitleItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
 
@@ -138,7 +138,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/minQuantityValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                 android:layout_marginTop="34dp"
                 android:layout_toRightOf="@+id/minQuantityTitleItemEdit"
                 android:layout_below="@id/targetQuantityValueItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
 
@@ -174,7 +174,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/qrCodeValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                 android:layout_marginTop="34dp"
                 android:layout_toRightOf="@+id/qrCodeTitleItemEdit"
                 android:layout_below="@id/minQuantityValueItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
 
@@ -210,7 +210,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/barcodeValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                 android:layout_marginTop="34dp"
                 android:layout_toRightOf="@+id/barcodeTitleItemEdit"
                 android:layout_below="@id/qrCodeValueItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
             <!--         DIVIDER            -->
@@ -245,7 +245,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/gpsValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                 android:layout_marginTop="34dp"
                 android:layout_toRightOf="@+id/gpsTitleItemEdit"
                 android:layout_below="@id/barcodeValueItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
 
@@ -282,7 +282,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/article_subheading" />
 
-            <TextView
+            <EditText
                 android:id="@+id/commentsValueItemEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
                 android:layout_marginTop="34dp"
                 android:layout_toRightOf="@+id/commentsTitleItemEdit"
                 android:layout_below="@id/gpsValueItemEdit"
-                android:text="@string/notSet"
+                android:hint="@string/notSet"
                 android:textColor="@color/colorLightGray"
                 android:textSize="@dimen/article_subheading" />
 

@@ -44,6 +44,13 @@
 
         </activity>
 
+        <activity
+            android:name=".Item.ItemEdit"
+            android:label="@string/title_activity_users"
+            android:theme="@style/AppThemeRed">
+
+        </activity>
+
     </application>
 
 </manifest>

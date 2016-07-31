@@ -71,4 +71,5 @@
     <string name="gpsTitle">Lokalizacja:</string>
     <string name="commentsTitle">Komentarz:</string>
     <string name="notSet">brak</string>
+    <string name="itemEditTitle">Edytuj przedmiot</string>
 </resources>

@@ -1,11 +1,14 @@
 package com.szpilkowski.android.pelnymagazynek.DbModels;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by szpileq on 2016-07-24.
  */
-public class Item {
+public class Item implements Parcelable {
 
     @SerializedName("id")
     private Integer id;
@@ -39,6 +42,10 @@ public class Item {
 
     @SerializedName("updated_at")
     private String updated_at;
+
+    public Item() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -127,4 +134,49 @@ public class Item {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeInt(quantity);
+        dest.writeValue(targetQuantity);
+        dest.writeValue(minQuantity);
+        dest.writeString(barcode);
+        dest.writeString(qrcode);
+        dest.writeValue(latitude);
+        dest.writeValue(longitude);
+        dest.writeString(comment);
+        dest.writeString(updated_at);
+    }
+
+    public Item(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.quantity = in.readInt();
+        this.targetQuantity = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.minQuantity =(Integer) in.readValue(Integer.class.getClassLoader());
+        this.barcode = in.readString();
+        this.qrcode = in.readString();
+        this.latitude = (Float) in.readValue(Float.class.getClassLoader());
+        this.longitude = (Float) in.readValue(Float.class.getClassLoader());
+        this.comment = in.readString();
+        this.updated_at = in.readString();
+    }
+
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }

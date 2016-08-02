@@ -10,7 +10,7 @@
 
     <style name="AppThemeYellow" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorLightYellow</item>
+        <item name="colorPrimary">@color/colorDarkYellow</item>
         <item name="colorPrimaryDark">@color/colorDarkYellow</item>
         <item name="colorAccent">@color/colorLightText</item>
     </style>

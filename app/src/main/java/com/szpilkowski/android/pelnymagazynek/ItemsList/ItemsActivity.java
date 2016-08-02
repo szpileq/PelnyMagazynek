@@ -231,6 +231,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         return 1;
     }
 
+    @Override
+    public int newItemRequest(Item i) {
+        return 0;
+    }
+
+    @Override
+    public int editItemRequest(Item i) {
+        return 0;
+    }
+
     //OnClickListener for Floating Action Menu buttons
     private View.OnClickListener fabMenuClickListeners = new View.OnClickListener() {
         @Override

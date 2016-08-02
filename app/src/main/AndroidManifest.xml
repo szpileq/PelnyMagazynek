@@ -51,6 +51,13 @@
 
         </activity>
 
+        <activity
+            android:name=".Item.ItemNew"
+            android:label="@string/title_activity_users"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
     </application>
 
 </manifest>

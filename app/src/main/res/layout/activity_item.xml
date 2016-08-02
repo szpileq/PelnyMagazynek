@@ -3,72 +3,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayoutItem"
+    android:id="@+id/coordinatorLayoutItemActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".Item.ItemActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/AppBarLayoutItem"
+        android:id="@+id/AppBarLayoutItemActivity"
         android:layout_width="match_parent"
-        android:layout_height="216dp"
+        android:layout_height="248dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/item_toolbar"
+            android:id="@+id/itemActivity_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <TextView
-            android:id="@+id/itemNameTitleHeader"
+            android:id="@+id/itemActivityNameTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_toolbar"
+            android:layout_below="@+id/itemActivity_toolbar"
             android:layout_marginLeft="72dp"
             android:backgroundTint="@android:color/white"
-            android:ems="15"
             android:text="@string/itemName"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/itemNameHeader"
+            android:id="@+id/itemActivityNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemTitleHeader"
+            android:layout_below="@+id/itemActivityTitleHeader"
             android:layout_marginLeft="72dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="52dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@android:color/white"
-            android:ems="15"
+
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/itemQuantityTitleHeader"
+            android:id="@+id/itemActivityQuantityTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemNameHeader"
+            android:layout_below="@+id/itemActivityNameHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@android:color/white"
-            android:ems="15"
             android:text="@string/itemQuantity"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/itemQuantityHeader"
+            android:id="@+id/itemActivityQuantityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemQuantityTitleHeader"
+            android:layout_below="@+id/itemActivityQuantityTitleHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="10dp"
-            android:backgroundTint="@android:color/white"
-            android:ems="15"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
@@ -83,217 +79,221 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/md_keylines">
 
-            <TextView
-                android:id="@+id/targetQuantityIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="232dp"
-                android:background="@drawable/target_quantity_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/targetQuantityTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="242dp"
-                android:layout_toRightOf="@+id/targetQuantityIconItem"
-                android:text="@string/targetQuantityTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/targetQuantityValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="242dp"
-                android:layout_toRightOf="@+id/targetQuantityTitleItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_marginTop="232dp">
 
+                <TextView
+                    android:id="@+id/targetQuantityIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/target_quantity_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/targetQuantityTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/targetQuantityTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/targetQuantityValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
-
-            <TextView
-                android:id="@+id/minQuantityIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/targetQuantityIconItem"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/min_quantity_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/minQuantityTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/targetQuantityTitleItem"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/minQuantityIconItem"
-                android:text="@string/minQuantityTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/minQuantityValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/minQuantityTitleItem"
-                android:layout_below="@id/targetQuantityValueItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_below="@+id/itemActivityRow1">
 
+                <TextView
+                    android:id="@+id/minQuantityIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/min_quantity_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/minQuantityTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/minQuantityTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/minQuantityValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
-
-            <TextView
-                android:id="@+id/qrCodeIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/minQuantityIconItem"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/qr_code_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/qrCodeTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/minQuantityTitleItem"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/qrCodeIconItem"
-                android:text="@string/qrCodeTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/qrCodeValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/qrCodeTitleItem"
-                android:layout_below="@id/minQuantityValueItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_below="@+id/itemActivityRow2">
 
+                <TextView
+                    android:id="@+id/qrCodeIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/qr_code_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/qrCodeTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/qrCodeTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/qrCodeValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
-
-            <TextView
-                android:id="@+id/barcodeIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/qrCodeIconItem"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/barcode_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/barcodeTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/qrCodeTitleItem"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/barcodeIconItem"
-                android:text="@string/barcodeTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/barcodeValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/barcodeTitleItem"
-                android:layout_below="@id/qrCodeValueItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_below="@+id/itemActivityRow3">
+
+                <TextView
+                    android:id="@+id/barcodeIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/barcode_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/barcodeTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/barcodeTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/barcodeValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
-
-            <TextView
-                android:id="@+id/gpsIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/barcodeIconItem"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/gps_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/gpsTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/barcodeTitleItem"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/gpsIconItem"
-                android:text="@string/gpsTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/gpsValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/gpsTitleItem"
-                android:layout_below="@id/barcodeValueItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_below="@+id/itemActivityRow4">
 
+                <TextView
+                    android:id="@+id/gpsIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/gps_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/gpsTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/gpsTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/gpsValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
-
-            <TextView
-                android:id="@+id/commentsIconItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/gpsIconItem"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/comments_icon"
-                android:elevation="6dp"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/commentsTitleItem"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/gpsTitleItem"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/commentsIconItem"
-                android:text="@string/commentsTitle"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/article_subheading" />
-
-            <TextView
-                android:id="@+id/commentsValueItem"
+            <LinearLayout
+                android:id="@+id/itemActivityRow6"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="34dp"
-                android:layout_toRightOf="@+id/commentsTitleItem"
-                android:layout_below="@id/gpsValueItem"
-                android:text="@string/notSet"
-                android:textColor="@color/colorLightGray"
-                android:textSize="@dimen/article_subheading" />
+                android:layout_height="72dp"
+                android:layout_below="@+id/itemActivityRow5">
 
+                <TextView
+                    android:id="@+id/commentsIconItemActivity"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/comments_icon"
+                    android:elevation="6dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/commentsTitleItemActivity"
+                    android:layout_width="144dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/commentsTitle"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/article_subheading" />
+
+                <TextView
+                    android:id="@+id/commentsValueItemActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:text="@string/notSet"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/article_subheading" />
+            </LinearLayout>
             <!--         DIVIDER            -->
 
 
@@ -307,7 +307,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="224dp"
         android:src="@drawable/ic_mode_edit_black_24dp"
         android:visibility="visible"
         fab:fab_colorNormal="#FFFFFF"

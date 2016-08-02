@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -27,15 +29,18 @@ import retrofit2.Response;
 public class ItemActivity extends AppCompatActivity {
     ApiConnector connector;
     private static final String TAG = "ItemsActivity";
+
     Item currentItem;
 
     View coordinatorLayout;
     FloatingActionButton fabEditItem;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        coordinatorLayout = findViewById(R.id.coordinatorLayoutItem); // for snackbar purposes
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutItemActivity); // for snackbar purposes
 
         String title = getResources().getString(R.string.itemActivityTitle);
         this.setTitle(title);
@@ -53,7 +58,7 @@ public class ItemActivity extends AppCompatActivity {
         getItem(currentItemId);
 
         // Adding Toolbar to Main screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.item_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.itemActivity_toolbar);
         setSupportActionBar(toolbar);
 
         //Setting up the FAB menu
@@ -62,8 +67,8 @@ public class ItemActivity extends AppCompatActivity {
         fabEditItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: open EditItemActivity
                 Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
+                newActivity.putExtra("currentItem", currentItem);
                 startActivity(newActivity);
             }
         });
@@ -101,27 +106,22 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     private void setupView(){
-        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.item_toolbar);
-        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItem);
+        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemActivity_toolbar);
+        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemActivity);
 
-        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNameHeader);
-        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemQuantityHeader);
-        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItem);
-        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItem);
-        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItem);
-        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItem);
-        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItem);
-        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItem);
+        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemActivityNameHeader);
+        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemActivityQuantityHeader);
+        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemActivity);
+        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemActivity);
+        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemActivity);
+        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemActivity);
+        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemActivity);
+        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemActivity);
 
         itemName.setText(currentItem.getName());
 
         Integer quantity = currentItem.getQuantity();
         itemQuantity.setText(quantity.toString());
-
-        if(0 == quantity){
-            itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-            itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-        }
 
         Integer targetQuantity = currentItem.getTargetQuantity();
         if(null != targetQuantity){
@@ -130,28 +130,61 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         Integer minQuantity = currentItem.getMinQuantity();
-        if(null != minQuantity){
+
+        if(0 == quantity){
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            window.setStatusBarColor(getResources().getColor(R.color.colorDarkRed));
+            itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorLightRed));
+            itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorLightRed));
+        }
+        else if(null != minQuantity){
             itemMinQuantity.setText(minQuantity.toString());
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             if(quantity < minQuantity) {
-                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
-                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
+                Window window = getWindow();
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+                window.setStatusBarColor(getResources().getColor(R.color.colorDarkYellow));
+                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
+                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
             }
         }
 
         if(null != currentItem.getQrcode()){
-            itemQrCode.setText(currentItem.getQrcode().toString());
+            itemQrCode.setText(getResources().getString(R.string.show));
             itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemQrCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open dialog with QR image and options: change / close
+                }
+            });
         }
 
         if(null != currentItem.getBarcode()){
-            itemBarcode.setText(currentItem.getBarcode().toString());
+            itemBarcode.setText(getResources().getString(R.string.show));
             itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemBarcode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open dialog with barcode and options: change / close
+                }
+            });
         }
 
         if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
-            itemGPS.setText(currentItem.getLatitude().toString());
+            itemGPS.setText(getResources().getString(R.string.show));
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemGPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: show a dialog with a map with given latitude/longitude
+                }
+            });
         }
 
         if(null != currentItem.getComment()){

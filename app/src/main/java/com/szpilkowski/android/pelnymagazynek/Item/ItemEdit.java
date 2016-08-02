@@ -31,6 +31,21 @@ public class ItemEdit extends AppCompatActivity {
 
     View coordinatorLayout;
     FloatingActionButton fabAccept;
+    Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemEdit_toolbar);
+    AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemEdit);
+
+    TextView itemName;
+    TextView itemQuantity;
+    TextView itemTargetQuantity;
+    TextView itemMinQuantity;
+    TextView itemQrCode;
+    TextView itemBarcode;
+    TextView itemGPS;
+    TextView itemComments;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +63,8 @@ public class ItemEdit extends AppCompatActivity {
         connector.setupApiConnector(authorizationToken);
 
         Intent intent = getIntent();
+        currentItem = intent.getParcelableExtra("currentItem");
+        setupView();
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.itemEdit_toolbar);
@@ -59,68 +76,92 @@ public class ItemEdit extends AppCompatActivity {
         fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Item edited = getEditedItem();
                 //TODO: editItem(currentItem)
             }
         });
 
     }
 
+    private Item getEditedItem(){
+        Item edited = new Item();
+        edited.setId(currentItem.getId());
+        edited.setName(itemName.getText().toString());
+        edited.setQuantity(Integer.parseInt(itemQuantity.getText().toString()));
 
-    private void setupView(){
-        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemEdit_toolbar);
-        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemEdit);
+        if(null != itemMinQuantity.getText().toString())
+            edited.setMinQuantity(Integer.parseInt(itemMinQuantity.getText().toString()));
 
-        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemEditNameHeader);
-        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemEditQuantityHeader);
-        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemEdit);
-        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemEdit);
-        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemEdit);
-        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemEdit);
-        TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemEdit);
-        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemEdit);
+        if(null != itemTargetQuantity.getText().toString())
+            edited.setTargetQuantity(Integer.parseInt(itemTargetQuantity.getText().toString()));
+
+        if(null != itemQrCode.getText().toString())
+            edited.set
+        return edited;
+    }
+
+    private void setupView() {
+
+        itemName = (TextView) coordinatorLayout.findViewById(R.id.itemEditNameHeader);
+        itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemEditQuantityHeader);
+        itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemEdit);
+        itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemEdit);
+        itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemEdit);
+        itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemEdit);
+        itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemEdit);
+        itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemEdit);
 
         itemName.setText(currentItem.getName());
 
         Integer quantity = currentItem.getQuantity();
-        itemQuantity.setText(quantity.toString());
-
-        if(0 == quantity){
-            itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-            itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-        }
+        itemQuantity.setHint(quantity.toString());
 
         Integer targetQuantity = currentItem.getTargetQuantity();
-        if(null != targetQuantity){
-            itemTargetQuantity.setText(targetQuantity.toString());
+        if (null != targetQuantity) {
+            itemTargetQuantity.setHint(targetQuantity.toString());
             itemTargetQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
 
         Integer minQuantity = currentItem.getMinQuantity();
-        if(null != minQuantity){
-            itemMinQuantity.setText(minQuantity.toString());
+        if (null != minQuantity) {
+            itemMinQuantity.setHint(minQuantity.toString());
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-            if(quantity < minQuantity) {
-                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
-                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
-            }
         }
 
-        if(null != currentItem.getQrcode()){
-            itemQrCode.setText(currentItem.getQrcode().toString());
+        if (null != currentItem.getQrcode()) {
+            itemQrCode.setText(getResources().getString(R.string.change));
             itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemQrCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open dialog with QR image and options: change / close
+                }
+            });
         }
 
-        if(null != currentItem.getBarcode()){
-            itemBarcode.setText(currentItem.getBarcode().toString());
+        if (null != currentItem.getBarcode()) {
+            itemBarcode.setText(getResources().getString(R.string.change));
             itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemBarcode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open dialog with barcode and options: change / close
+                }
+            });
         }
 
-        if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
-            itemGPS.setText(currentItem.getLatitude().toString());
+        if (null != currentItem.getLatitude() && null != currentItem.getLongitude()) {
+            itemGPS.setText(getResources().getString(R.string.change));
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+            itemGPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: show a dialog with a map with given latitude/longitude
+                }
+            });
         }
 
-        if(null != currentItem.getComment()){
+        if (null != currentItem.getComment()) {
             itemComments.setText(currentItem.getComment().toString());
             itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }

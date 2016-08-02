@@ -3,30 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayoutItemEdit"
+    android:id="@+id/coordinatorLayoutItemNew"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Item.ItemEdit">
+    tools:context=".Item.ItemNew">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/AppBarLayoutItemEdit"
+        android:id="@+id/AppBarLayoutItemNew"
         android:layout_width="match_parent"
         android:layout_height="248dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/itemEdit_toolbar"
+            android:id="@+id/itemNew_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <TextView
-            android:id="@+id/itemEditNameTitleHeader"
+            android:id="@+id/itemNewNameTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemEdit_toolbar"
+            android:layout_below="@+id/itemNew_toolbar"
             android:layout_marginLeft="72dp"
             android:backgroundTint="@android:color/white"
             android:text="@string/itemName"
@@ -34,10 +34,10 @@
             android:textSize="12sp" />
 
         <EditText
-            android:id="@+id/itemEditNameHeader"
+            android:id="@+id/itemNewNameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemEditTitleHeader"
+            android:layout_below="@+id/itemNewTitleHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="52dp"
             android:layout_marginTop="6dp"
@@ -48,10 +48,10 @@
             android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/itemEditQuantityTitleHeader"
+            android:id="@+id/itemNewQuantityTitleHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemEditNameHeader"
+            android:layout_below="@+id/itemNewNameHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@android:color/white"
@@ -60,10 +60,10 @@
             android:textSize="12sp" />
 
         <EditText
-            android:id="@+id/itemEditQuantityHeader"
+            android:id="@+id/itemNewQuantityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/itemEditQuantityTitleHeader"
+            android:layout_below="@+id/itemNewQuantityTitleHeader"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="10dp"
             android:inputType="number"
@@ -83,13 +83,13 @@
             android:padding="@dimen/md_keylines">
 
             <LinearLayout
-                android:id="@+id/itemEditRow1"
+                android:id="@+id/itemNewRow1"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_marginTop="232dp">
 
                 <TextView
-                    android:id="@+id/targetQuantityIconItemEdit"
+                    android:id="@+id/targetQuantityIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -98,7 +98,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/targetQuantityTitleItemEdit"
+                    android:id="@+id/targetQuantityTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -108,7 +108,7 @@
                     android:textSize="@dimen/article_subheading" />
 
                 <EditText
-                    android:id="@+id/targetQuantityValueItemEdit"
+                    android:id="@+id/targetQuantityValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -120,13 +120,13 @@
             </LinearLayout>
             <!--         DIVIDER            -->
             <LinearLayout
-                android:id="@+id/itemEditRow2"
+                android:id="@+id/itemNewRow2"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/itemEditRow1">
+                android:layout_below="@+id/itemNewRow1">
 
                 <TextView
-                    android:id="@+id/minQuantityIconItemEdit"
+                    android:id="@+id/minQuantityIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -135,7 +135,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/minQuantityTitleItemEdit"
+                    android:id="@+id/minQuantityTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -145,7 +145,7 @@
                     android:textSize="@dimen/article_subheading" />
 
                 <EditText
-                    android:id="@+id/minQuantityValueItemEdit"
+                    android:id="@+id/minQuantityValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -157,13 +157,13 @@
             </LinearLayout>
             <!--         DIVIDER            -->
             <LinearLayout
-                android:id="@+id/itemEditRow3"
+                android:id="@+id/itemNewRow3"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/itemEditRow2">
+                android:layout_below="@+id/itemNewRow2">
 
                 <TextView
-                    android:id="@+id/qrCodeIconItemEdit"
+                    android:id="@+id/qrCodeIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -172,7 +172,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/qrCodeTitleItemEdit"
+                    android:id="@+id/qrCodeTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -182,7 +182,7 @@
                     android:textSize="@dimen/article_subheading" />
 
                 <TextView
-                    android:id="@+id/qrCodeValueItemEdit"
+                    android:id="@+id/qrCodeValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -193,13 +193,13 @@
             </LinearLayout>
             <!--         DIVIDER            -->
             <LinearLayout
-                android:id="@+id/itemEditRow4"
+                android:id="@+id/itemNewRow4"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/itemEditRow3">
+                android:layout_below="@+id/itemNewRow3">
 
                 <TextView
-                    android:id="@+id/barcodeIconItemEdit"
+                    android:id="@+id/barcodeIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -208,7 +208,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/barcodeTitleItemEdit"
+                    android:id="@+id/barcodeTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -218,7 +218,7 @@
                     android:textSize="@dimen/article_subheading" />
 
                 <TextView
-                    android:id="@+id/barcodeValueItemEdit"
+                    android:id="@+id/barcodeValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -229,13 +229,13 @@
             </LinearLayout>
             <!--         DIVIDER            -->
             <LinearLayout
-                android:id="@+id/itemEditRow5"
+                android:id="@+id/itemNewRow5"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/itemEditRow4">
+                android:layout_below="@+id/itemNewRow4">
 
                 <TextView
-                    android:id="@+id/gpsIconItemEdit"
+                    android:id="@+id/gpsIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -244,7 +244,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/gpsTitleItemEdit"
+                    android:id="@+id/gpsTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -253,25 +253,25 @@
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="@dimen/article_subheading" />
 
-                <TextView
-                    android:id="@+id/gpsValueItemEdit"
+                <EditText
+                    android:id="@+id/gpsValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
-                    android:text="@string/add"
-                    android:textStyle="bold"
+                    android:hint="@string/notSet"
+                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->
             <LinearLayout
-                android:id="@+id/itemEditRow6"
+                android:id="@+id/itemNewRow6"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:layout_below="@+id/itemEditRow5">
+                android:layout_below="@+id/itemNewRow5">
 
                 <TextView
-                    android:id="@+id/commentsIconItemEdit"
+                    android:id="@+id/commentsIconItemNew"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -280,7 +280,7 @@
                     android:gravity="center" />
 
                 <TextView
-                    android:id="@+id/commentsTitleItemEdit"
+                    android:id="@+id/commentsTitleItemNew"
                     android:layout_width="144dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -290,7 +290,7 @@
                     android:textSize="@dimen/article_subheading" />
 
                 <EditText
-                    android:id="@+id/commentsValueItemEdit"
+                    android:id="@+id/commentsValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

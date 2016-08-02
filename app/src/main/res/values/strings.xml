@@ -73,4 +73,7 @@
     <string name="notSet">brak</string>
     <string name="itemEditTitle">Edytuj przedmiot</string>
     <string name="add">dodaj</string>
+    <string name="show">wyświetl</string>
+    <string name="itemNewTitle">Nowy przedmiot</string>
+    <string name="change">zmień</string>
 </resources>

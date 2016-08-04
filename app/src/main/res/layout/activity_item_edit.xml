@@ -115,7 +115,6 @@
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:hint="@string/notSet"
                     android:inputType="number"
-                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->
@@ -152,7 +151,6 @@
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:hint="@string/notSet"
                     android:inputType="number"
-                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->

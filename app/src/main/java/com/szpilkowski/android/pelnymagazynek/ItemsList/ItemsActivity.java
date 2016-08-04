@@ -34,7 +34,7 @@ import retrofit2.Response;
 /**
  * Created by szpileq on 2016-07-24.
  */
-public class ItemsActivity extends AppCompatActivity implements ItemsManipulator{
+public class ItemsActivity extends AppCompatActivity implements ItemsManipulator {
 
     ApiConnector connector;
     private static final String TAG = "ItemsActivity";
@@ -51,6 +51,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     View coordinatorLayout;
 
     FloatingActionMenu fabMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +141,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         for (Item i : itemsList) {
             Integer currentQuantity = i.getQuantity();
             Integer currentMinQuantity = i.getMinQuantity();
-            if(0 == currentQuantity){
+            if (0 == currentQuantity) {
                 shortageItemsList.add(i);
-            } else if(currentMinQuantity != null && currentQuantity < i.getMinQuantity()){
+            } else if (currentMinQuantity != null && currentQuantity < i.getMinQuantity()) {
                 lowQuantityItemsList.add(i);
             }
         }
@@ -226,18 +227,75 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     public int openItem(Item i) {
         Log.i(TAG, "openItem: will open " + i.getName());
         Intent newActivity = new Intent(this, ItemActivity.class);
-        newActivity.putExtra("itemId",i.getId());
+        newActivity.putExtra("itemId", i.getId());
         startActivity(newActivity);
         return 1;
     }
 
-    @Override
     public int newItemRequest(Item i) {
-        return 0;
+
+        if (warehouseRole.equals("watcher")) {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+
+        Call call = connector.apiService.addItem(warehouseId, i);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 201) {
+                    Log.i(TAG, "onResponse: API response handled. Adding item");
+                    //Success, fill up list of warehouses
+                    Item temp = response.body();
+                    addItem(temp);
+
+                } else if (statusCode == 409) {
+                    Log.i(TAG, "onResponse: API response handled. This user is already in a warehouse");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.userExistsInWarehouse), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 404) {
+                    Log.i(TAG, "onResponse: API response handled. There is no such usere");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.userNotFound), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        return 1;
     }
 
-    @Override
-    public int editItemRequest(Item i) {
+    private int addItem(Item i) {
+        itemsList.add(i);
+        Collections.sort(itemsList, new ItemComparator());
+
+        Integer currentQuantity = i.getQuantity();
+        Integer currentMinQuantity = i.getMinQuantity();
+        if (0 == currentQuantity) {
+            shortageItemsList.add(i);
+        } else if (currentMinQuantity != null && currentQuantity < i.getMinQuantity()) {
+            lowQuantityItemsList.add(i);
+        }
+
+        adapter.notifyDataSetChanged();
         return 0;
     }
 
@@ -262,7 +320,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         }
     };
 
-    private void showUsersActivity(){
+    private void showUsersActivity() {
         Intent ItemsActivity = new Intent(this, UsersActivity.class);
         startActivity(ItemsActivity);
     }

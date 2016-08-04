@@ -69,10 +69,19 @@ public class ItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
                 newActivity.putExtra("currentItem", currentItem);
-                startActivity(newActivity);
+                startActivityForResult (newActivity, 1);
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(1 == resultCode){
+            currentItem = data.getParcelableExtra("currentItem");
+            setupView();
+        }
     }
 
     private void getItem(int itemId) {

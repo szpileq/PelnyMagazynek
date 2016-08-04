@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.ItemsList.ItemsManipulator;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;
@@ -28,11 +29,10 @@ public class ItemEdit extends AppCompatActivity {
     ApiConnector connector;
     private static final String TAG = "ItemEditActivity";
     Item currentItem;
+    ItemsManipulator itemsManipulator;
 
     View coordinatorLayout;
     FloatingActionButton fabAccept;
-    Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemEdit_toolbar);
-    AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemEdit);
 
     TextView itemName;
     TextView itemQuantity;
@@ -43,8 +43,12 @@ public class ItemEdit extends AppCompatActivity {
     TextView itemGPS;
     TextView itemComments;
 
+    String newQrCode;
+    String newBarcode;
+    Float newLongitude;
+    Float newLatitude;
 
-
+    protected String warehouseRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class ItemEdit extends AppCompatActivity {
         //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
+        warehouseRole = prefs.getString("warehouseRole", null);
 
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
@@ -76,28 +81,44 @@ public class ItemEdit extends AppCompatActivity {
         fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item edited = getEditedItem();
-                //TODO: editItem(currentItem)
+                getEditedItem();
+                editItemRequest(currentItem);
             }
         });
 
     }
 
-    private Item getEditedItem(){
-        Item edited = new Item();
-        edited.setId(currentItem.getId());
-        edited.setName(itemName.getText().toString());
-        edited.setQuantity(Integer.parseInt(itemQuantity.getText().toString()));
+    private void getEditedItem(){
 
-        if(null != itemMinQuantity.getText().toString())
-            edited.setMinQuantity(Integer.parseInt(itemMinQuantity.getText().toString()));
+        if(itemName.getText().toString().equals(currentItem.getName()))
+            currentItem.setName(null);
+        else
+            currentItem.setName(itemName.getText().toString());
 
-        if(null != itemTargetQuantity.getText().toString())
-            edited.setTargetQuantity(Integer.parseInt(itemTargetQuantity.getText().toString()));
+        if(!itemQuantity.getText().toString().equals(currentItem.getQuantity()))
+            currentItem.setQuantity(Integer.parseInt(itemQuantity.getText().toString()));
 
-        if(null != itemQrCode.getText().toString())
-            edited.set
-        return edited;
+        if(null != itemMinQuantity.getText().toString() && !itemMinQuantity.getText().toString().equals(""))
+            currentItem.setMinQuantity(Integer.parseInt(itemMinQuantity.getText().toString()));
+
+        if(null != itemTargetQuantity.getText().toString() && !itemTargetQuantity.getText().toString().equals(""))
+            currentItem.setTargetQuantity(Integer.parseInt(itemTargetQuantity.getText().toString()));
+
+        if(null != newQrCode)
+            currentItem.setQrcode(newQrCode);
+
+        if(null != newBarcode)
+            currentItem.setBarcode(newBarcode);
+
+        if(null != newLongitude && null != newLatitude) {
+            currentItem.setLongitude(newLongitude);
+            currentItem.setLatitude(newLatitude);
+        }
+
+        if(null != itemComments.getText().toString()){
+            currentItem.setComment(itemComments.getText().toString());
+        }
+
     }
 
     private void setupView() {
@@ -114,17 +135,17 @@ public class ItemEdit extends AppCompatActivity {
         itemName.setText(currentItem.getName());
 
         Integer quantity = currentItem.getQuantity();
-        itemQuantity.setHint(quantity.toString());
+        itemQuantity.setText(quantity.toString());
 
         Integer targetQuantity = currentItem.getTargetQuantity();
         if (null != targetQuantity) {
-            itemTargetQuantity.setHint(targetQuantity.toString());
+            itemTargetQuantity.setText(targetQuantity.toString());
             itemTargetQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
 
         Integer minQuantity = currentItem.getMinQuantity();
         if (null != minQuantity) {
-            itemMinQuantity.setHint(minQuantity.toString());
+            itemMinQuantity.setText(minQuantity.toString());
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
 
@@ -166,4 +187,47 @@ public class ItemEdit extends AppCompatActivity {
             itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
     }
+
+    public int editItemRequest(Item i) {
+
+        if (warehouseRole.equals("watcher")) {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+        Call call = connector.apiService.editItem(i.getId(), i);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+                    currentItem = response.body();
+                    Intent resultItem = new Intent();
+                    resultItem.putExtra("currentItem", currentItem);
+                    setResult(1, resultItem);
+                    finish();
+
+                } else if (statusCode == 205) { // TODO:ktos wlasnie edytowal
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "ktos wlasnie edytowal", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else if (statusCode == 401) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Error with token, log in again.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                Log.i(TAG, "onResponse: API response handled.");
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for logging failed");
+                // Log error here since request failed
+            }
+        });
+        return 0;
+    }
+
 }

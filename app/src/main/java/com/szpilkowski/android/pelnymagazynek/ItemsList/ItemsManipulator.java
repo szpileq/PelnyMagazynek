@@ -11,6 +11,4 @@ public interface ItemsManipulator {
     List<Item> getItems(String fragmentQuantityMarker);
     int removeItemRequest(Item i);
     int openItem(Item i);
-    int newItemRequest(Item i);
-    int editItemRequest(Item i);
 }

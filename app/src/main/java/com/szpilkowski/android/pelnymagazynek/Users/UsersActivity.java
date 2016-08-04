@@ -211,6 +211,29 @@ public class UsersActivity extends AppCompatActivity implements
         return 1;
     }
 
+    private int addUser(User u) {
+        usersList.add(u);
+        Collections.sort(usersList, new UserComparator());
+        switch (u.getRole()) {
+            case "admin":
+                adminUsersList.add(u);
+                Collections.sort(adminUsersList, new UserComparator());
+                break;
+            case "editor":
+                editorUsersList.add(u);
+                Collections.sort(editorUsersList, new UserComparator());
+                break;
+            case "watcher":
+                watcherUsersList.add(u);
+                Collections.sort(watcherUsersList, new UserComparator());
+                break;
+            default:
+                throw new RuntimeException(); // Something created fragment with unsupported role
+        }
+        adapter.notifyDataSetChanged();
+        return 0;
+    }
+
     @Override
     public int editUserRequest(final User user, final String newRole, final EditUserModalBottomSheet mbs) {
         if(!warehouseRole.equals("admin")){
@@ -279,29 +302,6 @@ public class UsersActivity extends AppCompatActivity implements
     @Override
     public void showEditModalBottomSheet(EditUserModalBottomSheet mbs) {
         mbs.show(getSupportFragmentManager(), "EditUserModalBottomSheet");
-    }
-
-    private int addUser(User u) {
-        usersList.add(u);
-        Collections.sort(usersList, new UserComparator());
-        switch (u.getRole()) {
-            case "admin":
-                adminUsersList.add(u);
-                Collections.sort(adminUsersList, new UserComparator());
-                break;
-            case "editor":
-                editorUsersList.add(u);
-                Collections.sort(editorUsersList, new UserComparator());
-                break;
-            case "watcher":
-                watcherUsersList.add(u);
-                Collections.sort(watcherUsersList, new UserComparator());
-                break;
-            default:
-                throw new RuntimeException(); // Something created fragment with unsupported role
-        }
-        adapter.notifyDataSetChanged();
-        return 0;
     }
 
     @Override

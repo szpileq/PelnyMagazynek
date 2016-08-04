@@ -51,6 +51,12 @@ public interface MyApiEndpointInterface {
     @GET("items/{id}")
     Call<Item> getItem(@Path("id") int item_id);
 
+    @POST("warehouses/{id}/items")
+    Call<Item> addItem(@Path("id") int warehouseId, @Body Item item);
+
+    @PUT("items/{id}")
+    Call<Item> editItem(@Path("id") int item_id, @Body Item item);
+
     @DELETE("items/{id}")
     Call<ResponseBody> removeItem(@Path("id") int id);
 

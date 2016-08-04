@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by szpileq on 2016-07-24.
  */
+
 public class Item implements Parcelable {
 
     @SerializedName("id")

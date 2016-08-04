@@ -95,13 +95,13 @@ public class ItemEdit extends AppCompatActivity {
         else
             currentItem.setName(itemName.getText().toString());
 
-        if(!itemQuantity.getText().toString().equals(currentItem.getQuantity()))
+        if(!itemQuantity.getText().toString().equals(currentItem.getQuantity().toString()))
             currentItem.setQuantity(Integer.parseInt(itemQuantity.getText().toString()));
 
-        if(null != itemMinQuantity.getText().toString() && !itemMinQuantity.getText().toString().equals(""))
+        if(!itemMinQuantity.getText().toString().equals(""))
             currentItem.setMinQuantity(Integer.parseInt(itemMinQuantity.getText().toString()));
 
-        if(null != itemTargetQuantity.getText().toString() && !itemTargetQuantity.getText().toString().equals(""))
+        if(!itemTargetQuantity.getText().toString().equals(""))
             currentItem.setTargetQuantity(Integer.parseInt(itemTargetQuantity.getText().toString()));
 
         if(null != newQrCode)

@@ -51,7 +51,6 @@ public class ItemHolder extends RecyclerView.ViewHolder implements View.OnLongCl
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(v.getResources().getString(R.string.ContextMenuTitle));
         menu.add(0,0,0,v.getResources().getString(R.string.optionOpen));
-        menu.add(0,1,0,v.getResources().getString(R.string.itemEdit));
-        menu.add(0,2,0,v.getResources().getString(R.string.optionDelete));
+        menu.add(0,1,0,v.getResources().getString(R.string.optionDelete));
     }
 }

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +15,10 @@ import com.github.clans.fab.FloatingActionButton;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by szpileq on 02.08.2016.
@@ -24,6 +30,13 @@ public class ItemNew extends AppCompatActivity {
 
     View coordinatorLayout;
     FloatingActionButton fabAccept;
+    protected Integer warehouseId;
+
+    String newQrCode;
+    String newBarcode;
+    Float newLongitude;
+    Float newLatitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +49,7 @@ public class ItemNew extends AppCompatActivity {
         //Setup API connector
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
+        warehouseId = prefs.getInt("warehouseId", 0);
 
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
@@ -52,12 +66,64 @@ public class ItemNew extends AppCompatActivity {
         fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: NewItem(currentItem)
+               if(0 == getNewItem())
+                    newItemRequest(currentItem);
             }
         });
 
     }
 
+    private Integer getNewItem() {
+
+        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNewNameHeader);
+        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemNewQuantityHeader);
+        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemNew);
+        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemNew);
+
+        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemNew);
+
+        currentItem = new Item();
+
+        if (!itemName.getText().toString().equals(""))
+            currentItem.setName(itemName.getText().toString());
+        else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.nameFieldMandatoryNewItem), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+
+        if (!itemQuantity.getText().toString().equals(""))
+            currentItem.setQuantity(Integer.parseInt(itemQuantity.getText().toString()));
+        else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, getString(R.string.quantityFieldMandatoryNewItem), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return 1;
+        }
+
+        if (!itemMinQuantity.getText().toString().equals(""))
+            currentItem.setMinQuantity(Integer.parseInt(itemMinQuantity.getText().toString()));
+
+        if (!itemTargetQuantity.getText().toString().equals(""))
+            currentItem.setTargetQuantity(Integer.parseInt(itemTargetQuantity.getText().toString()));
+
+        if (null != newQrCode)
+            currentItem.setQrcode(newQrCode);
+
+        if (null != newBarcode)
+            currentItem.setBarcode(newBarcode);
+
+        if (null != newLongitude && null != newLatitude) {
+            currentItem.setLongitude(newLongitude);
+            currentItem.setLatitude(newLatitude);
+        }
+
+        if (!itemComments.getText().toString().equals("")) {
+            currentItem.setComment(itemComments.getText().toString());
+        }
+        return 0;
+    }
 
     private void setupView(){
         Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemNew_toolbar);
@@ -117,5 +183,45 @@ public class ItemNew extends AppCompatActivity {
             itemComments.setText(currentItem.getComment().toString());
             itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
+    }
+
+    public int newItemRequest(Item i) {
+
+        Call call = connector.apiService.addItem(warehouseId, i);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 201) {
+                    Log.i(TAG, "onResponse: API response handled. Adding item");
+
+                    Intent resultItem = new Intent();
+                    setResult(2, resultItem);
+                    finish();
+
+                } else if (statusCode == 422) {
+                    Log.i(TAG, "onResponse: API response handled. You've got item with such name");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.itemExistsInWarehouse), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else if (statusCode == 401) {
+                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //TODO: Consider switching automatically to MainActivity
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for adding warehouse failed");
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        return 1;
     }
 }

@@ -19,6 +19,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.Item.ItemActivity;
+import com.szpilkowski.android.pelnymagazynek.Item.ItemNew;
 import com.szpilkowski.android.pelnymagazynek.R;
 import com.szpilkowski.android.pelnymagazynek.Users.UsersActivity;
 
@@ -91,6 +92,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         barcodeFabButton.setOnClickListener(fabMenuClickListeners);
         manageUsersFabButton.setOnClickListener(fabMenuClickListeners);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(2 == resultCode){
+            getItemsList();
+        }
     }
 
 
@@ -227,59 +236,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     public int openItem(Item i) {
         Log.i(TAG, "openItem: will open " + i.getName());
         Intent newActivity = new Intent(this, ItemActivity.class);
-        newActivity.putExtra("itemId", i.getId());
-        startActivity(newActivity);
-        return 1;
-    }
-
-    public int newItemRequest(Item i) {
-
-        if (warehouseRole.equals("watcher")) {
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
-            snackbar.show();
-            return 1;
-        }
-
-        Call call = connector.apiService.addItem(warehouseId, i);
-        call.enqueue(new Callback<Item>() {
-            @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                int statusCode = response.code();
-                if (statusCode == 201) {
-                    Log.i(TAG, "onResponse: API response handled. Adding item");
-                    //Success, fill up list of warehouses
-                    Item temp = response.body();
-                    addItem(temp);
-
-                } else if (statusCode == 409) {
-                    Log.i(TAG, "onResponse: API response handled. This user is already in a warehouse");
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, getString(R.string.userExistsInWarehouse), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if (statusCode == 404) {
-                    Log.i(TAG, "onResponse: API response handled. There is no such usere");
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, getString(R.string.userNotFound), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if (statusCode == 401) {
-                    Log.i(TAG, "onResponse: API response handled. Wrong authorization token. ");
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, getString(R.string.authorizationFailRelog), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    //TODO: Consider switching automatically to MainActivity
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Item> call, Throwable t) {
-                Log.i(TAG, "onFailure: API call for adding warehouse failed");
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, getString(R.string.apiCallFailed), Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        });
+        newActivity.putExtra("currentItem", i);
+        startActivityForResult (newActivity, 1);
         return 1;
     }
 
@@ -305,8 +263,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.addItemFabButton:
-                    //Create newItem activity in which we would utilize addItem
-                    break;
+                    if (warehouseRole.equals("watcher")) {
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        break;
+                    } else {
+                        Intent newActivity = new Intent(ItemsActivity.this, ItemNew.class);
+                        startActivityForResult (newActivity, 2);
+                        return;
+                    }
                 case R.id.qrFabButton:
                     //Use QR scanner to find/add product
                     break;

@@ -31,6 +31,7 @@ public class ItemActivity extends AppCompatActivity {
     private static final String TAG = "ItemsActivity";
 
     Item currentItem;
+    Item oldItem;
 
     View coordinatorLayout;
     FloatingActionButton fabEditItem;
@@ -53,9 +54,8 @@ public class ItemActivity extends AppCompatActivity {
         connector.setupApiConnector(authorizationToken);
 
         Intent intent = getIntent();
-        Integer currentItemId = intent.getIntExtra("itemId",0);
-
-        getItem(currentItemId);
+        currentItem = intent.getParcelableExtra("currentItem");
+        setupView();
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.itemActivity_toolbar);
@@ -76,42 +76,24 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent resultItem = new Intent();
+        if (null == oldItem)
+            setResult(1, resultItem);
+        else
+            setResult(2, resultItem);
+        finish();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(1 == resultCode){
+            oldItem = currentItem;
             currentItem = data.getParcelableExtra("currentItem");
             setupView();
         }
-    }
-
-    private void getItem(int itemId) {
-
-        Call call = connector.apiService.getItem(itemId);
-        call.enqueue(new Callback<Item>() {
-            @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                int statusCode = response.code();
-                if (statusCode == 200) {
-
-                    //Success, fill up list of warehouses
-                    currentItem = response.body();
-                    setupView();
-
-                } else if (statusCode == 401) {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Error with token, log in again.", Snackbar.LENGTH_LONG);
-
-                    snackbar.show();
-                }
-                Log.i(TAG, "onResponse: API response handled.");
-            }
-
-            @Override
-            public void onFailure(Call<Item> call, Throwable t) {
-                Log.i(TAG, "onFailure: API call for logging failed");
-                // Log error here since request failed
-            }
-        });
     }
 
     private void setupView(){
@@ -152,15 +134,20 @@ public class ItemActivity extends AppCompatActivity {
         else if(null != minQuantity){
             itemMinQuantity.setText(minQuantity.toString());
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-            if(quantity < minQuantity) {
-                Window window = getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
+            if(quantity < minQuantity) {
                 window.setStatusBarColor(getResources().getColor(R.color.colorDarkYellow));
                 itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
                 itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
+            } else {
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
+
         }
 
         if(null != currentItem.getQrcode()){

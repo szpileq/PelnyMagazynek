@@ -269,6 +269,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                         snackbar.show();
                         break;
                     } else {
+                        fabMenu.close(false);
                         Intent newActivity = new Intent(ItemsActivity.this, ItemNew.class);
                         startActivityForResult (newActivity, 2);
                         return;

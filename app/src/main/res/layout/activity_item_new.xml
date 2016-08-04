@@ -115,7 +115,6 @@
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:hint="@string/notSet"
                     android:inputType="number"
-                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->
@@ -152,7 +151,6 @@
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:hint="@string/notSet"
                     android:inputType="number"
-                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->
@@ -253,14 +251,14 @@
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="@dimen/article_subheading" />
 
-                <EditText
+                <TextView
                     android:id="@+id/gpsValueItemNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
-                    android:hint="@string/notSet"
-                    android:textColor="@color/colorLightGray"
+                    android:text="@string/add"
+                    android:textStyle="bold"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->
@@ -296,7 +294,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:hint="@string/notSet"
-                    android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
             <!--         DIVIDER            -->

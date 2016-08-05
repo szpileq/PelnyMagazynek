@@ -80,4 +80,6 @@
     <string name="nameFieldMandatoryNewItem">Nazwa jest obowiązkowa</string>
     <string name="quantityFieldMandatoryNewItem">Podaj liczebność przedmiotu</string>
     <string name="someoneHasUpdated">Ktoś aktualizował przedmiot, spróbuj raz jeszcze</string>
+    <string name="scannerCancelled">Anulowano skanowanie</string>
+    <string name="scannerSuccess">Zeskanowano</string>
 </resources>

@@ -208,10 +208,12 @@ public class ItemEdit extends AppCompatActivity {
                     setResult(1, resultItem);
                     finish();
 
-                } else if (statusCode == 205) { // TODO:ktos wlasnie edytowal
+                } else if (statusCode == 205) {
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "ktos wlasnie edytowal", Snackbar.LENGTH_LONG);
+                            .make(coordinatorLayout, getString(R.string.someoneHasUpdated) , Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    currentItem = response.body();
+                    setupView();
                 }
                 else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar

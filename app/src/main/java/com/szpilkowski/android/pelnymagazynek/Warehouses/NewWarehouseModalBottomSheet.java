@@ -84,7 +84,7 @@ public class NewWarehouseModalBottomSheet extends BottomSheetDialogFragment {
             public void onClick(View v) {
 
                 EditText editName = (EditText)contentView.findViewById(R.id.warehouseEditText);
-//TODO: check if email is given
+
                 //Create a API call to create a new warehouse.
                 warehouseManipulator.newWarehouseRequest(editName.getText().toString(), NewWarehouseModalBottomSheet.this);
             }

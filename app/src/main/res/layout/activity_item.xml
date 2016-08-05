@@ -42,7 +42,12 @@
             android:layout_marginRight="52dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@android:color/white"
-
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 

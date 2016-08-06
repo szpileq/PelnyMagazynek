@@ -55,20 +55,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemHolder>{
 
         holder.name.setText(itemName);
         holder.comments.setText(itemComments);
-
+//TODO: scalable textView to fit the bigger numbers
         holder.circleProgress.setSuffixText("");
-        holder.circleProgress.setProgress(itemQuantity);
         holder.circleProgress.setMax(itemQuantity);
-
-        holder.circleProgress.setFinishedColor(mContext.getResources().getColor(R.color.colorPrimary));
-        holder.circleProgress.setUnfinishedColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
-
         if(null != itemTargetQuantity) {
             if(itemTargetQuantity < itemQuantity)
                 holder.circleProgress.setMax(itemQuantity);
             else
                 holder.circleProgress.setMax(itemTargetQuantity);
         }
+
+        holder.circleProgress.setProgress(itemQuantity);
+
+        holder.circleProgress.setFinishedColor(mContext.getResources().getColor(R.color.colorPrimary));
+        holder.circleProgress.setUnfinishedColor(mContext.getResources().getColor(R.color.colorPrimaryDark));
+
 
         if(null != itemMinQuantity && itemQuantity < itemMinQuantity){
             holder.circleProgress.setFinishedColor(mContext.getResources().getColor(R.color.colorLightYellow));

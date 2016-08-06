@@ -80,17 +80,27 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
 
         //Setting up the FAB menu
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.setClosedOnTouchOutside(true);
+        if (fabMenu != null) {
+            fabMenu.setClosedOnTouchOutside(true);
+        }
 
         FloatingActionButton addItemFabButton = (FloatingActionButton) findViewById(R.id.addItemFabButton);
         FloatingActionButton qrFabButton = (FloatingActionButton) findViewById(R.id.qrFabButton);
         FloatingActionButton barcodeFabButton = (FloatingActionButton) findViewById(R.id.barcodeFabButton);
         FloatingActionButton manageUsersFabButton = (FloatingActionButton) findViewById(R.id.manageUsersFabButton);
 
-        addItemFabButton.setOnClickListener(fabMenuClickListeners);
-        qrFabButton.setOnClickListener(fabMenuClickListeners);
-        barcodeFabButton.setOnClickListener(fabMenuClickListeners);
-        manageUsersFabButton.setOnClickListener(fabMenuClickListeners);
+        if (addItemFabButton != null) {
+            addItemFabButton.setOnClickListener(fabMenuClickListeners);
+        }
+        if (qrFabButton != null) {
+            qrFabButton.setOnClickListener(fabMenuClickListeners);
+        }
+        if (barcodeFabButton != null) {
+            barcodeFabButton.setOnClickListener(fabMenuClickListeners);
+        }
+        if (manageUsersFabButton != null) {
+            manageUsersFabButton.setOnClickListener(fabMenuClickListeners);
+        }
 
     }
 
@@ -124,7 +134,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
 
                     // Set Tabs inside Toolbar
                     TabLayout tabs = (TabLayout) findViewById(R.id.items_tabs);
-                    tabs.setupWithViewPager(viewPager);
+                    if (tabs != null) {
+                        tabs.setupWithViewPager(viewPager);
+                    }
 
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar

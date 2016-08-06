@@ -45,8 +45,9 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onDetach() {
         itemsManipulator = null;
+        if(null != adapter)
+            adapter.onDetach();
         super.onDetach();
-        adapter.onDetach();
     }
 
     @Override

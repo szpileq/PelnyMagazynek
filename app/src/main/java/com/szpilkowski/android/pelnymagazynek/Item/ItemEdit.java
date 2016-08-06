@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.ItemsList.ItemsManipulator;
@@ -88,6 +90,25 @@ public class ItemEdit extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.scannerCancelled) , Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                String resultString = result.getContents();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.scannerSuccess)+ " " + resultString , Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     private void getEditedItem(){
 
         if(itemName.getText().toString().equals(currentItem.getName()))
@@ -158,6 +179,13 @@ public class ItemEdit extends AppCompatActivity {
                     //TODO: open dialog with QR image and options: change / close
                 }
             });
+        } else{
+            itemQrCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new IntentIntegrator(ItemEdit.this).initiateScan();
+                }
+            });
         }
 
         if (null != currentItem.getBarcode()) {
@@ -170,6 +198,14 @@ public class ItemEdit extends AppCompatActivity {
                 }
             });
         }
+        else{
+            itemBarcode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new IntentIntegrator(ItemEdit.this).initiateScan();
+                }
+            });
+        }
 
         if (null != currentItem.getLatitude() && null != currentItem.getLongitude()) {
             itemGPS.setText(getResources().getString(R.string.change));
@@ -178,6 +214,14 @@ public class ItemEdit extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //TODO: show a dialog with a map with given latitude/longitude
+                }
+            });
+        }
+        else{
+            itemGPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open maps and add point
                 }
             });
         }
@@ -208,10 +252,12 @@ public class ItemEdit extends AppCompatActivity {
                     setResult(1, resultItem);
                     finish();
 
-                } else if (statusCode == 205) { // TODO:ktos wlasnie edytowal
+                } else if (statusCode == 205) {
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "ktos wlasnie edytowal", Snackbar.LENGTH_LONG);
+                            .make(coordinatorLayout, getString(R.string.someoneHasUpdated) , Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    currentItem = response.body();
+                    setupView();
                 }
                 else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar

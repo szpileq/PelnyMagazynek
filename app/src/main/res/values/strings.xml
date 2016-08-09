@@ -1,4 +1,9 @@
 <resources>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDmbA2Mh2khtcHy3B4WLjFEWNgYxkrSYPI
+    </string>
+
     <string name="app_name">PelnyMagazynek</string>
     <string name="title_activity_warehouses">Pełny Magazynek</string>
 
@@ -84,4 +89,8 @@
     <string name="scannerSuccess">Zeskanowano</string>
     <string name="added">dodano</string>
     <string name="title_activity_maps">Map</string>
+    <string name="gspYouAreHere">Jesteś tutaj!</string>
+    <string name="acceptOnMap">Użyj</string>
+    <string name="gpsCancelled">Przerwano pobieranie lokalizacji</string>
+
 </resources>

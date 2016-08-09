@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,6 +28,7 @@ import retrofit2.Response;
  * Created by szpileq on 02.08.2016.
  */
 public class ItemNew extends AppCompatActivity {
+    private static final int GET_LOCATION = 132;
     ApiConnector connector;
     private static final String TAG = "ItemNewActivity";
     Item currentItem;
@@ -76,32 +79,49 @@ public class ItemNew extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, getString(R.string.scannerCancelled) , Snackbar.LENGTH_LONG);
-                snackbar.show();
-            } else {
-                String resultString = result.getContents();
-                Integer resultHash = resultString.hashCode();
-                if(result.getFormatName().equals("QR_CODE"))
-                {
-                    newQrCode = resultHash.toString();
-                    TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemNew);
-                    itemQrCode.setText(getResources().getString(R.string.change));
-                    itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+        if (GET_LOCATION == requestCode) {
 
-                } else {
-                    newBarcode = resultHash.toString();
-                    TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemNew);
-                    itemBarcode.setText(getResources().getString(R.string.change));
-                    itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-                }
+            if(resultCode == 1) {
+                newLatitude = (float) data.getDoubleExtra("currentLatitude", 0);
+                newLongitude = (float) data.getDoubleExtra("currentLongitude", 0);
+
+                TextView itemGps = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemNew);
+                itemGps.setText(getResources().getString(R.string.change));
+                itemGps.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+
                 setupView();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.gpsCancelled), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.scannerCancelled), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    String resultString = result.getContents();
+                    Integer resultHash = resultString.hashCode();
+                    if (result.getFormatName().equals("QR_CODE")) {
+                        newQrCode = resultHash.toString();
+                        TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemNew);
+                        itemQrCode.setText(getResources().getString(R.string.change));
+                        itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+
+                    } else {
+                        newBarcode = resultHash.toString();
+                        TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemNew);
+                        itemBarcode.setText(getResources().getString(R.string.change));
+                        itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+                    }
+                    setupView();
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -180,11 +200,10 @@ public class ItemNew extends AppCompatActivity {
                 intent.initiateScan();
             }
         });
-
         itemGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: open maps and add point
+                startActivityForResult(new Intent(ItemNew.this, MapsActivity.class), GET_LOCATION);
             }
         });
     }

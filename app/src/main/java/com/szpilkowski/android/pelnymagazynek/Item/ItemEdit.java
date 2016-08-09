@@ -100,9 +100,14 @@ public class ItemEdit extends AppCompatActivity {
                 snackbar.show();
             } else {
                 String resultString = result.getContents();
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, getString(R.string.scannerSuccess)+ " " + resultString , Snackbar.LENGTH_LONG);
-                snackbar.show();
+                Integer resultHash = resultString.hashCode();
+                if(result.getFormatName().equals("QR_CODE"))
+                {
+                    newQrCode = resultHash.toString();
+                } else {
+                    newBarcode = resultHash.toString();
+                }
+                setupView();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -170,31 +175,37 @@ public class ItemEdit extends AppCompatActivity {
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
 
-        if (null != currentItem.getQrcode()) {
+        if (null != newQrCode || null != currentItem.getQrcode()) {
             itemQrCode.setText(getResources().getString(R.string.change));
             itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemQrCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: open dialog with QR image and options: change / close
+                    IntentIntegrator intent = new IntentIntegrator(ItemEdit.this);
+                    intent.addExtra("SCAN_MODE","QR_CODE_MODE");
+                    intent.initiateScan();
                 }
             });
         } else{
             itemQrCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new IntentIntegrator(ItemEdit.this).initiateScan();
+                    IntentIntegrator intent = new IntentIntegrator(ItemEdit.this);
+                    intent.addExtra("SCAN_MODE","QR_CODE_MODE");
+                    intent.initiateScan();
                 }
             });
         }
 
-        if (null != currentItem.getBarcode()) {
+        if (null != newBarcode || null != currentItem.getBarcode()) {
             itemBarcode.setText(getResources().getString(R.string.change));
             itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemBarcode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: open dialog with barcode and options: change / close
+                    IntentIntegrator intent = new IntentIntegrator(ItemEdit.this);
+                    intent.addExtra("SCAN_MODE","PRODUCT_MODE");
+                    intent.initiateScan();
                 }
             });
         }
@@ -202,7 +213,9 @@ public class ItemEdit extends AppCompatActivity {
             itemBarcode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new IntentIntegrator(ItemEdit.this).initiateScan();
+                    IntentIntegrator intent = new IntentIntegrator(ItemEdit.this);
+                    intent.addExtra("SCAN_MODE","PRODUCT_MODE");
+                    intent.initiateScan();
                 }
             });
         }

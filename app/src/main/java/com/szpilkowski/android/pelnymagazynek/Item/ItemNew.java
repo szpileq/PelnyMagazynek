@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
@@ -54,14 +56,14 @@ public class ItemNew extends AppCompatActivity {
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
 
-        Intent intent = getIntent();
-
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.itemNew_toolbar);
         setSupportActionBar(toolbar);
 
         //Setting up the FAB menu
         fabAccept = (FloatingActionButton) findViewById(R.id.fabAccept);
+
+        setupView();
 
         fabAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +72,37 @@ public class ItemNew extends AppCompatActivity {
                     newItemRequest(currentItem);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.scannerCancelled) , Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                String resultString = result.getContents();
+                Integer resultHash = resultString.hashCode();
+                if(result.getFormatName().equals("QR_CODE"))
+                {
+                    newQrCode = resultHash.toString();
+                    TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemNew);
+                    itemQrCode.setText(getResources().getString(R.string.change));
+                    itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+
+                } else {
+                    newBarcode = resultHash.toString();
+                    TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemNew);
+                    itemBarcode.setText(getResources().getString(R.string.change));
+                    itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
+                }
+                setupView();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private Integer getNewItem() {
@@ -126,63 +158,35 @@ public class ItemNew extends AppCompatActivity {
     }
 
     private void setupView(){
-        Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemNew_toolbar);
-        AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemNew);
 
-        TextView itemName = (TextView) coordinatorLayout.findViewById(R.id.itemNewNameHeader);
-        TextView itemQuantity = (TextView) coordinatorLayout.findViewById(R.id.itemNewQuantityHeader);
-        TextView itemTargetQuantity = (TextView) coordinatorLayout.findViewById(R.id.targetQuantityValueItemNew);
-        TextView itemMinQuantity = (TextView) coordinatorLayout.findViewById(R.id.minQuantityValueItemNew);
         TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemNew);
         TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemNew);
         TextView itemGPS = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemNew);
-        TextView itemComments = (TextView) coordinatorLayout.findViewById(R.id.commentsValueItemNew);
 
-        itemName.setText(currentItem.getName());
-
-        Integer quantity = currentItem.getQuantity();
-        itemQuantity.setText(quantity.toString());
-
-        if(0 == quantity){
-            itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-            itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkRed));
-        }
-
-        Integer targetQuantity = currentItem.getTargetQuantity();
-        if(null != targetQuantity){
-            itemTargetQuantity.setText(targetQuantity.toString());
-            itemTargetQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-        }
-
-        Integer minQuantity = currentItem.getMinQuantity();
-        if(null != minQuantity){
-            itemMinQuantity.setText(minQuantity.toString());
-            itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-            if(quantity < minQuantity) {
-                itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
-                itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorDarkYellow));
+        itemQrCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intent = new IntentIntegrator(ItemNew.this);
+                intent.addExtra("SCAN_MODE", "QR_CODE_MODE");
+                intent.initiateScan();
             }
-        }
+        });
 
-        if(null != currentItem.getQrcode()){
-            itemQrCode.setText(currentItem.getQrcode().toString());
-            itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-        }
+        itemBarcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intent = new IntentIntegrator(ItemNew.this);
+                intent.addExtra("SCAN_MODE", "PRODUCT_MODE");
+                intent.initiateScan();
+            }
+        });
 
-        if(null != currentItem.getBarcode()){
-            itemBarcode.setText(currentItem.getBarcode().toString());
-            itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-        }
-
-        if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
-            itemGPS.setText(currentItem.getLatitude().toString());
-            itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-        }
-
-        if(null != currentItem.getComment()){
-            itemComments.setText(currentItem.getComment().toString());
-            itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-        }
+        itemGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: open maps and add point
+            }
+        });
     }
 
     public int newItemRequest(Item i) {

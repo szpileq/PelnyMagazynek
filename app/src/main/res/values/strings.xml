@@ -82,4 +82,6 @@
     <string name="someoneHasUpdated">Ktoś aktualizował przedmiot, spróbuj raz jeszcze</string>
     <string name="scannerCancelled">Anulowano skanowanie</string>
     <string name="scannerSuccess">Zeskanowano</string>
+    <string name="added">dodano</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

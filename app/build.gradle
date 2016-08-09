@@ -26,6 +26,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
 
+    provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
@@ -38,5 +39,5 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.android.gms:play-services:4.2.42'
 }

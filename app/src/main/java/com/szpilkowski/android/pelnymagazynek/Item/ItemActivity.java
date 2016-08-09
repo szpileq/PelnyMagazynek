@@ -151,7 +151,7 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         if(null != currentItem.getQrcode()){
-            itemQrCode.setText(getResources().getString(R.string.show));
+            itemQrCode.setText(getResources().getString(R.string.added));
             itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemQrCode.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -162,7 +162,7 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         if(null != currentItem.getBarcode()){
-            itemBarcode.setText(getResources().getString(R.string.show));
+            itemBarcode.setText(getResources().getString(R.string.added));
             itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemBarcode.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -3,10 +3,7 @@ package com.szpilkowski.android.pelnymagazynek.Item;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,6 +38,7 @@ public class ItemNew extends AppCompatActivity {
     String newBarcode;
     Float newLongitude;
     Float newLatitude;
+    String newGeocode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +82,10 @@ public class ItemNew extends AppCompatActivity {
             if(resultCode == 1) {
                 newLatitude = (float) data.getDoubleExtra("currentLatitude", 0);
                 newLongitude = (float) data.getDoubleExtra("currentLongitude", 0);
+                newGeocode = data.getStringExtra("geocode");
 
                 TextView itemGps = (TextView) coordinatorLayout.findViewById(R.id.gpsValueItemNew);
-                itemGps.setText(getResources().getString(R.string.change));
+                itemGps.setText(newGeocode);
                 itemGps.setTextColor(getResources().getColor(android.R.color.primary_text_light));
 
                 setupView();
@@ -203,7 +202,7 @@ public class ItemNew extends AppCompatActivity {
         itemGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(ItemNew.this, MapsActivity.class), GET_LOCATION);
+                startActivityForResult(new Intent(ItemNew.this, NewMapPosition.class), GET_LOCATION);
             }
         });
     }

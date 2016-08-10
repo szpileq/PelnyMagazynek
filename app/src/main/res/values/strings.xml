@@ -88,9 +88,11 @@
     <string name="scannerCancelled">Anulowano skanowanie</string>
     <string name="scannerSuccess">Zeskanowano</string>
     <string name="added">dodano</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Mapa</string>
     <string name="gspYouAreHere">Jesteś tutaj!</string>
     <string name="acceptOnMap">Użyj</string>
     <string name="gpsCancelled">Przerwano pobieranie lokalizacji</string>
+    <string name="back">Wróć</string>
+    <string name="showOnMapActivityTitle">Mapa</string>
 
 </resources>

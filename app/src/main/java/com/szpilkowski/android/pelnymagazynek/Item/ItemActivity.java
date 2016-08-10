@@ -2,6 +2,8 @@ package com.szpilkowski.android.pelnymagazynek.Item;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
@@ -15,9 +17,13 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.maps.model.LatLng;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
+
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -173,12 +179,17 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
-            itemGPS.setText(getResources().getString(R.string.show));
+            LatLng currentLocation = new LatLng((double)currentItem.getLatitude(), (double)currentItem.getLongitude());
+            String currentGeocode = getCompleteAddressString(currentLocation);
+            itemGPS.setText(currentGeocode);
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: show a dialog with a map with given latitude/longitude
+                    Intent showOnMap = new Intent(ItemActivity.this, ShowOnMap.class);
+                    showOnMap.putExtra("lat", currentItem.getLatitude());
+                    showOnMap.putExtra("lng", currentItem.getLongitude());
+                    startActivity(showOnMap);
                 }
             });
         }
@@ -187,5 +198,33 @@ public class ItemActivity extends AppCompatActivity {
             itemComments.setText(currentItem.getComment().toString());
             itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
+    }
+
+    private String getCompleteAddressString(LatLng location) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                if(null != returnedAddress.getThoroughfare())
+                    strReturnedAddress.append(returnedAddress.getThoroughfare());
+                if(null != returnedAddress.getSubThoroughfare())
+                    strReturnedAddress.append(" ").append(returnedAddress.getSubThoroughfare());
+                if(null != returnedAddress.getLocality())
+                    strReturnedAddress.append(", ").append(returnedAddress.getLocality());
+
+                strAdd = strReturnedAddress.toString();
+                Log.w("Location:", "" + strReturnedAddress.toString());
+            } else {
+                Log.w("Location:", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("Location:", "Cannot get Address!");
+        }
+        return strAdd;
     }
 }

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,16 +30,20 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.szpilkowski.android.pelnymagazynek.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+import java.util.List;
+import java.util.Locale;
+
+public class NewMapPosition extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = MapsActivity.class.getSimpleName();
+    public static final String TAG = NewMapPosition.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     private LocationRequest mLocationRequest;
     LatLng currentLocation;
+    String currentGeocode;
     Marker currentMarker;
     Button getLocationButton;
 
@@ -141,12 +147,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void handleNewLocation(LatLng location){
         currentLocation = location;
         currentMarker.setPosition(currentLocation);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15));
+        currentGeocode = getCompleteAddressString(currentLocation);
     }
 
     private void handleInitialLocation(Location location) {
         currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(getResources().getString(R.string.gspYouAreHere));
+        currentGeocode = getCompleteAddressString(currentLocation);
+        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(currentGeocode);
         currentMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,10));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15),2000, null);
@@ -158,9 +165,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent resultLocation = new Intent();
                 resultLocation.putExtra("currentLatitude", currentLocation.latitude);
                 resultLocation.putExtra("currentLongitude", currentLocation.longitude);
+                resultLocation.putExtra("geocode", currentGeocode);
                 setResult(1, resultLocation);
                 finish();
             }
         });
     }
+
+    private String getCompleteAddressString(LatLng location) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                if(null != returnedAddress.getThoroughfare())
+                    strReturnedAddress.append(returnedAddress.getThoroughfare());
+                if(null != returnedAddress.getSubThoroughfare())
+                    strReturnedAddress.append(" ").append(returnedAddress.getSubThoroughfare()).append(", ");
+                if(null != returnedAddress.getLocality())
+                    strReturnedAddress.append(returnedAddress.getLocality());
+
+                strAdd = strReturnedAddress.toString();
+                Log.w("Location:", "" + strReturnedAddress.toString());
+            } else {
+                Log.w("Location:", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("Location:", "Cannot get Address!");
+        }
+        return strAdd;
+    }
+
 }

@@ -117,11 +117,10 @@ public class ItemEdit extends AppCompatActivity {
                     snackbar.show();
                 } else {
                     String resultString = result.getContents();
-                    Integer resultHash = resultString.hashCode();
                     if (result.getFormatName().equals("QR_CODE")) {
-                        newQrCode = resultHash.toString();
+                        newQrCode = resultString;
                     } else {
-                        newBarcode = resultHash.toString();
+                        newBarcode = resultString;
                     }
                     setupView();
                 }

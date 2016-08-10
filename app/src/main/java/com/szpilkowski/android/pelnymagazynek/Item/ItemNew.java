@@ -103,15 +103,14 @@ public class ItemNew extends AppCompatActivity {
                     snackbar.show();
                 } else {
                     String resultString = result.getContents();
-                    Integer resultHash = resultString.hashCode();
                     if (result.getFormatName().equals("QR_CODE")) {
-                        newQrCode = resultHash.toString();
+                        newQrCode = resultString;
                         TextView itemQrCode = (TextView) coordinatorLayout.findViewById(R.id.qrCodeValueItemNew);
                         itemQrCode.setText(getResources().getString(R.string.change));
                         itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
 
                     } else {
-                        newBarcode = resultHash.toString();
+                        newBarcode = resultString;
                         TextView itemBarcode = (TextView) coordinatorLayout.findViewById(R.id.barcodeValueItemNew);
                         itemBarcode.setText(getResources().getString(R.string.change));
                         itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));

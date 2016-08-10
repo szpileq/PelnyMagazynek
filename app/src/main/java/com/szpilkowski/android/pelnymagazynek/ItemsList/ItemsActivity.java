@@ -16,6 +16,8 @@ import android.view.View;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.Item.ItemActivity;
@@ -108,6 +110,32 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         super.onActivityResult(requestCode, resultCode, data);
         if (2 == resultCode) {
             getItemsList();
+        } else {
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.scannerCancelled), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    String resultString = result.getContents();
+                    if (result.getFormatName().equals("QR_CODE")) {
+                        String scannedQr = resultString;
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, scannedQr, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        //handleScannedQr(scannedQr);
+                    } else {
+                        String scannedBarcode = resultString;
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, scannedBarcode, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        //handleScannedBarcode(scannedBarcode);
+                    }
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -252,22 +280,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         return 1;
     }
 
-    private int addItem(Item i) {
-        itemsList.add(i);
-        Collections.sort(itemsList, new ItemComparator());
-
-        Integer currentQuantity = i.getQuantity();
-        Integer currentMinQuantity = i.getMinQuantity();
-        if (0 == currentQuantity) {
-            shortageItemsList.add(i);
-        } else if (currentMinQuantity != null && currentQuantity < i.getMinQuantity()) {
-            lowQuantityItemsList.add(i);
-        }
-
-        adapter.notifyDataSetChanged();
-        return 0;
-    }
-
     //OnClickListener for Floating Action Menu buttons
     private View.OnClickListener fabMenuClickListeners = new View.OnClickListener() {
         @Override
@@ -286,10 +298,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                         return;
                     }
                 case R.id.qrFabButton:
-                    //Use QR scanner to find/add product
+                    IntentIntegrator qrIntent = new IntentIntegrator(ItemsActivity.this);
+                    qrIntent.addExtra("SCAN_MODE","QR_CODE_MODE");
+                    qrIntent.initiateScan();
                     break;
                 case R.id.barcodeFabButton:
-                    //Use barcode scanner to find/add product
+                    IntentIntegrator barcodeIntent = new IntentIntegrator(ItemsActivity.this);
+                    barcodeIntent.addExtra("SCAN_MODE","PRODUCT_MODE");
+                    barcodeIntent.initiateScan();
                     break;
                 case R.id.manageUsersFabButton:
                     if (!warehouseRole.equals("admin")) {

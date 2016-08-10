@@ -249,7 +249,10 @@ public class ItemEdit extends AppCompatActivity {
             itemGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivityForResult(new Intent(ItemEdit.this, NewMapPosition.class), GET_LOCATION);
+                    Intent editLocation = new Intent(ItemEdit.this, EditMapPosition.class);
+                    editLocation.putExtra("lat", newLatitude);
+                    editLocation.putExtra("lng", newLongitude);
+                    startActivityForResult(editLocation, GET_LOCATION);
                 }
             });
         }

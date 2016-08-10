@@ -59,6 +59,9 @@
             android:name=".Item.NewMapPosition"
             android:label="@string/title_activity_maps"></activity>
         <activity
+            android:name=".Item.EditMapPosition"
+            android:label="@string/title_activity_maps"></activity>
+        <activity
             android:name=".Item.ShowOnMap"
             android:label="@string/showOnMapActivityTitle"></activity>
 

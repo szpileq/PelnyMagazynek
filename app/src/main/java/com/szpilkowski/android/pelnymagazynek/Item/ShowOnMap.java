@@ -118,6 +118,7 @@ public class ShowOnMap extends FragmentActivity implements OnMapReadyCallback, G
     private void showLocation() {
         MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(getCompleteAddressString(currentLocation));
         currentMarker = mMap.addMarker(markerOptions);
+        currentMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,10));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15),2000, null);
 

@@ -33,15 +33,14 @@ import com.szpilkowski.android.pelnymagazynek.R;
 import java.util.List;
 import java.util.Locale;
 
-public class NewMapPosition extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class EditMapPosition extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = NewMapPosition.class.getSimpleName();
+    public static final String TAG = EditMapPosition.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-    private LocationRequest mLocationRequest;
     LatLng currentLocation;
     String currentGeocode;
     Marker currentMarker;
@@ -56,13 +55,13 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        Intent intent = getIntent();
+        double latitude = (double)intent.getFloatExtra("lat", 0);
+        double longitude = (double)intent.getFloatExtra("lng", 0);
+        currentLocation = new LatLng(latitude, longitude);
+
         getLocationButton = (Button)findViewById(R.id.acceptOnMap);
         getLocationButton.setVisibility(View.INVISIBLE);
-
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_LOW_POWER)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -75,10 +74,6 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
     @Override
     protected void onPause() {
         super.onPause();
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            mGoogleApiClient.disconnect();
-        }
     }
 
     /**
@@ -104,19 +99,7 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        // get the GPS
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Dont have GPS permissions");
-            return;
-        }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-        else {
-            handleInitialLocation(location);
-        }
-
+        showInitialLocation();
         Log.i(TAG, "Location services connected.");
     }
 
@@ -139,11 +122,6 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        handleInitialLocation(location);
-    }
-
     private void handleNewLocation(LatLng location){
         currentLocation = location;
         currentMarker.setPosition(currentLocation);
@@ -152,10 +130,8 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
         currentMarker.showInfoWindow();
     }
 
-    private void handleInitialLocation(Location location) {
-        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        currentGeocode = getCompleteAddressString(currentLocation);
-        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(currentGeocode);
+    private void showInitialLocation() {
+        MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(getCompleteAddressString(currentLocation));
         currentMarker = mMap.addMarker(markerOptions);
         currentMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,10));
@@ -187,9 +163,9 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
                 if(null != returnedAddress.getThoroughfare())
                     strReturnedAddress.append(returnedAddress.getThoroughfare());
                 if(null != returnedAddress.getSubThoroughfare())
-                    strReturnedAddress.append(" ").append(returnedAddress.getSubThoroughfare()).append(", ");
+                    strReturnedAddress.append(" ").append(returnedAddress.getSubThoroughfare());
                 if(null != returnedAddress.getLocality())
-                    strReturnedAddress.append(returnedAddress.getLocality());
+                    strReturnedAddress.append(", ").append(returnedAddress.getLocality());
 
                 strAdd = strReturnedAddress.toString();
                 Log.w("Location:", "" + strReturnedAddress.toString());
@@ -202,5 +178,4 @@ public class NewMapPosition extends FragmentActivity implements OnMapReadyCallba
         }
         return strAdd;
     }
-
 }

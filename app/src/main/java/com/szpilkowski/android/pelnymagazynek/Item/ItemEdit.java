@@ -250,8 +250,16 @@ public class ItemEdit extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent editLocation = new Intent(ItemEdit.this, EditMapPosition.class);
-                    editLocation.putExtra("lat", newLatitude);
-                    editLocation.putExtra("lng", newLongitude);
+                    if(null != newLatitude)
+                        editLocation.putExtra("lat", newLatitude);
+                    else
+                        editLocation.putExtra("lat", currentItem.getLatitude());
+
+                    if(null != newLongitude)
+                        editLocation.putExtra("lng", newLongitude);
+                    else
+                        editLocation.putExtra("lng", currentItem.getLongitude());
+
                     startActivityForResult(editLocation, GET_LOCATION);
                 }
             });

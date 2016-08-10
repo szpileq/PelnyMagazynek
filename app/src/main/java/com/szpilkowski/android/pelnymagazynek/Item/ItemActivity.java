@@ -38,6 +38,7 @@ public class ItemActivity extends AppCompatActivity {
 
     Item currentItem;
     Item oldItem;
+    String currentGeocode;
 
     View coordinatorLayout;
     FloatingActionButton fabEditItem;
@@ -75,6 +76,7 @@ public class ItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
                 newActivity.putExtra("currentItem", currentItem);
+                newActivity.putExtra("geocode", currentGeocode);
                 startActivityForResult (newActivity, 1);
             }
         });
@@ -180,7 +182,7 @@ public class ItemActivity extends AppCompatActivity {
 
         if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
             LatLng currentLocation = new LatLng((double)currentItem.getLatitude(), (double)currentItem.getLongitude());
-            String currentGeocode = getCompleteAddressString(currentLocation);
+            currentGeocode = getCompleteAddressString(currentLocation);
             itemGPS.setText(currentGeocode);
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemGPS.setOnClickListener(new View.OnClickListener() {

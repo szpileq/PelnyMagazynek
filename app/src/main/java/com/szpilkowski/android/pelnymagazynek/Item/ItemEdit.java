@@ -31,7 +31,7 @@ public class ItemEdit extends AppCompatActivity {
     ApiConnector connector;
     private static final String TAG = "ItemEditActivity";
     Item currentItem;
-    ItemsManipulator itemsManipulator;
+    private static final int GET_LOCATION = 132;
 
     View coordinatorLayout;
     FloatingActionButton fabAccept;
@@ -49,6 +49,8 @@ public class ItemEdit extends AppCompatActivity {
     String newBarcode;
     Float newLongitude;
     Float newLatitude;
+    String newGeocode;
+    String initialGeocode;
 
     protected String warehouseRole;
 
@@ -71,6 +73,7 @@ public class ItemEdit extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentItem = intent.getParcelableExtra("currentItem");
+        initialGeocode = intent.getStringExtra("geocode");
         setupView();
 
         // Adding Toolbar to Main screen
@@ -92,25 +95,39 @@ public class ItemEdit extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, getString(R.string.scannerCancelled) , Snackbar.LENGTH_LONG);
-                snackbar.show();
-            } else {
-                String resultString = result.getContents();
-                Integer resultHash = resultString.hashCode();
-                if(result.getFormatName().equals("QR_CODE"))
-                {
-                    newQrCode = resultHash.toString();
-                } else {
-                    newBarcode = resultHash.toString();
-                }
+        if (GET_LOCATION == requestCode) {
+
+            if(resultCode == 1) {
+                newLatitude = (float) data.getDoubleExtra("currentLatitude", 0);
+                newLongitude = (float) data.getDoubleExtra("currentLongitude", 0);
+                newGeocode = data.getStringExtra("geocode");
+
                 setupView();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.gpsCancelled), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getString(R.string.scannerCancelled), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    String resultString = result.getContents();
+                    Integer resultHash = resultString.hashCode();
+                    if (result.getFormatName().equals("QR_CODE")) {
+                        newQrCode = resultHash.toString();
+                    } else {
+                        newBarcode = resultHash.toString();
+                    }
+                    setupView();
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -220,13 +237,19 @@ public class ItemEdit extends AppCompatActivity {
             });
         }
 
-        if (null != currentItem.getLatitude() && null != currentItem.getLongitude()) {
-            itemGPS.setText(getResources().getString(R.string.change));
+        if ((null != currentItem.getLatitude() && null != currentItem.getLongitude())
+                || (null != newLatitude && null != newLongitude))  {
+
+            if(null != newGeocode)
+                itemGPS.setText(newGeocode);
+            else
+                itemGPS.setText(initialGeocode);
+
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: show a dialog with a map with given latitude/longitude
+                    startActivityForResult(new Intent(ItemEdit.this, NewMapPosition.class), GET_LOCATION);
                 }
             });
         }
@@ -234,7 +257,7 @@ public class ItemEdit extends AppCompatActivity {
             itemGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: open maps and add point
+                    startActivityForResult(new Intent(ItemEdit.this, NewMapPosition.class), GET_LOCATION);
                 }
             });
         }

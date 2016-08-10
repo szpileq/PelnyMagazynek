@@ -42,6 +42,7 @@ public class ItemActivity extends AppCompatActivity {
 
     View coordinatorLayout;
     FloatingActionButton fabEditItem;
+    String warehouseRole;
 
 
     @Override
@@ -62,6 +63,7 @@ public class ItemActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentItem = intent.getParcelableExtra("currentItem");
+        warehouseRole = prefs.getString("warehouseRole", null);
         setupView();
 
         // Adding Toolbar to Main screen
@@ -70,16 +72,21 @@ public class ItemActivity extends AppCompatActivity {
 
         //Setting up the FAB menu
         fabEditItem = (FloatingActionButton) findViewById(R.id.fabEditItem);
-
-        fabEditItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
-                newActivity.putExtra("currentItem", currentItem);
-                newActivity.putExtra("geocode", currentGeocode);
-                startActivityForResult (newActivity, 1);
-            }
-        });
+        if(warehouseRole.equals("watcher"))
+        {
+          fabEditItem.setVisibility(View.INVISIBLE);
+        }
+        else {
+            fabEditItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent newActivity = new Intent(ItemActivity.this, ItemEdit.class);
+                    newActivity.putExtra("currentItem", currentItem);
+                    newActivity.putExtra("geocode", currentGeocode);
+                    startActivityForResult(newActivity, 1);
+                }
+            });
+        }
 
     }
 

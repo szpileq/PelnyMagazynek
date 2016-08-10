@@ -101,13 +101,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         if (manageUsersFabButton != null) {
             manageUsersFabButton.setOnClickListener(fabMenuClickListeners);
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(2 == resultCode){
+        if (2 == resultCode) {
             getItemsList();
         }
     }
@@ -249,7 +248,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         Log.i(TAG, "openItem: will open " + i.getName());
         Intent newActivity = new Intent(this, ItemActivity.class);
         newActivity.putExtra("currentItem", i);
-        startActivityForResult (newActivity, 1);
+        startActivityForResult(newActivity, 1);
         return 1;
     }
 
@@ -283,7 +282,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                     } else {
                         fabMenu.close(false);
                         Intent newActivity = new Intent(ItemsActivity.this, ItemNew.class);
-                        startActivityForResult (newActivity, 2);
+                        startActivityForResult(newActivity, 2);
                         return;
                     }
                 case R.id.qrFabButton:
@@ -293,7 +292,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                     //Use barcode scanner to find/add product
                     break;
                 case R.id.manageUsersFabButton:
-                    showUsersActivity();
+                    if (!warehouseRole.equals("admin")) {
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                        break;
+                    } else {
+                        showUsersActivity();
+                    }
                     break;
             }
         }

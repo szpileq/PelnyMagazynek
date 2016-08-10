@@ -48,9 +48,20 @@ public class WarehousesAdapter extends RecyclerView.Adapter<WarehouseHolder>{
     @Override
     public void onBindViewHolder(WarehouseHolder holder, int position) {
         String itemName = contentWarehousesList.get(position).getName();
-        String itemRole = contentWarehousesList.get(position).getRole();
         holder.name.setText(itemName);
-        holder.role.setText(itemRole);
+
+        String itemRole = contentWarehousesList.get(position).getRole();
+        String translatedRole;
+
+        if(itemRole.equals("admin"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesAdmin);
+        else if (itemRole.equals("editor"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesEditor);
+        else if (itemRole.equals("watcher"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesWatcher);
+        else
+            translatedRole = "Error!";
+        holder.role.setText(translatedRole);
 
         holder.setClickListeners(new WarehouseClickListeners() {
             @Override

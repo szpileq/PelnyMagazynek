@@ -18,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by szpileq on 2016-05-30.
@@ -47,6 +48,14 @@ public interface MyApiEndpointInterface {
 
     @GET("warehouses/{id}/items")
     Call<List<Item>> getItems(@Path("id") int warehouse_id);
+
+    @GET("warehouses/{id}/items")
+    Call<Item> getItemByQr(@Path("id") int warehouse_id,
+                           @Query("qr_code") String qr_code);
+
+    @GET("warehouses/{id}/items")
+    Call<Item> getItemByBarcode(@Path("id") int warehouse_id,
+                           @Query("bar_code") String bar_code);
 
     @GET("items/{id}")
     Call<Item> getItem(@Path("id") int item_id);

@@ -124,13 +124,13 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                         Snackbar snackbar = Snackbar
                                 .make(coordinatorLayout, scannedQr, Snackbar.LENGTH_LONG);
                         snackbar.show();
-                        //handleScannedQr(scannedQr);
+                        getItemByQrCode(scannedQr);
                     } else {
                         String scannedBarcode = resultString;
                         Snackbar snackbar = Snackbar
                                 .make(coordinatorLayout, scannedBarcode, Snackbar.LENGTH_LONG);
                         snackbar.show();
-                        //handleScannedBarcode(scannedBarcode);
+                        getItemByBarCode(scannedBarcode);
                     }
                 }
             } else {
@@ -215,13 +215,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
 
     @Override
     public int removeItemRequest(final Item i) {
-/*
-        if(!warehouseRole.equals("admin")){
+
+        if(warehouseRole.equals("watcher")){
             Snackbar snackbar = Snackbar
                     .make(coordinatorLayout, getString(R.string.wrongPrivileges), Snackbar.LENGTH_LONG);
             snackbar.show();
             return 1;
-        }*/
+        }
+
         Call call = connector.apiService.removeItem(i.getId());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -278,6 +279,74 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         newActivity.putExtra("currentItem", i);
         startActivityForResult(newActivity, 1);
         return 1;
+    }
+
+    private int handleScannedQr(String qrCode){
+        getItemByQrCode(qrCode);
+
+        return 0;
+    }
+
+    private void getItemByQrCode(String qrCode) {
+
+        Call call = connector.apiService.getItemByQr(warehouseId, qrCode);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+
+                    //Success, fill up list of warehouses
+                    Item foundItem = response.body();
+
+
+
+                } else if (statusCode == 401) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Item not found", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+                }
+                Log.i(TAG, "onResponse: API response handled.");
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for logging failed");
+                // Log error here since request failed
+            }
+        });
+    }
+
+    private void getItemByBarCode(String barcode) {
+
+        Call call = connector.apiService.getItemByBarcode(warehouseId, barcode);
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+
+                    //Success, fill up list of warehouses
+                    Item foundItem = response.body();
+
+
+
+                } else if (statusCode == 401) {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Item not found", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+                }
+                Log.i(TAG, "onResponse: API response handled.");
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for logging failed");
+                // Log error here since request failed
+            }
+        });
     }
 
     //OnClickListener for Floating Action Menu buttons

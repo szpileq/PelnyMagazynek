@@ -3,7 +3,6 @@ package com.szpilkowski.android.pelnymagazynek.Item;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +15,10 @@ import com.github.clans.fab.FloatingActionButton;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
+import com.szpilkowski.android.pelnymagazynek.Constants;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
-import com.szpilkowski.android.pelnymagazynek.ItemsList.ItemsManipulator;
+import com.szpilkowski.android.pelnymagazynek.Maps.EditMapPosition;
+import com.szpilkowski.android.pelnymagazynek.Maps.NewMapPosition;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;
@@ -31,7 +32,6 @@ public class ItemEdit extends AppCompatActivity {
     ApiConnector connector;
     private static final String TAG = "ItemEditActivity";
     Item currentItem;
-    private static final int GET_LOCATION = 132;
 
     View coordinatorLayout;
     FloatingActionButton fabAccept;
@@ -53,6 +53,7 @@ public class ItemEdit extends AppCompatActivity {
     String initialGeocode;
 
     protected String warehouseRole;
+    protected Integer warehouseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class ItemEdit extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("AppPref", MODE_PRIVATE);
         String authorizationToken = prefs.getString("AccessToken", null);
         warehouseRole = prefs.getString("warehouseRole", null);
+        warehouseId = prefs.getInt("warehouseId", 0);
 
         connector = ApiConnector.getInstance();
         connector.setupApiConnector(authorizationToken);
@@ -95,7 +97,7 @@ public class ItemEdit extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (GET_LOCATION == requestCode) {
+        if (Constants.GET_LOCATION == requestCode) {
 
             if(resultCode == 1) {
                 newLatitude = (float) data.getDoubleExtra("currentLatitude", 0);
@@ -118,16 +120,60 @@ public class ItemEdit extends AppCompatActivity {
                 } else {
                     String resultString = result.getContents();
                     if (result.getFormatName().equals("QR_CODE")) {
-                        newQrCode = resultString;
+                        handleCode(resultString, Constants.QR_CODE);
                     } else {
-                        newBarcode = resultString;
+                        handleCode(resultString, Constants.BAR_CODE);
                     }
-                    setupView();
                 }
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
             }
         }
+    }
+
+    private void handleCode(final String code, final int codeType) {
+        Call call;
+
+        if (Constants.QR_CODE == codeType)
+            call = connector.apiService.getItemByQr(warehouseId, code);
+        else if (Constants.BAR_CODE == codeType)
+            call = connector.apiService.getItemByBarcode(warehouseId, code);
+        else {
+            Log.e(TAG, "Invalid codeType");
+            return;
+        }
+
+        call.enqueue(new Callback<Item>() {
+            @Override
+            public void onResponse(Call<Item> call, Response<Item> response) {
+                int statusCode = response.code();
+                if (statusCode == 200) {
+
+                    //Success, fill up list of warehouses
+                    Item foundItem = response.body();
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, getResources().getString(R.string.codeTaken) + " " + foundItem.getName(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+
+                } else if (statusCode == 401) {
+
+                    if (Constants.QR_CODE == codeType)
+                        newQrCode = code;
+                    else if (Constants.BAR_CODE == codeType)
+                        newBarcode = code;
+
+                    setupView();
+                }
+                Log.i(TAG, "onResponse: API response handled.");
+            }
+
+            @Override
+            public void onFailure(Call<Item> call, Throwable t) {
+                Log.i(TAG, "onFailure: API call for logging failed");
+                // Log error here since request failed
+            }
+        });
     }
 
     private void getEditedItem(){
@@ -259,7 +305,7 @@ public class ItemEdit extends AppCompatActivity {
                     else
                         editLocation.putExtra("lng", currentItem.getLongitude());
 
-                    startActivityForResult(editLocation, GET_LOCATION);
+                    startActivityForResult(editLocation, Constants.GET_LOCATION);
                 }
             });
         }
@@ -267,7 +313,7 @@ public class ItemEdit extends AppCompatActivity {
             itemGPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivityForResult(new Intent(ItemEdit.this, NewMapPosition.class), GET_LOCATION);
+                    startActivityForResult(new Intent(ItemEdit.this, NewMapPosition.class), Constants.GET_LOCATION);
                 }
             });
         }

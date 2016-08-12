@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,14 +19,11 @@ import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.Maps.ShowOnMap;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by szpileq on 2016-07-28.
@@ -72,11 +68,9 @@ public class ItemActivity extends AppCompatActivity {
 
         //Setting up the FAB menu
         fabEditItem = (FloatingActionButton) findViewById(R.id.fabEditItem);
-        if(warehouseRole.equals("watcher"))
-        {
-          fabEditItem.setVisibility(View.INVISIBLE);
-        }
-        else {
+        if (warehouseRole.equals("watcher")) {
+            fabEditItem.setVisibility(View.INVISIBLE);
+        } else {
             fabEditItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -104,14 +98,14 @@ public class ItemActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(1 == resultCode){
+        if (1 == resultCode) {
             oldItem = currentItem;
             currentItem = data.getParcelableExtra("currentItem");
             setupView();
         }
     }
 
-    private void setupView(){
+    private void setupView() {
         Toolbar itemToolbar = (Toolbar) coordinatorLayout.findViewById(R.id.itemActivity_toolbar);
         AppBarLayout itemAppBar = (AppBarLayout) coordinatorLayout.findViewById(R.id.AppBarLayoutItemActivity);
 
@@ -130,14 +124,14 @@ public class ItemActivity extends AppCompatActivity {
         itemQuantity.setText(quantity.toString());
 
         Integer targetQuantity = currentItem.getTargetQuantity();
-        if(null != targetQuantity){
+        if (null != targetQuantity) {
             itemTargetQuantity.setText(targetQuantity.toString());
             itemTargetQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
 
         Integer minQuantity = currentItem.getMinQuantity();
 
-        if(0 == quantity){
+        if (0 == quantity) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -145,15 +139,14 @@ public class ItemActivity extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.colorDarkRed));
             itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorLightRed));
             itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorLightRed));
-        }
-        else if(null != minQuantity){
+        } else if (null != minQuantity) {
             itemMinQuantity.setText(minQuantity.toString());
             itemMinQuantity.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-            if(quantity < minQuantity) {
+            if (quantity < minQuantity) {
                 window.setStatusBarColor(getResources().getColor(R.color.colorDarkYellow));
                 itemToolbar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
                 itemAppBar.setBackgroundColor(getResources().getColor(R.color.colorLightYellow));
@@ -165,7 +158,7 @@ public class ItemActivity extends AppCompatActivity {
 
         }
 
-        if(null != currentItem.getQrcode()){
+        if (null != currentItem.getQrcode()) {
             itemQrCode.setText(getResources().getString(R.string.added));
             itemQrCode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
             itemQrCode.setOnClickListener(new View.OnClickListener() {
@@ -176,19 +169,13 @@ public class ItemActivity extends AppCompatActivity {
             });
         }
 
-        if(null != currentItem.getBarcode()){
-            itemBarcode.setText(getResources().getString(R.string.added));
+        if (null != currentItem.getBarcode()) {
+            itemBarcode.setText(currentItem.getBarcode());
             itemBarcode.setTextColor(getResources().getColor(android.R.color.primary_text_light));
-            itemBarcode.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO: open dialog with barcode and options: change / close
-                }
-            });
         }
 
-        if(null != currentItem.getLatitude() && null != currentItem.getLongitude()){
-            LatLng currentLocation = new LatLng((double)currentItem.getLatitude(), (double)currentItem.getLongitude());
+        if (null != currentItem.getLatitude() && null != currentItem.getLongitude()) {
+            LatLng currentLocation = new LatLng((double) currentItem.getLatitude(), (double) currentItem.getLongitude());
             currentGeocode = getCompleteAddressString(currentLocation);
             itemGPS.setText(currentGeocode);
             itemGPS.setTextColor(getResources().getColor(android.R.color.primary_text_light));
@@ -203,7 +190,7 @@ public class ItemActivity extends AppCompatActivity {
             });
         }
 
-        if(null != currentItem.getComment()){
+        if (null != currentItem.getComment()) {
             itemComments.setText(currentItem.getComment().toString());
             itemComments.setTextColor(getResources().getColor(android.R.color.primary_text_light));
         }
@@ -218,11 +205,11 @@ public class ItemActivity extends AppCompatActivity {
                 Address returnedAddress = addresses.get(0);
                 StringBuilder strReturnedAddress = new StringBuilder("");
 
-                if(null != returnedAddress.getThoroughfare())
+                if (null != returnedAddress.getThoroughfare())
                     strReturnedAddress.append(returnedAddress.getThoroughfare());
-                if(null != returnedAddress.getSubThoroughfare())
+                if (null != returnedAddress.getSubThoroughfare())
                     strReturnedAddress.append(" ").append(returnedAddress.getSubThoroughfare());
-                if(null != returnedAddress.getLocality())
+                if (null != returnedAddress.getLocality())
                     strReturnedAddress.append(", ").append(returnedAddress.getLocality());
 
                 strAdd = strReturnedAddress.toString();

@@ -45,6 +45,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     protected String warehouseName;
     protected String warehouseRole;
 
+    private static final int BAR_CODE = 138;
+    private static final int QR_CODE = 139;
+
     List<Item> itemsList;
     List<Item> lowQuantityItemsList;
     List<Item> shortageItemsList;
@@ -120,17 +123,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                 } else {
                     String resultString = result.getContents();
                     if (result.getFormatName().equals("QR_CODE")) {
-                        String scannedQr = resultString;
-                        Snackbar snackbar = Snackbar
-                                .make(coordinatorLayout, scannedQr, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                        getItemByQrCode(scannedQr);
+                        getItemByCode(resultString, QR_CODE);
                     } else {
-                        String scannedBarcode = resultString;
-                        Snackbar snackbar = Snackbar
-                                .make(coordinatorLayout, scannedBarcode, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                        getItemByBarCode(scannedBarcode);
+                        getItemByCode(resultString, BAR_CODE);
                     }
                 }
             } else {
@@ -281,15 +276,20 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
         return 1;
     }
 
-    private int handleScannedQr(String qrCode){
-        getItemByQrCode(qrCode);
 
-        return 0;
-    }
+    private void getItemByCode(String code, Integer codeType) {
 
-    private void getItemByQrCode(String qrCode) {
+        Call call;
 
-        Call call = connector.apiService.getItemByQr(warehouseId, qrCode);
+        if (QR_CODE == codeType)
+            call = connector.apiService.getItemByQr(warehouseId, code);
+        else if (BAR_CODE == codeType)
+            call = connector.apiService.getItemByBarcode(warehouseId, code);
+        else {
+            Log.e(TAG, "Invalid codeType");
+            return;
+        }
+
         call.enqueue(new Callback<Item>() {
             @Override
             public void onResponse(Call<Item> call, Response<Item> response) {
@@ -298,43 +298,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
 
                     //Success, fill up list of warehouses
                     Item foundItem = response.body();
-
-
-
-                } else if (statusCode == 401) {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Item not found", Snackbar.LENGTH_LONG);
-
-                    snackbar.show();
-                }
-                Log.i(TAG, "onResponse: API response handled.");
-            }
-
-            @Override
-            public void onFailure(Call<Item> call, Throwable t) {
-                Log.i(TAG, "onFailure: API call for logging failed");
-                // Log error here since request failed
-            }
-        });
-    }
-
-    private void getItemByBarCode(String barcode) {
-
-        Call call = connector.apiService.getItemByBarcode(warehouseId, barcode);
-        call.enqueue(new Callback<Item>() {
-            @Override
-            public void onResponse(Call<Item> call, Response<Item> response) {
-                int statusCode = response.code();
-                if (statusCode == 200) {
-
-                    //Success, fill up list of warehouses
-                    Item foundItem = response.body();
-
+                    openItem(foundItem);
 
 
                 } else if (statusCode == 401) {
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Item not found", Snackbar.LENGTH_LONG);
+                            .make(coordinatorLayout, getResources().getString(R.string.itemNotFound), Snackbar.LENGTH_LONG);
 
                     snackbar.show();
                 }
@@ -367,11 +336,13 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                         return;
                     }
                 case R.id.qrFabButton:
+                    fabMenu.close(false);
                     IntentIntegrator qrIntent = new IntentIntegrator(ItemsActivity.this);
                     qrIntent.addExtra("SCAN_MODE","QR_CODE_MODE");
                     qrIntent.initiateScan();
                     break;
                 case R.id.barcodeFabButton:
+                    fabMenu.close(false);
                     IntentIntegrator barcodeIntent = new IntentIntegrator(ItemsActivity.this);
                     barcodeIntent.addExtra("SCAN_MODE","PRODUCT_MODE");
                     barcodeIntent.initiateScan();
@@ -383,6 +354,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                         snackbar.show();
                         break;
                     } else {
+                        fabMenu.close(false);
                         showUsersActivity();
                     }
                     break;

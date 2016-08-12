@@ -94,5 +94,6 @@
     <string name="gpsCancelled">Przerwano pobieranie lokalizacji</string>
     <string name="back">Wróć</string>
     <string name="showOnMapActivityTitle">Mapa</string>
+    <string name="itemNotFound">Nie znaleziono przedmiotu</string>
 
 </resources>

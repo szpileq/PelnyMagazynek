@@ -3,9 +3,6 @@ package com.szpilkowski.android.pelnymagazynek.API;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.DbModels.User;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
-import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
-import com.szpilkowski.android.pelnymagazynek.MainScreen.RegistrationData;
-import com.szpilkowski.android.pelnymagazynek.MainScreen.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.Users.UserRequest;
 
 import java.util.List;

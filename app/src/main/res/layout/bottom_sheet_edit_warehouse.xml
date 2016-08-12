@@ -30,7 +30,7 @@
         android:ems="15"
         android:id="@+id/nameText"
         android:layout_below="@+id/acceptEditWarehouseBottomSheet"
-        android:text="@string/nameWarehouse"
+        android:text="@string/name"
         android:backgroundTint="@android:color/white"
         android:textColor="@android:color/white"
         android:textSize="12sp"

@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
-import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
+import com.szpilkowski.android.pelnymagazynek.API.LoginInfo;
+import com.szpilkowski.android.pelnymagazynek.API.RegistrationData;
+import com.szpilkowski.android.pelnymagazynek.API.UserRegistrationData;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;

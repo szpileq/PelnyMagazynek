@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyDmbA2Mh2khtcHy3B4WLjFEWNgYxkrSYPI
@@ -23,13 +23,13 @@
     <string name="newWarehouseAPICallFailure">Błąd dodawania, spróbuj ponownie</string>
 
     <string name="warehousesAll">Wszystkie</string>
-    <string name="warehousesAdmin">Autor</string>
+    <string name="warehousesAdmin" tools:ignore="Typos">Autor</string>
     <string name="warehousesEditor">Edytor</string>
     <string name="warehousesWatcher">Obserwator</string>
     <string name="nothing_to_show">Brak elementów</string>
     <string name="newWarehouse">Nowy magazyn</string>
     <string name="editWarehouse">Nowa nazwa</string>
-    <string name="nameWarehouse">Nazwa</string>
+    <string name="name">Nazwa</string>
     <string name="nameTaken">Nazwa niepoprawna bądź zajęta</string>
     <string name="ContextMenuTitle">Wybierz opcję</string>
     <string name="warehousesEditName">Edytuj nazwę</string>
@@ -95,5 +95,8 @@
     <string name="back">Wróć</string>
     <string name="showOnMapActivityTitle">Mapa</string>
     <string name="itemNotFound">Nie znaleziono przedmiotu</string>
+    <string name="codeTaken">Kod zajęty przez przedmiot o nazwie</string>
+    <string name="email">E-mail</string>
+    <string name="noWarehouses">Dodaj pierwszy magazyn!</string>
 
 </resources>

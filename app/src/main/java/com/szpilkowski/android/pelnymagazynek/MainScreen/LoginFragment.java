@@ -15,8 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
+import com.szpilkowski.android.pelnymagazynek.API.LoginCredentials;
 import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehousesActivity;
-import com.szpilkowski.android.pelnymagazynek.Info.LoginInfo;
+import com.szpilkowski.android.pelnymagazynek.API.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import retrofit2.Call;
@@ -71,7 +72,7 @@ public class LoginFragment extends Fragment {
                             LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
                             SharedPreferences.Editor edit = pref.edit();
                             edit.putString("AccessToken", "Bearer " + loginInfo.getAccessToken());
-                            edit.commit();
+                            edit.apply();
                             Intent WarehousesMain = new Intent(getActivity(), WarehousesActivity.class);
 
                             startActivity(WarehousesMain);

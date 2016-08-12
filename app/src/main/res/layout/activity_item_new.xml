@@ -42,7 +42,7 @@
             android:layout_marginRight="52dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@android:color/white"
-            android:hint="Nazwa"
+            android:hint="@string/name"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="36sp" />

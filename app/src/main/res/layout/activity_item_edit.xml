@@ -43,7 +43,7 @@
             android:layout_marginTop="6dp"
             android:singleLine="true"
             android:backgroundTint="@android:color/white"
-            android:hint="Nazwa"
+            android:hint="@string/name"
 
             android:textColor="@android:color/white"
             android:textSize="36sp" />
@@ -187,6 +187,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:text="@string/add"
+                    android:singleLine="true"
                     android:textStyle="bold"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
@@ -223,6 +224,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:text="@string/add"
+                    android:singleLine="true"
                     android:textStyle="bold"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>

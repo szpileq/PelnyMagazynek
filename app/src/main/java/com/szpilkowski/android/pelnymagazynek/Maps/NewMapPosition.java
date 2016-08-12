@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Item;
+package com.szpilkowski.android.pelnymagazynek.Maps;
 
 import android.Manifest;
 import android.content.Intent;

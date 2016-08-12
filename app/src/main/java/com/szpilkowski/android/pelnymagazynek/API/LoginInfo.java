@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.Info;
+package com.szpilkowski.android.pelnymagazynek.API;
 
 import java.util.HashMap;
 import java.util.Map;

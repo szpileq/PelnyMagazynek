@@ -361,7 +361,7 @@ public class WarehousesActivity extends AppCompatActivity implements
         edit.putInt("warehouseId", w.getId());
         edit.putString("warehouseName", w.getName());
         edit.putString("warehouseRole", w.getRole());
-        edit.commit();
+        edit.apply();
         Intent ItemsActivity = new Intent(this, ItemsActivity.class);
         startActivity(ItemsActivity);
         return 1;

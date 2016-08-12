@@ -19,6 +19,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
+import com.szpilkowski.android.pelnymagazynek.Constants;
 import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
 import com.szpilkowski.android.pelnymagazynek.Item.ItemActivity;
 import com.szpilkowski.android.pelnymagazynek.Item.ItemNew;
@@ -44,9 +45,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
     protected Integer warehouseId;
     protected String warehouseName;
     protected String warehouseRole;
-
-    private static final int BAR_CODE = 138;
-    private static final int QR_CODE = 139;
 
     List<Item> itemsList;
     List<Item> lowQuantityItemsList;
@@ -123,9 +121,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
                 } else {
                     String resultString = result.getContents();
                     if (result.getFormatName().equals("QR_CODE")) {
-                        getItemByCode(resultString, QR_CODE);
+                        getItemByCode(resultString, Constants.QR_CODE);
                     } else {
-                        getItemByCode(resultString, BAR_CODE);
+                        getItemByCode(resultString, Constants.BAR_CODE);
                     }
                 }
             } else {
@@ -281,9 +279,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsManipulator
 
         Call call;
 
-        if (QR_CODE == codeType)
+        if (Constants.QR_CODE == codeType)
             call = connector.apiService.getItemByQr(warehouseId, code);
-        else if (BAR_CODE == codeType)
+        else if (Constants.BAR_CODE == codeType)
             call = connector.apiService.getItemByBarcode(warehouseId, code);
         else {
             Log.e(TAG, "Invalid codeType");

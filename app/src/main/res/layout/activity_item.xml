@@ -188,6 +188,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:text="@string/notSet"
+                    android:singleLine="true"
                     android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>
@@ -224,6 +225,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/md_keylines"
                     android:text="@string/notSet"
+                    android:singleLine="true"
                     android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/article_subheading" />
             </LinearLayout>

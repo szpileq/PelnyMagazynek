@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.MainScreen;
+package com.szpilkowski.android.pelnymagazynek.API;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -22,7 +22,7 @@
         android:id="@+id/emailEditText"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:hint="E-mail"
+        android:hint="@string/email"
         android:text="test2@gmail.com" />
 
     <EditText

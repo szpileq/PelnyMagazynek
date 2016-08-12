@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:ems="15"
         android:id="@+id/emailText"
-        android:text="E-Mail"
+        android:text="@string/email"
         android:layout_below="@+id/addNewUserBottomSheet"
         android:backgroundTint="@android:color/white"
         android:textColor="@android:color/white"

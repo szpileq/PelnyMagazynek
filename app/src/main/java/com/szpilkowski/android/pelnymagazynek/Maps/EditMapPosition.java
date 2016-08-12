@@ -1,15 +1,11 @@
-package com.szpilkowski.android.pelnymagazynek.Item;
+package com.szpilkowski.android.pelnymagazynek.Maps;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +14,6 @@ import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,17 +27,18 @@ import com.szpilkowski.android.pelnymagazynek.R;
 import java.util.List;
 import java.util.Locale;
 
-public class ShowOnMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class EditMapPosition extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = ShowOnMap.class.getSimpleName();
+    public static final String TAG = EditMapPosition.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     LatLng currentLocation;
+    String currentGeocode;
     Marker currentMarker;
-    Button goBackButton;
+    Button getLocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +54,8 @@ public class ShowOnMap extends FragmentActivity implements OnMapReadyCallback, G
         double longitude = (double)intent.getFloatExtra("lng", 0);
         currentLocation = new LatLng(latitude, longitude);
 
-        goBackButton = (Button)findViewById(R.id.acceptOnMap);
-        goBackButton.setVisibility(View.INVISIBLE);
+        getLocationButton = (Button)findViewById(R.id.acceptOnMap);
+        getLocationButton.setVisibility(View.INVISIBLE);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -87,12 +82,18 @@ public class ShowOnMap extends FragmentActivity implements OnMapReadyCallback, G
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                handleNewLocation(latLng);
+            }
+        });
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        showLocation();
+        showInitialLocation();
         Log.i(TAG, "Location services connected.");
     }
 
@@ -115,18 +116,30 @@ public class ShowOnMap extends FragmentActivity implements OnMapReadyCallback, G
         }
     }
 
-    private void showLocation() {
+    private void handleNewLocation(LatLng location){
+        currentLocation = location;
+        currentMarker.setPosition(currentLocation);
+        currentGeocode = getCompleteAddressString(currentLocation);
+        currentMarker.setTitle(currentGeocode);
+        currentMarker.showInfoWindow();
+    }
+
+    private void showInitialLocation() {
         MarkerOptions markerOptions = new MarkerOptions().position(currentLocation).title(getCompleteAddressString(currentLocation));
         currentMarker = mMap.addMarker(markerOptions);
         currentMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,10));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15),2000, null);
 
-        goBackButton.setVisibility(View.VISIBLE);
-        goBackButton.setText(getResources().getString(R.string.back));
-        goBackButton.setOnClickListener(new View.OnClickListener() {
+        getLocationButton.setVisibility(View.VISIBLE);
+        getLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent resultLocation = new Intent();
+                resultLocation.putExtra("currentLatitude", currentLocation.latitude);
+                resultLocation.putExtra("currentLongitude", currentLocation.longitude);
+                resultLocation.putExtra("geocode", currentGeocode);
+                setResult(1, resultLocation);
                 finish();
             }
         });

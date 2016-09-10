@@ -10,11 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 import com.szpilkowski.android.pelnymagazynek.R;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.EditWarehouseModalBottomSheet;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehouseClickListeners;
 
 import java.util.List;
 

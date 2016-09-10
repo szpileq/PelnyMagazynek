@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.DbModels;
+package com.szpilkowski.android.pelnymagazynek.DatabaseModels;
 
 import com.google.gson.annotations.SerializedName;
 

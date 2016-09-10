@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.DividerItemDecoration;
 import com.szpilkowski.android.pelnymagazynek.R;
 

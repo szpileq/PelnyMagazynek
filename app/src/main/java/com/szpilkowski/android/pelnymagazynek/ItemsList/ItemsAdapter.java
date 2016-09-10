@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Item;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.List;

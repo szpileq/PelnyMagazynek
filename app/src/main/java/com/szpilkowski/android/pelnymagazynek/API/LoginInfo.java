@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 
 public class LoginInfo {
 

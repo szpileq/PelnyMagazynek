@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Item;
 import com.szpilkowski.android.pelnymagazynek.Maps.ShowOnMap;
 import com.szpilkowski.android.pelnymagazynek.R;
 

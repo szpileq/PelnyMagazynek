@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.ItemsList.ItemsActivity;
 import com.szpilkowski.android.pelnymagazynek.R;
 

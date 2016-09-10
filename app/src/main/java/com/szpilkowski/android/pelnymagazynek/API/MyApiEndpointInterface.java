@@ -1,8 +1,8 @@
 package com.szpilkowski.android.pelnymagazynek.API;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Warehouse;
 import com.szpilkowski.android.pelnymagazynek.Users.UserRequest;
 
 import java.util.List;

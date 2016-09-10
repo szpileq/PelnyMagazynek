@@ -7,16 +7,13 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 import com.szpilkowski.android.pelnymagazynek.R;
-import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehouseManipulator;
 
 /**
  * Created by szpileq on 2016-07-28.

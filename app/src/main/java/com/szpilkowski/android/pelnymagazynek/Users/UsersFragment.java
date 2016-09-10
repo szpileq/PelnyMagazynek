@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 import com.szpilkowski.android.pelnymagazynek.DividerItemDecoration;
 import com.szpilkowski.android.pelnymagazynek.R;
 

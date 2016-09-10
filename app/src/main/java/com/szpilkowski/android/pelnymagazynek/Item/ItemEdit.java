@@ -16,7 +16,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
 import com.szpilkowski.android.pelnymagazynek.Constants;
-import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Item;
 import com.szpilkowski.android.pelnymagazynek.Maps.EditMapPosition;
 import com.szpilkowski.android.pelnymagazynek.Maps.NewMapPosition;
 import com.szpilkowski.android.pelnymagazynek.R;

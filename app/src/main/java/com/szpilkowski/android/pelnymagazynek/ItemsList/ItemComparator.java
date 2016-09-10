@@ -1,6 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.ItemsList;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Item;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Item;
 
 import java.util.Comparator;
 

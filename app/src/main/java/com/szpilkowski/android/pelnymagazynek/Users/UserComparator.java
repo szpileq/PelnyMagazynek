@@ -1,6 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.Users;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 
 import java.util.Comparator;
 

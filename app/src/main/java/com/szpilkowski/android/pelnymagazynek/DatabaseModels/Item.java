@@ -1,4 +1,4 @@
-package com.szpilkowski.android.pelnymagazynek.DbModels;
+package com.szpilkowski.android.pelnymagazynek.DatabaseModels;
 
 import android.os.Parcel;
 import android.os.Parcelable;

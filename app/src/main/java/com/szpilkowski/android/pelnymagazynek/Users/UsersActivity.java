@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.szpilkowski.android.pelnymagazynek.API.ApiConnector;
-import com.szpilkowski.android.pelnymagazynek.DbModels.User;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.User;
 import com.szpilkowski.android.pelnymagazynek.R;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.szpilkowski.android.pelnymagazynek.Warehouses;
 
-import com.szpilkowski.android.pelnymagazynek.DbModels.Warehouse;
+import com.szpilkowski.android.pelnymagazynek.DatabaseModels.Warehouse;
 
 import java.util.Comparator;
 

@@ -156,7 +156,7 @@ public class ItemEdit extends AppCompatActivity {
                     snackbar.show();
 
 
-                } else if (statusCode == 401) {
+                } else if (statusCode == 404) {
 
                     if (Constants.QR_CODE == codeType)
                         newQrCode = code;
@@ -348,7 +348,7 @@ public class ItemEdit extends AppCompatActivity {
                     Snackbar snackbar = Snackbar
                             .make(coordinatorLayout, getString(R.string.someoneHasUpdated) , Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    currentItem = response.body();
+                    // currentItem = response.body();
                     setupView();
                 }
                 else if (statusCode == 401) {

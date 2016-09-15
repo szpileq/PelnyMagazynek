@@ -59,7 +59,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UserHolder>{
         holder.icon.setText(userFirstName.substring(0,1).toUpperCase() + userLastName.substring(0,1).toUpperCase());
 
         holder.name.setText(userFirstName + " " + userLastName);
-        holder.role.setText(userRole);
+
+        String translatedRole;
+        if(userRole.equals("admin"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesAdmin);
+        else if (userRole.equals("editor"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesEditor);
+        else if (userRole.equals("watcher"))
+            translatedRole = mContext.getResources().getString(R.string.warehousesWatcher);
+        else
+            translatedRole = "Error!";
+        holder.role.setText(translatedRole);
 
         holder.setClickListeners(new UserClickListeners() {
             @Override

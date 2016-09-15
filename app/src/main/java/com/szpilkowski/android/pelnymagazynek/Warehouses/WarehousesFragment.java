@@ -42,8 +42,9 @@ public class WarehousesFragment extends Fragment {
     @Override
     public void onDetach() {
         warehouseManipulator = null;
+        if(null != adapter)
+            adapter.onDetach();
         super.onDetach();
-        adapter.onDetach();
     }
 
     @Override

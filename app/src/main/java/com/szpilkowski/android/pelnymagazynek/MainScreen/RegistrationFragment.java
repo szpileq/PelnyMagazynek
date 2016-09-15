@@ -1,6 +1,8 @@
 package com.szpilkowski.android.pelnymagazynek.MainScreen;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import com.szpilkowski.android.pelnymagazynek.API.LoginInfo;
 import com.szpilkowski.android.pelnymagazynek.API.RegistrationData;
 import com.szpilkowski.android.pelnymagazynek.API.UserRegistrationData;
 import com.szpilkowski.android.pelnymagazynek.R;
+import com.szpilkowski.android.pelnymagazynek.Warehouses.WarehousesActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +32,7 @@ public class RegistrationFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     ApiConnector connector;
+    SharedPreferences pref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +49,8 @@ public class RegistrationFragment extends Fragment {
 
         connector = ApiConnector.getInstance();
         connector.setupLoginConnector();
+
+        pref = this.getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
 
         registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +83,12 @@ public class RegistrationFragment extends Fragment {
                             case 201:
                                 //Success, move to next activity, load warehouses
                                 LoginInfo loginInfo = response.body(); //save it somewhere - db or intent
+                                SharedPreferences.Editor edit = pref.edit();
+                                edit.putString("AccessToken", "Bearer " + loginInfo.getAccessToken());
+                                edit.apply();
+                                Intent WarehousesMain = new Intent(getActivity(), WarehousesActivity.class);
 
-                                break;
+                                startActivity(WarehousesMain);
                             case 422:
                                 Snackbar snackbar = Snackbar
                                         .make(view, "E-mail already taken", Snackbar.LENGTH_LONG);
